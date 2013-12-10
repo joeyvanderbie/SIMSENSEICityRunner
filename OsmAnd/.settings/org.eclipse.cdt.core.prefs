@@ -1,16 +1,21 @@
-#Sat Apr 28 21:24:53 CEST 2012
 eclipse.preferences.version=1
 environment/project/com.android.toolchain.gcc.128294115/ANDROID_NDK/delimiter=\:
 environment/project/com.android.toolchain.gcc.128294115/ANDROID_NDK/operation=replace
-environment/project/com.android.toolchain.gcc.128294115/ANDROID_NDK/value=/home/victor/projects/android-ndk-r7c/
+environment/project/com.android.toolchain.gcc.128294115/ANDROID_NDK/value=/Users/joey/Documents/Development/android-ndk-r9b/
+environment/project/com.android.toolchain.gcc.128294115/CWD/delimiter=\:
+environment/project/com.android.toolchain.gcc.128294115/CWD/operation=replace
+environment/project/com.android.toolchain.gcc.128294115/CWD/value=/Users/joey/Documents/Development/workspace/OSMAndRepo/android/OsmAnd/
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_ARMv7a_ONLY/delimiter=\:
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_ARMv7a_ONLY/operation=append
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_ARMv7a_ONLY/value=true
+environment/project/com.android.toolchain.gcc.128294115/OSMAND_DEBUG_NATIVE/delimiter=\:
+environment/project/com.android.toolchain.gcc.128294115/OSMAND_DEBUG_NATIVE/operation=append
+environment/project/com.android.toolchain.gcc.128294115/OSMAND_DEBUG_NATIVE/value=TRUE
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_USE_PREBUILT/delimiter=\:
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_USE_PREBUILT/operation=append
 environment/project/com.android.toolchain.gcc.128294115/OSMAND_USE_PREBUILT/value=true
 environment/project/com.android.toolchain.gcc.128294115/PATH/delimiter=\:
 environment/project/com.android.toolchain.gcc.128294115/PATH/operation=replace
-environment/project/com.android.toolchain.gcc.128294115/PATH/value=/home/victor/projects/android-ndk-r7c\:/usr/lib/lightdm/lightdm\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games
+environment/project/com.android.toolchain.gcc.128294115/PATH/value=/Users/joey/Documents/Development/android-ndk-r9b\:/usr/lib/lightdm/lightdm\:/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/usr/games
 environment/project/com.android.toolchain.gcc.128294115/append=true
-environment/project/com.android.toolchain.gcc.128294115/appendContributed=true
+environment/project/com.android.toolchain.gcc.128294115/appendContributed=false
