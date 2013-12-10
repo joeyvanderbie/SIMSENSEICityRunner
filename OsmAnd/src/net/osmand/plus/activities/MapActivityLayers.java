@@ -407,6 +407,42 @@ public class MapActivityLayers {
 		});
 	}
 	
+	public void showAllGPXTracks(){
+		final File dir = getApplication().getAppPath(IndexConstants.GPX_INDEX_DIR);
+		final List<String> list = getSortedGPXFilenames(dir);
+		final OsmandSettings settings = getApplication().getSettings();
+		GPXFile currentGPX = new GPXFile();
+			currentGPX.showCurrentTrack = true;
+
+			CallbackWithObject<GPXFile> callbackWithObject  = new CallbackWithObject<GPXFile>() {
+				@Override
+				public boolean processResult(GPXFile result) {
+					GPXFile toShow = result;
+					if (toShow == null || toShow.showCurrentTrack) {
+						if(!settings.SAVE_TRACK_TO_GPX.get()){
+							//AccessibleToast.makeText(, R.string.gpx_monitoring_disabled_warn, Toast.LENGTH_SHORT).show();
+						}
+						Map<String, GPXFile> data = getApplication().getSavingTrackHelper().collectRecordedData();
+						if(toShow == null) {
+							toShow = new GPXFile();
+							toShow.showCurrentTrack = true;
+						}
+						if(!data.isEmpty()) {
+							GPXFile last = data.values().iterator().next();
+							GPXUtilities.mergeGPXFileInto(toShow, last);
+						}
+					}
+					
+					settings.SHOW_FAVORITES.set(true);
+					getApplication().setGpxFileToDisplay(toShow, toShow.showCurrentTrack);
+					return true;
+				}
+			};
+			
+		loadGPXFileInDifferentThread(callbackWithObject, true, dir, currentGPX,
+				list.toArray(new String[list.size()]));
+	}
+	
 	public void selectGPXFileLayer(final boolean convertCloudmade,
 			final boolean showCurrentGpx, final boolean multipleChoice, final CallbackWithObject<GPXFile> callbackWithObject) {
 		final File dir = getApplication().getAppPath(IndexConstants.GPX_INDEX_DIR);

@@ -1,11 +1,14 @@
 package net.osmand.plus.activities;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.osmand.CallbackWithObject;
+import net.osmand.IndexConstants;
 import net.osmand.Location;
 import net.osmand.StateChangedListener;
 import net.osmand.access.AccessibilityPlugin;
@@ -17,6 +20,7 @@ import net.osmand.map.MapTileDownloader.DownloadRequest;
 import net.osmand.map.MapTileDownloader.IMapDownloaderCallback;
 import net.osmand.plus.ApplicationMode;
 import net.osmand.plus.BusyIndicator;
+import net.osmand.plus.GPXUtilities;
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.OsmandPlugin;
 import net.osmand.plus.OsmandSettings;
@@ -24,6 +28,8 @@ import net.osmand.plus.PoiFilter;
 import net.osmand.plus.R;
 import net.osmand.plus.TargetPointsHelper;
 import net.osmand.plus.Version;
+import net.osmand.plus.GPXUtilities.GPXFile;
+import net.osmand.plus.GPXUtilities.WptPt;
 import net.osmand.plus.activities.MapActivityActions.DirectionDialogStyle;
 import net.osmand.plus.activities.search.SearchActivity;
 import net.osmand.plus.base.FailSafeFuntions;
@@ -182,6 +188,13 @@ public class MapActivity extends AccessibleActivity  {
 		if(lockView != null) {
 			((FrameLayout)mapView.getParent()).addView(lockView);
 		}
+		
+		showAllGPXTracks();
+	}
+	
+	private void showAllGPXTracks(){
+		mapLayers.showAllGPXTracks();
+		mapView.refreshMap();
 	}
 	
 	public void addLockView(FrameLayout lockView) {
