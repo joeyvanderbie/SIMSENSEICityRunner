@@ -190,6 +190,10 @@ public class MapActivity extends AccessibleActivity  {
 		}
 		
 		showAllGPXTracks();
+		
+		//Laad alle GPXTracks zien, en wanneer gekozen direct navigatie starten.
+		//dit is een testje, uitbouwen zodat 1 directe GPX track via code gekozen wordt en navigatie metten begint.
+		mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN);
 	}
 	
 	private void showAllGPXTracks(){
