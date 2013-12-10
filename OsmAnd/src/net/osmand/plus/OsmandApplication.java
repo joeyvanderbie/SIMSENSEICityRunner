@@ -3,8 +3,12 @@ package net.osmand.plus;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
@@ -49,10 +53,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
@@ -115,6 +121,8 @@ public class OsmandApplication extends Application implements ClientContext {
 		}
 		super.onCreate();
 		 
+		tracksFromAssetsToSD();
+		
 		settingsAPI = new net.osmand.plus.api.SettingsAPIImpl(this);
 		externalServiceAPI = new net.osmand.plus.api.ExternalServiceAPIImpl(this);
 		internalToDoAPI = new net.osmand.plus.api.InternalToDoAPIImpl(this);
@@ -157,6 +165,92 @@ public class OsmandApplication extends Application implements ClientContext {
 		}
 		
 		
+	}
+	
+	private void tracksFromAssetsToSD(){
+		try {
+			AssetManager assetFiles = getAssets();
+
+			// MyHtmlFiles is the name of folder from inside our assets folder
+			String[] files = assetFiles.list("tracks");
+
+			File dir = new File(Environment.getExternalStorageDirectory() + "/osmand/tracks");
+			// have the object build the directory structure, if needed.
+			dir.mkdirs();
+			
+			// Initialize streams
+			InputStream in = null;
+			OutputStream out = null;
+
+			for (int i = 0; i < files.length; i++) {
+
+//				if (files[i].toString().equalsIgnoreCase("images")
+//						|| files[i].toString().equalsIgnoreCase("js")) {
+//
+//					/*
+//					 * @Do nothing. images and js are folders but they will be
+//					 * interpreted as files.
+//					 * 
+//					 * @This is to prevent the app from throwing file not found
+//					 * exception.
+//					 */
+//
+//				} else {
+
+					/*
+					 * @Folder name is also case sensitive
+					 * 
+					 * @MyHtmlFiles is the folder from our assets
+					 */
+					in = assetFiles.open("tracks/" + files[i]);
+
+					/*
+					 * Currently we will copy the files to the root directory
+					 * but you should create specific directory for your app
+					 */
+					out = new FileOutputStream(
+							Environment.getExternalStorageDirectory() + "/osmand/tracks/"
+									+ files[i]);
+					copyAssetFiles(in, out);
+
+//				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	// Buffer size used.
+		private final static int BUFFER_SIZE = 1024;
+
+	private static void copyAssetFiles(InputStream in, OutputStream out) {
+		try {
+
+			byte[] buffer = new byte[BUFFER_SIZE];
+			int read;
+
+			while ((read = in.read(buffer)) != -1) {
+				out.write(buffer, 0, read);
+			}
+
+			in.close();
+			in = null;
+			out.flush();
+			out.close();
+			out = null;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
