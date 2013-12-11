@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.londatiga.android.ActionItem;
@@ -567,7 +568,7 @@ public class MapActivityActions implements DialogProvider {
 		
 		ApplicationMode appMode = settings.getApplicationMode();
 		if(appMode == ApplicationMode.DEFAULT) {
-			appMode = ApplicationMode.CAR;
+			appMode = ApplicationMode.PEDESTRIAN;
 		}
 		for (int i = 0; i < buttons.length; i++) {
 			if (buttons[i] != null) {
@@ -812,6 +813,68 @@ public class MapActivityActions implements DialogProvider {
 				return true;
 			}
 		});
+	}
+    
+    public void navigateUsingGPX(final ApplicationMode appMode, int trackNumber) {
+		final LatLon endForRouting = mapActivity.getPointToNavigate();
+		final MapActivityLayers mapLayers = mapActivity.getMapLayers();
+		mapLayers.getGPXFile(new CallbackWithObject<GPXFile>() {
+			
+			@Override
+			public boolean processResult(final GPXFile result) {
+				Builder builder = new AlertDialog.Builder(mapActivity);
+				final boolean[] props = new boolean[]{false, false, false, settings.SPEAK_GPX_WPT.get()};
+				builder.setMultiChoiceItems(new String[] { getString(R.string.gpx_option_reverse_route),
+						getString(R.string.gpx_option_destination_point), getString(R.string.gpx_option_from_start_point),
+						getString(R.string.announce_gpx_waypoints) }, props,
+						new OnMultiChoiceClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+								props[which] = isChecked;
+							}
+						});
+				builder.setPositiveButton(R.string.default_buttons_apply, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						boolean reverse = props[0];
+						boolean passWholeWay = props[2];
+						boolean useDestination = props[1];
+						boolean announceGpxWpt = props[3];
+						settings.SPEAK_GPX_WPT.set(announceGpxWpt);
+						GPXRouteParams gpxRoute = new GPXRouteParams(result, reverse, announceGpxWpt, settings);
+						
+						Location loc = getLastKnownLocation();
+						if(passWholeWay && loc != null){
+							gpxRoute.setStartPoint(loc);
+						}
+						
+						Location startForRouting = getLastKnownLocation();
+						if(startForRouting == null){
+							startForRouting = gpxRoute.getStartPointForRoute();
+						}
+						
+						LatLon endPoint = endForRouting;
+						if(endPoint == null || !useDestination){
+							LatLon point = gpxRoute.getLastPoint();
+							if(point != null){
+								endPoint = point;
+							}
+							if(endPoint != null) {
+								getTargets().navigateToPoint(point, false, -1);
+							}
+						}
+						if(endPoint != null){
+							mapActivity.followRoute(appMode, endPoint,
+									new ArrayList<LatLon>(), startForRouting, gpxRoute);
+							settings.FOLLOW_THE_GPX_ROUTE.set(result.path);
+						}
+					}
+				});
+				builder.setNegativeButton(R.string.default_buttons_cancel, null);
+				builder.show();
+				return true;
+			}
+		}, 0);
 	}
     
     private ApplicationMode getAppMode(ToggleButton[] buttons, OsmandSettings settings){
