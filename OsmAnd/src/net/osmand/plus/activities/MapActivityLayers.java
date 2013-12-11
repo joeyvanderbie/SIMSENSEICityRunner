@@ -554,7 +554,7 @@ public class MapActivityLayers {
 		final List<String> list = getSortedGPXFilenames(dir);
 		
 		loadGPXFileInDifferentThread(callbackWithObject, true, dir, gx,
-				list.get(nr));
+				nr+".gpx");
 	}
 	
 	private void loadGPXFileInDifferentThread(final CallbackWithObject<GPXFile> callbackWithObject,
