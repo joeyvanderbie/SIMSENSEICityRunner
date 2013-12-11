@@ -204,9 +204,9 @@ public class MapActivity extends AccessibleActivity  {
 		if (extras != null) {
 		    track = extras.getInt("track");
 		    //if 0 no track navigation is desired
-		    //if higher than zero select track -1, so nr 1 is track nr 0
+		    //tracks start at number 1
 		    if(track != 0){
-		    	mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, track-1);
+		    	mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, track);
 		    }
 		    
 		}
