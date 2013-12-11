@@ -12,6 +12,7 @@
     <!-- Old dialogs colors -->
     <color name="color_white">#FFFFFF</color>
 	<color name="color_black">#000000</color>
+	<color name="color_ligth_grey">#EEEEEE</color>
 	
 	<!-- Themed color list items -->
 	<!-- invalid -red, localindex not supported,  -->
