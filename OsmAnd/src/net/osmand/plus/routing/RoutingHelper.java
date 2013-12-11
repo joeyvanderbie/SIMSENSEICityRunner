@@ -412,6 +412,10 @@ public class RoutingHelper {
 			String description = targets.getPointNavigateDescription();
 			voiceRouter.arrivedDestinationPoint(description);
 			clearCurrentRoute(null, null);
+			
+			//optional: check is destination of selected track really is reached
+			//update app to tell that destination of track is reached
+			voiceRouter.arrivedDestinationPoint(app.getString(R.string.track_finished));
 			 
 			// targets.clearPointToNavigate(false);
 			return true;
