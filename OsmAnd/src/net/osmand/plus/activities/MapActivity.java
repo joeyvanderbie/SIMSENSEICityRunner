@@ -197,7 +197,20 @@ public class MapActivity extends AccessibleActivity  {
 		//aan te passen zodat er een grafisch keuze menu is met alle tracks
 		//Maar netter is eigenlijk om dit in een aparte view te doen voordat je bij de MapActivity komt.
 	//	mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN);
-		mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, 0);
+		
+		Bundle extras = getIntent().getExtras(); 
+		int track;
+
+		if (extras != null) {
+		    track = extras.getInt("track");
+		    //if 0 no track navigation is desired
+		    //if higher than zero select track -1, so nr 1 is track nr 0
+		    if(track != 0){
+		    	mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, track-1);
+		    }
+		    
+		}
+		
 	}
 	
 	private void showAllGPXTracks(){

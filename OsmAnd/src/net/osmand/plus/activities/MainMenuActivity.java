@@ -190,6 +190,28 @@ public class MainMenuActivity extends Activity {
 
 		Window window = getWindow();
 		final Activity activity = this;
+		
+		View track0 = window.findViewById(R.id.Track0Button);
+		track0.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+				mapIndent.putExtra("track", 1);
+				activity.startActivityForResult(mapIndent, 0);
+			}
+		});
+		
+		View track1 = window.findViewById(R.id.Track1Button);
+		track1.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+				mapIndent.putExtra("track", 2);
+				activity.startActivityForResult(mapIndent, 0);
+			}
+		});
+		
+		
 		View showMap = window.findViewById(R.id.MapButton);
 		showMap.setOnClickListener(new OnClickListener() {
 			@Override
