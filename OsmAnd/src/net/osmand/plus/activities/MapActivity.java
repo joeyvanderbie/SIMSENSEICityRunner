@@ -193,7 +193,11 @@ public class MapActivity extends AccessibleActivity  {
 		
 		//Laad alle GPXTracks zien, en wanneer gekozen direct navigatie starten.
 		//dit is een testje, uitbouwen zodat 1 directe GPX track via code gekozen wordt en navigatie metten begint.
-		mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN);
+		//wat misschien sneller werkt is om de dialog(spinner) die weergegeven wordt
+		//aan te passen zodat er een grafisch keuze menu is met alle tracks
+		//Maar netter is eigenlijk om dit in een aparte view te doen voordat je bij de MapActivity komt.
+	//	mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN);
+		mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, 0);
 	}
 	
 	private void showAllGPXTracks(){
