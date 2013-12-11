@@ -252,13 +252,11 @@ public class MainMenuActivity extends Activity {
 		for(int i = 0; i < list.size(); i++){
 			final String tracknr  = list.get(i);
 			if(i % itemsPerLayout == 0){
-				if(row != null){
-					tracks.addView(row);
-				}
 				row = new LinearLayout(this);
 				row.setLayoutParams(lpLayout);
 				row.setWeightSum(2);
 				row.setOrientation(LinearLayout.HORIZONTAL);
+				tracks.addView(row);
 			}
 			//create new track here and add to main view
 			Button track = new Button(this);
@@ -276,9 +274,6 @@ public class MainMenuActivity extends Activity {
 			
 			track.setLayoutParams(lpButton);
 			row.addView(track);
-		}
-		if(list.size() % 2 != 0){
-			tracks.addView(row);
 		}
 		
 		View showMap = window.findViewById(R.id.MapButton);
