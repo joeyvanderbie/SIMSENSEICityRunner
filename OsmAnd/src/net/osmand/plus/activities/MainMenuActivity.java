@@ -32,6 +32,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -40,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -202,7 +204,7 @@ public class MainMenuActivity extends Activity {
 		Collections.sort(list, new Comparator<String>() {
 			@Override
 			public int compare(String object1, String object2) {
-				if (object1.compareTo(object2) > 0) {
+				if (object1.compareTo(object2) < 0) {
 					return -1;
 				} else if (object1.equals(object2)) {
 					return 0;
@@ -239,10 +241,28 @@ public class MainMenuActivity extends Activity {
 		final List<String> list = getSortedGPXFilenames(dir);
 		
 		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
-		for(final String tracknr : list){
+		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
+		int margin = 8;
+		lpButton.setMargins(margin, margin, margin, margin);
+		
+		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		lpLayout.setMargins(margin, margin, margin, margin);
+		LinearLayout row = null;
+		int itemsPerLayout = 2;
+		for(int i = 0; i < list.size(); i++){
+			final String tracknr  = list.get(i);
+			if(i % itemsPerLayout == 0){
+				if(row != null){
+					tracks.addView(row);
+				}
+				row = new LinearLayout(this);
+				row.setLayoutParams(lpLayout);
+				row.setWeightSum(2);
+				row.setOrientation(LinearLayout.HORIZONTAL);
+			}
 			//create new track here and add to main view
 			Button track = new Button(this);
-			track.setText("Track "+tracknr);
+			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
 			track.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -251,29 +271,15 @@ public class MainMenuActivity extends Activity {
 					activity.startActivityForResult(mapIndent, 0);
 				}
 			});
-			tracks.addView(track);
+			track.setBackgroundColor(Color.parseColor(getString(R.color.color_white)));
+			track.setTextColor(Color.parseColor(getString(R.color.color_black)));
+			
+			track.setLayoutParams(lpButton);
+			row.addView(track);
 		}
-		
-		View track0 = window.findViewById(R.id.Track0Button);
-		track0.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-				mapIndent.putExtra("track", list.get(0));
-				activity.startActivityForResult(mapIndent, 0);
-			}
-		});
-		
-		View track1 = window.findViewById(R.id.Track1Button);
-		track1.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-				mapIndent.putExtra("track", list.get(1));
-				activity.startActivityForResult(mapIndent, 0);
-			}
-		});
-		
+		if(list.size() % 2 != 0){
+			tracks.addView(row);
+		}
 		
 		View showMap = window.findViewById(R.id.MapButton);
 		showMap.setOnClickListener(new OnClickListener() {
