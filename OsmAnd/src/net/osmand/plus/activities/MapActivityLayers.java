@@ -526,7 +526,7 @@ public class MapActivityLayers {
 		});
 		return list;
 	}
-
+	
 	private void readGpxDirectory(File dir, final List<String> list, String parent) {
 		if (dir != null && dir.canRead()) {
 			File[] files = dir.listFiles();
@@ -541,8 +541,20 @@ public class MapActivityLayers {
 			}
 		}
 	}
+	
+	
 	private List<String> getSortedGPXFilenames(File dir) {
 		return getSortedGPXFilenames(dir, null);
+	}
+	
+	public void getGPXFile(final CallbackWithObject<GPXFile> callbackWithObject, int nr){
+		GPXFile gx = new GPXFile();
+		gx.showCurrentTrack = true;
+		final File dir = getApplication().getAppPath(IndexConstants.GPX_INDEX_DIR);
+		final List<String> list = getSortedGPXFilenames(dir);
+		
+		loadGPXFileInDifferentThread(callbackWithObject, true, dir, gx,
+				list.get(nr));
 	}
 	
 	private void loadGPXFileInDifferentThread(final CallbackWithObject<GPXFile> callbackWithObject,
