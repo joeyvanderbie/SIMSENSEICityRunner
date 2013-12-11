@@ -163,6 +163,18 @@
             <TableRow
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp" >
+                <LinearLayout
+                    android:id="@+id/Tracks"
+                    android:layout_height="175dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/bg_leftr"
+                    android:orientation="vertical" >
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp" >
 
                 <LinearLayout
                     android:id="@+id/Track0Button"

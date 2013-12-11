@@ -2,8 +2,13 @@ package net.osmand.plus.activities;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
+import net.osmand.IndexConstants;
 import net.osmand.access.AccessibleAlertBuilder;
 import net.osmand.data.LatLon;
 import net.osmand.plus.OsmandApplication;
@@ -40,6 +45,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainMenuActivity extends Activity {
@@ -169,7 +176,43 @@ public class MainMenuActivity extends Activity {
 		});
 	}
 	
+	private void readGpxDirectory(File dir, final List<String> list, String parent) {
+		if (dir != null && dir.canRead()) {
+			File[] files = dir.listFiles();
+			if (files != null) {
+				for (File f : files) {
+					if (f.getName().toLowerCase().endsWith(".gpx")) { //$NON-NLS-1$
+						list.add(parent + f.getName());
+					} else if (f.isDirectory()) {
+						readGpxDirectory(f, list, parent + f.getName() + "/");
+					}
+				}
+			}
+		}
+	}
 	
+	
+	private List<String> getSortedGPXFilenames(File dir) {
+		return getSortedGPXFilenames(dir, null);
+	}
+	
+	private List<String> getSortedGPXFilenames(File dir,String sub) {
+		final List<String> list = new ArrayList<String>();
+		readGpxDirectory(dir, list, "");
+		Collections.sort(list, new Comparator<String>() {
+			@Override
+			public int compare(String object1, String object2) {
+				if (object1.compareTo(object2) > 0) {
+					return -1;
+				} else if (object1.equals(object2)) {
+					return 0;
+				}
+				return 1;
+			}
+
+		});
+		return list;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -191,12 +234,32 @@ public class MainMenuActivity extends Activity {
 		Window window = getWindow();
 		final Activity activity = this;
 		
+		//make buttons from available tracks
+		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
+		final List<String> list = getSortedGPXFilenames(dir);
+		
+		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+		for(final String tracknr : list){
+			//create new track here and add to main view
+			Button track = new Button(this);
+			track.setText("Track "+tracknr);
+			track.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					activity.startActivityForResult(mapIndent, 0);
+				}
+			});
+			tracks.addView(track);
+		}
+		
 		View track0 = window.findViewById(R.id.Track0Button);
 		track0.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-				mapIndent.putExtra("track", 1);
+				mapIndent.putExtra("track", list.get(0));
 				activity.startActivityForResult(mapIndent, 0);
 			}
 		});
@@ -206,7 +269,7 @@ public class MainMenuActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-				mapIndent.putExtra("track", 2);
+				mapIndent.putExtra("track", list.get(1));
 				activity.startActivityForResult(mapIndent, 0);
 			}
 		});
