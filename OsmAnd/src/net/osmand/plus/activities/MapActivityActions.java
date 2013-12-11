@@ -874,7 +874,7 @@ public class MapActivityActions implements DialogProvider {
 				builder.show();
 				return true;
 			}
-		}, 0);
+		}, trackNumber);
 	}
     
     private ApplicationMode getAppMode(ToggleButton[] buttons, OsmandSettings settings){
