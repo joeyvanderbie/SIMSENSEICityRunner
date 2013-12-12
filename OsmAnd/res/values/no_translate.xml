@@ -11,5 +11,15 @@
     </string>
     
     <string name="track_finished">Run succesvol gelopen</string>
+    <string name="tip_welcome_title">Welkom bij Sensei City Runner</string>
+     <string name="tip_welcome_text">Special voor SIM hebben we een app gemaakt: Sensei City Runner
+         \nMet de app kan je figuren in de stad lopen, die vervolgens worden weergegeven op de kaart.
+         \nOf je hard of zacht loopt maakt niet uit, zolang het maar veilig en leuk is!
+         \nDus, trek je harloopschoenen aan en doe je zweetbandjes om!</string>
+    <string name="tip_how_to_title">Hoe werkt de app</string>
+     <string name="tip_how_to_text">Selecteer een track die dichtbij is
+         \nLoop deze track uit
+         \nen zie je figuur verschijnen!
+         \nDeel je favoriete figuren om te laten zien dat jij de ultieme renner bent!</string>
     
 </resources>
