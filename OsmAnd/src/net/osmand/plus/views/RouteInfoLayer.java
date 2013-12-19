@@ -180,6 +180,12 @@ public class RouteInfoLayer extends OsmandMapLayer implements IRouteInformationL
 	public void onDraw(Canvas canvas, RectF latlonRect, RectF tilesRect, DrawSettings nightMode) {
 		
 	}
+
+	@Override
+	public void routeIsFinished() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

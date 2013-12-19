@@ -38,6 +38,8 @@ public class RoutingHelper {
 		public void newRouteIsCalculated(boolean newRoute);
 		
 		public void routeWasCancelled();
+		
+		public void routeIsFinished();
 	}
 	
 	private final float POSITION_TOLERANCE = 60;
@@ -214,6 +216,15 @@ public class RoutingHelper {
 				// 1. Update current route position status according to latest received location
 				boolean finished = updateCurrentRouteStatus(currentLocation, posTolerance);
 				if (finished) {
+					//route is finished, show the finished activity
+					app.runInUIThread(new Runnable() {
+						@Override
+						public void run() {
+							for (IRouteInformationListener l : listeners) {
+								l.routeIsFinished();
+							}
+						}
+					});
 					return null;
 				}
 				announceGpxWaypoints(currentLocation);

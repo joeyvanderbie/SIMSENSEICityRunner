@@ -36,5 +36,9 @@ public class OsmandIntents {
 	public static Class<? extends Activity> getLocalIndexActivity() {
 		return LocalIndexesActivity.class;
 	}
+	
+	public static Class<? extends Activity> getRunFinishedActivity() {
+		return RunFinishedActivity.class;
+	}
 
 }

@@ -38,6 +38,7 @@ import net.osmand.plus.render.RendererRegistry;
 import net.osmand.plus.resources.ResourceManager;
 import net.osmand.plus.routing.RouteProvider.GPXRouteParams;
 import net.osmand.plus.routing.RoutingHelper;
+import net.osmand.plus.routing.RoutingHelper.IRouteInformationListener;
 import net.osmand.plus.routing.RoutingHelper.RouteCalculationProgressCallback;
 import net.osmand.plus.views.AnimateDraggingMapThread;
 import net.osmand.plus.views.OsmandMapLayer;
@@ -58,6 +59,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -69,7 +71,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class MapActivity extends AccessibleActivity  {
+public class MapActivity extends AccessibleActivity implements IRouteInformationListener   {
 	
 	private static final int SHOW_POSITION_MSG_ID = 7;
 	private static final int LONG_KEYPRESS_MSG_ID = 28;
@@ -516,6 +518,7 @@ public class MapActivity extends AccessibleActivity  {
 	public void followRoute(ApplicationMode appMode, LatLon finalLocation, List<LatLon> intermediatePoints, net.osmand.Location currentLocation, GPXRouteParams gpxRoute){
 		getMapViewTrackingUtilities().backToLocationImpl();
 		RoutingHelper routingHelper = app.getRoutingHelper();
+		routingHelper.addListener(this);
 		settings.APPLICATION_MODE.set(appMode);
 		settings.FOLLOW_THE_ROUTE.set(true);
 		if(gpxRoute == null) {
@@ -704,6 +707,24 @@ public class MapActivity extends AccessibleActivity  {
 
 	public void refreshMap() {
 		getMapView().refreshMap();
+	}
+
+	@Override
+	public void newRouteIsCalculated(boolean newRoute) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void routeWasCancelled() {
+		//NavUtils.navigateUpFromSameTask(this);
+	}
+
+	@Override
+	public void routeIsFinished() {
+		final Intent intentSettings = new Intent(this, OsmandIntents.getRunFinishedActivity());
+		this.startActivity(intentSettings);
+		
 	}
 	
 

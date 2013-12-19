@@ -4,7 +4,7 @@
 	<meta-data android:name="com.google.android.backup.api_key"
     android:value="AEdPqrEAAAAIqF3tNGT66etVBn_vgzpfAY1wmIzKV1Ss6Ku-2A" />
 	
-	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16"/>
+	<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="16"/>
 	
 	<uses-feature android:name="android.hardware.camera" android:required="false" />
 	<uses-feature android:name="android.hardware.microphone" android:required="false"/>
@@ -67,6 +67,7 @@
 				<category android:name="android.intent.category.CAR_DOCK" />
 				<category android:name="android.intent.category.DESK_DOCK" />
 			</intent-filter>
+			   <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="net.osmand.plus.activities.MainMenuActivity" />
 		</activity>
 					<receiver android:name="net.osmand.plus.audionotes.MediaRemoteControlReceiver">
 		    <intent-filter>
@@ -99,6 +100,10 @@
         <activity android:name="net.osmand.plus.activities.PluginsActivity"></activity>
         <activity android:name="net.osmand.plus.activities.ContributionVersionActivity" android:configChanges="keyboardHidden|orientation" android:label="@string/contribution_activity"></activity>
         
+        <activity android:name="net.osmand.plus.activities.RunFinishedActivity" android:label="@string/run_finished_title" android:launchMode = "singleInstance">
+			   <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="net.osmand.plus.activities.MainMenuActivity" />
+        </activity>
+		
         
         <activity android:name="net.osmand.plus.activities.search.SearchPOIActivity" android:label="@string/searchpoi_activity"></activity>
         <activity android:name="net.osmand.plus.activities.search.SearchPoiFilterActivity"></activity>
