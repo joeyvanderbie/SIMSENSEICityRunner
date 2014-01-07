@@ -717,11 +717,19 @@ public class MapActivity extends AccessibleActivity implements IRouteInformation
 
 	@Override
 	public void routeWasCancelled() {
-		//NavUtils.navigateUpFromSameTask(this);
+		//eerst alle routes cancellen voor je dit doet.
+		
+//		RoutingHelper routingHelper = app.getRoutingHelper();
+//		routingHelper.removeListener(this);
+//		
+//		NavUtils.navigateUpFromSameTask(this);
 	}
 
 	@Override
 	public void routeIsFinished() {
+		RoutingHelper routingHelper = app.getRoutingHelper();
+		routingHelper.removeListener(this);
+		
 		final Intent intentSettings = new Intent(this, OsmandIntents.getRunFinishedActivity());
 		this.startActivity(intentSettings);
 		
