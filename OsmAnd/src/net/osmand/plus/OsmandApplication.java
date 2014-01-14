@@ -45,6 +45,7 @@ import net.osmand.sensei.data.RouteRunData;
 import net.osmand.sensei.db.RouteDataSource;
 import net.osmand.sensei.db.RouteRunDataSource;
 import net.osmand.util.Algorithms;
+import nl.sense_os.platform.SenseApplication;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -73,7 +74,7 @@ import com.actionbarsherlock.app.SherlockExpandableListActivity;
 import com.actionbarsherlock.app.SherlockListActivity;
 
 
-public class OsmandApplication extends Application implements ClientContext {
+public class OsmandApplication extends SenseApplication implements ClientContext {
 	public static final String EXCEPTION_PATH = "exception.log"; //$NON-NLS-1$
 	private static final org.apache.commons.logging.Log LOG = PlatformUtil.getLog(OsmandApplication.class);
 

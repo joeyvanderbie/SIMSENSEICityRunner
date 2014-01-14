@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <!-- OVERRIDE INTENT ACTIONS FOR BUNDLED SENSE PLATFORM (ALSO CHANGE IN MANIFEST!!) -->
+    <string name="action_sense_service">org.hva.sensei.sense.SENSE_SERVICE</string>
+    <string name="action_sense_new_data">org.hva.sensei.sense.NEW_DATA</string>
+    <string name="action_sense_send_data">org.hva.sensei.sense.SEND_DATA</string>
+    <string name="action_sense_alive_check_alarm">org.hva.sensei.sense.CHECK_ALIVE</string>
+    <string name="action_sense_new_requirements">org.hva.sensei.sense.NEW_REQUIREMENTS</string>
+    <string name="action_widget_update">org.hva.sensei.sense.UPDATE_APP_WIDGET</string>
+    <string name="local_storage_authority">org.hva.sensei.sense.LocalStorage</string>    
+</resources>
