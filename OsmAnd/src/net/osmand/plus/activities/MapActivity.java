@@ -572,8 +572,8 @@ public class MapActivity extends AccessibleActivity implements
 		rrd.setTeam_id(app.team_id);
 		rrd.setStart_datetime(System.currentTimeMillis());
 		rrds.open();
-		rrds.add(rrd);
-//		rrds.close();
+		rrd = rrds.add(rrd);
+		rrds.close();
 		app.currentRouteRun = rrd;
 		
 		app.showDialogInitializingCommandPlayer(MapActivity.this);
@@ -790,7 +790,7 @@ public class MapActivity extends AccessibleActivity implements
 	public void routeIsFinished(long finishTimestamp) {
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		routingHelper.removeListener(this);
-
+		
 		RouteRunData rrd = app.currentRouteRun;
 		if (rrd != null) {
 			rrd.setEnd_datetime(finishTimestamp);
@@ -802,6 +802,7 @@ public class MapActivity extends AccessibleActivity implements
 
 			final Intent intentSettings = new Intent(this,
 					OsmandIntents.getRunFinishedActivity());
+			intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		} else {
 			NavUtils.navigateUpFromSameTask(this);

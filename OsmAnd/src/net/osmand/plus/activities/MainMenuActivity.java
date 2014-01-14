@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
 import net.osmand.IndexConstants;
 import net.osmand.access.AccessibleAlertBuilder;
 import net.osmand.data.LatLon;
@@ -18,6 +17,11 @@ import net.osmand.plus.activities.search.SearchActivity;
 import net.osmand.plus.render.MapRenderRepositories;
 import net.osmand.sensei.data.RouteNeighbourhood;
 import net.osmand.sensei.db.RouteDataSource;
+import nl.sense_os.service.ISenseServiceCallback;
+import nl.sense_os.service.commonsense.SenseApi;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -34,9 +38,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.os.RemoteException;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,8 +57,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 
 public class MainMenuActivity extends Activity implements  OnItemSelectedListener{
 
@@ -288,39 +294,42 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //
 //		}
 		
+		//Login on Sense
+		attemptLogin();
+		
 		neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
 		loadSpinnerData();
 		neighbourhoods.setOnItemSelectedListener(this);
 		
 		//To-Do remove old buttons\
 		
-		View showMap = window.findViewById(R.id.MapButton);
-		showMap.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-				activity.startActivityForResult(mapIndent, 0);
-			}
-		});
-		View settingsButton = window.findViewById(R.id.SettingsButton);
-		settingsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent settings = new Intent(activity, OsmandIntents.getSettingsActivity());
-				activity.startActivity(settings);
-			}
-		});
-
-		View favouritesButton = window.findViewById(R.id.FavoritesButton);
-		favouritesButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent favorites = new Intent(activity, OsmandIntents.getFavoritesActivity());
-				favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				activity.startActivity(favorites);
-			}
-		});
-
+//		View showMap = window.findViewById(R.id.MapButton);
+//		showMap.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+//				activity.startActivityForResult(mapIndent, 0);
+//			}
+//		});
+//		View settingsButton = window.findViewById(R.id.SettingsButton);
+//		settingsButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent settings = new Intent(activity, OsmandIntents.getSettingsActivity());
+//				activity.startActivity(settings);
+//			}
+//		});
+//
+//		View favouritesButton = window.findViewById(R.id.FavoritesButton);
+//		favouritesButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent favorites = new Intent(activity, OsmandIntents.getFavoritesActivity());
+//				favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//				activity.startActivity(favorites);
+//			}
+//		});
+//
 		final View closeButton = window.findViewById(R.id.CloseButton);
 		closeButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -328,26 +337,26 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				getMyApplication().closeApplication(activity);
 			}
 		});
-		View searchButton = window.findViewById(R.id.SearchButton);
-		searchButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent search = new Intent(activity, OsmandIntents.getSearchActivity());
-				search.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				activity.startActivity(search);
-			}
-		});
+//		View searchButton = window.findViewById(R.id.SearchButton);
+//		searchButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent search = new Intent(activity, OsmandIntents.getSearchActivity());
+//				search.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//				activity.startActivity(search);
+//			}
+//		});
 		if(exit){
 			getMyApplication().closeApplication(activity);
 			return;
 		}
 		OsmandApplication app = getMyApplication();
 		// restore follow route mode
-		if(app.getSettings().FOLLOW_THE_ROUTE.get() && !app.getRoutingHelper().isRouteCalculated()){
-			final Intent mapIndent = new Intent(this, OsmandIntents.getMapActivity());
-			startActivityForResult(mapIndent, 0);
-			return;
-		}
+//		if(app.getSettings().FOLLOW_THE_ROUTE.get() && !app.getRoutingHelper().isRouteCalculated()){
+//			final Intent mapIndent = new Intent(this, OsmandIntents.getMapActivity());
+//			startActivityForResult(mapIndent, 0);
+//			return;
+//		}
 		startProgressDialog = new ProgressDialog(this);
 		getMyApplication().checkApplicationIsBeingInitialized(this, startProgressDialog);
 		SharedPreferences pref = getPreferences(MODE_WORLD_WRITEABLE);
@@ -369,7 +378,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				appVersionChanged = true;
 			}
 						
-			if (i == 1 || i == 5 || appVersionChanged) {
+			if (i == 1 || i == 2 || i== 3 || appVersionChanged) {
 				TipsAndTricksActivity tipsActivity = new TipsAndTricksActivity(this);
 				Dialog dlg = tipsActivity.getDialogToShowTips(!appVersionChanged, false);
 				dlg.show();
@@ -481,6 +490,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				@Override
 				public void onClick(View v) {
 					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
 					activity.startActivityForResult(mapIndent, 0);
 				}
@@ -697,4 +707,144 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		return false;
 	}
 	
+	//Sense functions
+	private boolean busy;
+    private String mEmail;
+    private String mPassword;
+    private static final String TAG = "Sense";
+
+    /**
+     * Attempts to sign in or register the account specified by the login form. If there are form
+     * errors (invalid email, missing fields, etc.), the errors are presented and no actual login
+     * attempt is made.
+     */
+    private void attemptLogin() {
+        if (busy) {
+            return;
+        }
+
+        // Store values at the time of the login attempt.
+        mEmail = "joeyvanderbie@gmail.com";
+        mPassword = "9Sense7Simplicity";
+
+        boolean cancel = false;
+      
+
+             // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+           // mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+            showProgress(true);
+
+            // log in (you only need to do this once, Sense will remember the login)
+            try {
+            	((OsmandApplication) getApplication()).getSensePlatform().login(mEmail, SenseApi.hashPassword(mPassword),
+                        mServiceCallback);
+                // this is an asynchronous call, we get a callback when the login is complete
+                busy = true;
+            } catch (IllegalStateException e) {
+                Log.w(TAG, "Failed to log in at SensePlatform!", e);
+                onLoginFailure(false);
+            } catch (RemoteException e) {
+                Log.w(TAG, "Failed to log in at SensePlatform!", e);
+                onLoginFailure(false);
+            }
+        }
+	
+	 private void onLoginFailure(final boolean forbidden) {
+
+	        // update UI
+	        runOnUiThread(new Runnable() {
+
+	            @Override
+	            public void run() {
+	                showProgress(false);
+
+	                    Toast.makeText(MainMenuActivity.this, R.string.login_failure, Toast.LENGTH_LONG)
+	                            .show();
+	            }
+	        });
+	    }
+
+	    private void onLoginSuccess() {
+
+	        // update UI
+	        runOnUiThread(new Runnable() {
+
+	            @Override
+	            public void run() {
+	                showProgress(false);
+	                Toast.makeText(MainMenuActivity.this, R.string.login_success, Toast.LENGTH_LONG)
+	                        .show();
+	            }
+	        });
+
+	        //setResult(RESULT_OK);
+	       // finish();
+	    }
+	    
+	    private ISenseServiceCallback mServiceCallback = new ISenseServiceCallback.Stub() {
+
+	        @Override
+	        public void onChangeLoginResult(int result) throws RemoteException {
+
+	            busy = false;
+
+	            if (result == -2) {
+	                // login forbidden
+	                onLoginFailure(true);
+
+	            } else if (result == -1) {
+	                // login failed
+	                onLoginFailure(false);
+
+	            } else {
+	                onLoginSuccess();
+	            }
+	        }
+
+	        @Override
+	        public void onRegisterResult(int result) throws RemoteException {
+	            // not used
+	        }
+
+	        @Override
+	        public void statusReport(int status) throws RemoteException {
+	            // not used
+	        }
+	    };
+	    /**
+	     * Shows the progress UI and hides the login form.
+	     */
+	    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	    private void showProgress(final boolean show) {
+	        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+	        // for very easy animations. If available, use these APIs to fade-in
+	        // the progress spinner.
+	        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+	            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+//	            mLoginStatusView.setVisibility(View.VISIBLE);
+//	            mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
+//	                    .setListener(new AnimatorListenerAdapter() {
+//	                        @Override
+//	                        public void onAnimationEnd(Animator animation) {
+//	                            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+//	                        }
+//	                    });
+//
+//	            mLoginFormView.setVisibility(View.VISIBLE);
+//	            mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
+//	                    .setListener(new AnimatorListenerAdapter() {
+//	                        @Override
+//	                        public void onAnimationEnd(Animator animation) {
+//	                            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//	                        }
+//	                    });
+	        } else {
+	            // The ViewPropertyAnimator APIs are not available, so simply show
+	            // and hide the relevant UI components.
+//	            mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+//	            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+	        }
+	    }
 }
