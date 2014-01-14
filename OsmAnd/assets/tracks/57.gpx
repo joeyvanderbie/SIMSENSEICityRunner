@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<gpx version="1.1" creator="OsmAnd" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <trk>
+    <trkseg>
+      <trkpt lat="52.3657625" lon="4.8748436" />
+      <trkpt lat="52.3653877" lon="4.8735033" />
+      <trkpt lat="52.3633908" lon="4.8749393" />
+      <trkpt lat="52.3644054" lon="4.8742585" />
+      <trkpt lat="52.3647996" lon="4.8755882" />
+      <trkpt lat="52.3657496" lon="4.8748862" />
+      <trkpt lat="52.3637979" lon="4.8763222" />
+    </trkseg>
+  </trk>
+</gpx>

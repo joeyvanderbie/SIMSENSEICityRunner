@@ -2,12 +2,12 @@
 <gpx version="1.1" creator="OsmAnd" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
   <trk>
     <trkseg>
-      <trkpt lat="52.3713591" lon="4.8967825" />
-      <trkpt lat="52.3692396" lon="4.8950805" />
-      <trkpt lat="52.3702171" lon="4.895917" />
-      <trkpt lat="52.3699361" lon="4.897369" />
-      <trkpt lat="52.3690676" lon="4.8965648" />
-      <trkpt lat="52.3710117" lon="4.8984378" />
+      <trkpt lat="52.3783333" lon="4.8387175" />
+      <trkpt lat="52.376576" lon="4.8379941" />
+      <trkpt lat="52.3770799" lon="4.838143" />
+      <trkpt lat="52.3765631" lon="4.8413768" />
+      <trkpt lat="52.3777001" lon="4.8418874" />
+      <trkpt lat="52.3758782" lon="4.8411641" />
     </trkseg>
   </trk>
 </gpx>
