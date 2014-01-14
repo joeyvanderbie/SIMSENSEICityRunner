@@ -182,7 +182,7 @@ public class RouteInfoLayer extends OsmandMapLayer implements IRouteInformationL
 	}
 
 	@Override
-	public void routeIsFinished() {
+	public void routeIsFinished(long finishTimestamp) {
 		// TODO Auto-generated method stub
 		
 	}

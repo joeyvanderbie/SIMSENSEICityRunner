@@ -7,13 +7,13 @@ import java.util.List;
 
 import net.osmand.Location;
 import net.osmand.PlatformUtil;
-import net.osmand.binary.RouteDataObject;
 import net.osmand.binary.BinaryMapRouteReaderAdapter.RouteRegion;
 import net.osmand.binary.BinaryMapRouteReaderAdapter.RouteTypeRule;
+import net.osmand.binary.RouteDataObject;
 import net.osmand.data.LatLon;
 import net.osmand.plus.ApplicationMode;
-import net.osmand.plus.GPXUtilities.GPXFile;
 import net.osmand.plus.ClientContext;
+import net.osmand.plus.GPXUtilities.GPXFile;
 import net.osmand.plus.GPXUtilities.WptPt;
 import net.osmand.plus.OsmAndFormatter;
 import net.osmand.plus.OsmandSettings;
@@ -39,7 +39,7 @@ public class RoutingHelper {
 		
 		public void routeWasCancelled();
 		
-		public void routeIsFinished();
+		public void routeIsFinished(long finishTimestamp);
 	}
 	
 	private final float POSITION_TOLERANCE = 60;
@@ -221,7 +221,7 @@ public class RoutingHelper {
 						@Override
 						public void run() {
 							for (IRouteInformationListener l : listeners) {
-								l.routeIsFinished();
+								l.routeIsFinished(System.currentTimeMillis());
 							}
 						}
 					});
