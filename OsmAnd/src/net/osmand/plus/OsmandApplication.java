@@ -41,6 +41,9 @@ import net.osmand.plus.voice.CommandPlayer;
 import net.osmand.plus.voice.CommandPlayerException;
 import net.osmand.plus.voice.CommandPlayerFactory;
 import net.osmand.render.RenderingRulesStorage;
+import net.osmand.sensei.data.RouteRunData;
+import net.osmand.sensei.db.RouteDataSource;
+import net.osmand.sensei.db.RouteRunDataSource;
 import net.osmand.util.Algorithms;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -61,7 +64,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
@@ -78,6 +80,8 @@ public class OsmandApplication extends Application implements ClientContext {
 	ResourceManager manager = null;
 	PoiFiltersHelper poiFilters = null;
 	RoutingHelper routingHelper = null;
+	RouteRunDataSource routeRunDataSource = null;
+	RouteDataSource routeDataSource = null;
 	FavouritesDbHelper favorites = null;
 	CommandPlayer player = null;
 
@@ -106,7 +110,10 @@ public class OsmandApplication extends Application implements ClientContext {
 	InternalToDoAPI internalToDoAPI;
 	InternalOsmAndAPI internalOsmAndAPI;
 	SQLiteAPI sqliteAPI;
-
+	
+	public RouteRunData currentRouteRun;
+	public int team_id = 0;
+	
 	@Override
 	public void onCreate() {
 		long timeToStart = System.currentTimeMillis();
@@ -340,6 +347,27 @@ public class OsmandApplication extends Application implements ClientContext {
 			favorites = new FavouritesDbHelper(this);
 		}
 		return favorites;
+	}
+	
+//	public SenseiDbHelper get SenseiDbHelper(){
+//		if(senseiDbHelper == null){
+//			senseiDbHelper = new SenseiDbHelper(this);
+//		}
+//		return senseiDbHelper;
+//	}
+	
+	public RouteRunDataSource getRouteRunDataSource(){
+		if(routeRunDataSource == null){
+			routeRunDataSource = new RouteRunDataSource(this);
+		}
+		return routeRunDataSource;
+	}
+	
+	public RouteDataSource getRouteDataSource(){
+		if(routeDataSource == null){
+			routeDataSource = new RouteDataSource(this);
+		}
+		return routeDataSource;
 	}
 
 	public ResourceManager getResourceManager() {

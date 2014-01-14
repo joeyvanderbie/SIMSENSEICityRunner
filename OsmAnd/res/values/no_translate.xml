@@ -38,5 +38,58 @@
         <string name="distance_unit_km">km</string>
         
         <string name="run_finished_title">Run finished</string>
+        <string name="select_neighbourhood">Select neighbourhood</string>
         
+        
+        <!-- Eula , to edit from Boskoi-->
+	<string name="hello_eula">Hello Eula</string>
+	<string name="eula_1">1. Be friendly</string>
+	<string name="eula_1_sub">Ask permission when ownership is unclear</string>
+	<string name="eula_2">2. Be generous</string>
+	<string name="eula_2_sub">Only pick what you will eat. Leave most for others (or wildlife)</string>
+	<string name="eula_3">3. Be alert</string>
+	<string name="eula_3_sub">Be ware of toxicity and don\'t tread on other plants when picking</string>
+	<string name="eula_4">4. Be careful</string>
+	<string name="eula_4_sub">Don\'t put any rare or protected species on the map</string>
+	<string name="license_title">Boskoi is Open Source</string>
+	<string name="license">Boskoi is licensed under the LGPL v3 license. More information on <a href="http://www.boskoi.org/open">http://www.boskoi.org/open</a></string>
+	<string name="privacy_title">Privacy</string>
+	<string name="privacy_info">We use Google Analytics to improve our application, read what this implies on <a href="http://www.google.com/intl/en_uk/analytics/tos.html">http://goo.gl/2EXSr</a>. A version without Analytics can be provided on request</string>
+	<string name="thankyou">Thank you for taking the time to read our rules, if you accept our terms you are free to enjoy the fruits of the world!</string>
+	
+	
+	
+   <string name="eulaBtn">Show rules</string>
+   <string name="eula_title">Boskoi Terms of Use</string>
+   <string name="eula_accept">Accept</string>
+   <string name="eula_refuse">Refuse</string>
+   <string name="eula">For using the application we urge you to follow these rules:\n
+		\n
+		1. Be friendly.\n 
+		Ask permission when ownership is unclear.\n
+		\n
+		2. Be generous\n
+		How much do you really need? Only pick what you will eat. Leave most for others (or wildlife).\n
+		\n
+		3. Be alert\n
+		Be ware of toxicity and don\'t tread on other plants when picking.\n
+		\n
+		4. Be careful\n
+		Don\'t put any rare or protected species on the map.\n
+		\n
+		Thank you for taking the time to read our rules, now enjoy the fruits of the world!
+	</string>
+	<string name="lgplBtn">Show licence information</string>
+	<string name="lgpl">Licensing\n\n
+		Boskoi is an Open Source platform based on Ushahidi (<a href="http://www.ushahidi.com">http://www.ushahidi.com</a>)\n\n
+		Boskoi is licensed under the LGPL v3 license (<a href="http://www.gnu.org/licenses/lgpl.html">http://www.gnu.org/licenses/lgpl.html</a>)\n\n
+		More information on <a href="http://www.boskoi.org/open">http://www.boskoi.org/open</a>
+	</string>
+	<string name="privacyBtn">Show privacy information</string>
+	<string name="privacy">Privacy\n\n
+For improving our application we log user behavior using Google Analytics.\n\n
+This logging is stored on the Google Analytics server and is used privately, we do not share this information with other parties! The Google Analytics usage license can be found on: \n <a href="http://www.google.com/intl/en_uk/analytics/tos.html">http://www.google.com/intl/en_uk/analytics/tos.html</a>\n\n
+You should note that the analytics currently can not be turned off. If you do not want us to log your behavior please inform us and we will supply you with a version which does not log your behavior.</string>
+	
+
 </resources>

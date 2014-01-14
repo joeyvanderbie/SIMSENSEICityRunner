@@ -16,6 +16,8 @@ import net.osmand.plus.R;
 import net.osmand.plus.Version;
 import net.osmand.plus.activities.search.SearchActivity;
 import net.osmand.plus.render.MapRenderRepositories;
+import net.osmand.sensei.data.RouteNeighbourhood;
+import net.osmand.sensei.db.RouteDataSource;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -32,7 +34,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -47,11 +48,16 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainMenuActivity extends Activity {
+public class MainMenuActivity extends Activity implements  OnItemSelectedListener{
 
 	private static final String FIRST_TIME_APP_RUN = "FIRST_TIME_APP_RUN"; //$NON-NLS-1$
 	private static final String VECTOR_INDEXES_CHECK = "VECTOR_INDEXES_CHECK"; //$NON-NLS-1$
@@ -65,6 +71,7 @@ public class MainMenuActivity extends Activity {
 	public static final String APP_EXIT_KEY = "APP_EXIT_KEY";
 	
 	private ProgressDialog startProgressDialog;
+	private Spinner neighbourhoods;
 	
 	public void checkPreviousRunsForExceptions(boolean firstTime) {
 		long size = getPreferences(MODE_WORLD_READABLE).getLong(EXCEPTION_FILE_SIZE, 0);
@@ -237,44 +244,55 @@ public class MainMenuActivity extends Activity {
 		final Activity activity = this;
 		
 		//make buttons from available tracks
-		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
-		final List<String> list = getSortedGPXFilenames(dir);
+//		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
+//		final List<String> list = getSortedGPXFilenames(dir);
+//		
+//		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+//		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
+//		int margin = 8;
+//		lpButton.setMargins(margin, margin, margin, margin);
+//		
+//		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//		lpLayout.setMargins(margin, margin, margin, margin);
+//		LinearLayout row = null;
+//		int itemsPerLayout = 2;
+//		for(int i = 0; i < list.size(); i++){
+//			final String tracknr  = list.get(i);
+//			if(i % itemsPerLayout == 0){
+//				row = new LinearLayout(this);
+//				row.setLayoutParams(lpLayout);
+//				row.setWeightSum(2);
+//				row.setOrientation(LinearLayout.HORIZONTAL);
+//				tracks.addView(row);
+//			}
+//			//create new track here and add to main view
+//			Button track = new Button(this);
+//			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
+//			track.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+//					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+//					activity.startActivityForResult(mapIndent, 0);
+//				}
+//			});
+//			track.setBackgroundColor(Color.parseColor(getString(R.color.color_white)));
+//			track.setTextColor(Color.parseColor(getString(R.color.color_black)));
+//			
+//			//Load image belonging to track
+//
+////			String fname = c.getFilesDir().getAbsolutePath()+"/myfile.png"; Bitmap bm = BitmapFactory.decodeFile(fname); iv.setImageBitmap(bm);
+//			
+//			track.setLayoutParams(lpButton);
+//			row.addView(track);
+//
+//		}
 		
-		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
-		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
-		int margin = 8;
-		lpButton.setMargins(margin, margin, margin, margin);
+		neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
+		loadSpinnerData();
+		neighbourhoods.setOnItemSelectedListener(this);
 		
-		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		lpLayout.setMargins(margin, margin, margin, margin);
-		LinearLayout row = null;
-		int itemsPerLayout = 2;
-		for(int i = 0; i < list.size(); i++){
-			final String tracknr  = list.get(i);
-			if(i % itemsPerLayout == 0){
-				row = new LinearLayout(this);
-				row.setLayoutParams(lpLayout);
-				row.setWeightSum(2);
-				row.setOrientation(LinearLayout.HORIZONTAL);
-				tracks.addView(row);
-			}
-			//create new track here and add to main view
-			Button track = new Button(this);
-			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
-			track.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
-					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
-					activity.startActivityForResult(mapIndent, 0);
-				}
-			});
-			track.setBackgroundColor(Color.parseColor(getString(R.color.color_white)));
-			track.setTextColor(Color.parseColor(getString(R.color.color_black)));
-			
-			track.setLayoutParams(lpButton);
-			row.addView(track);
-		}
+		//To-Do remove old buttons\
 		
 		View showMap = window.findViewById(R.id.MapButton);
 		showMap.setOnClickListener(new OnClickListener() {
@@ -370,7 +388,118 @@ public class MainMenuActivity extends Activity {
 		}
 		checkPreviousRunsForExceptions(firstTime);
 	}
+	
+	   /**
+     * Function to load the spinner data from SQLite database
+     * */
+    private void loadSpinnerData() {
+		final OsmandApplication app = ((OsmandApplication) getApplication());
 
+        // database handler
+    	RouteDataSource routeDs = app.getRouteDataSource();
+    	routeDs.open();
+    	 List<String> lables =routeDs.getAllRoutesString();
+    	routeDs.close();
+ 
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, lables);
+ 
+        // Drop down layout style - list view with radio button
+        dataAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+ 
+        // attaching data adapter to spinner
+        neighbourhoods.setAdapter(dataAdapter);
+    }
+    
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+            long id) {
+        // On selecting a spinner item
+        String label = parent.getItemAtPosition(position).toString();
+
+ 
+        showRoutesForNeighbourhood(label);
+        
+    }
+ 
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+ 
+    }
+    
+    private void showRoutesForNeighbourhood(String neighbourhood){
+    	final OsmandApplication app = ((OsmandApplication) getApplication());
+
+        // database handler
+    	RouteDataSource routeDs = app.getRouteDataSource();
+    	routeDs.open();
+    	RouteNeighbourhood rn = routeDs.getRouteForNeighbourhood(neighbourhood);
+    	routeDs.close();
+    	
+
+		LinearLayout tracks = (LinearLayout) findViewById(R.id.Tracks);
+		tracks.removeAllViews();
+		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
+		int margin = 8;
+		lpButton.setMargins(margin, margin, margin, margin);
+		
+		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		lpLayout.setMargins(margin, margin, margin, margin);
+		LinearLayout row = null;
+		int itemsPerLayout = 2;
+		for(int i = 0; i < 3; i++){
+			String ftrack = "";
+			switch(i){
+			case 0:
+				ftrack = rn.getRoute_h()+".gpx";
+				break;
+			case 1:
+				ftrack = rn.getRoute_v()+".gpx";
+				break;
+			case 2:
+				ftrack = rn.getRoute_a()+".gpx";
+				break;
+			}
+			
+			final String tracknr = ftrack;
+			if(i % itemsPerLayout == 0){
+				row = new LinearLayout(this);
+				row.setLayoutParams(lpLayout);
+				row.setWeightSum(2);
+				row.setOrientation(LinearLayout.HORIZONTAL);
+				tracks.addView(row);
+			}
+			//create new track here and add to main view
+			Button track = new Button(this);
+			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
+			final Activity activity = this;
+			
+			track.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					activity.startActivityForResult(mapIndent, 0);
+				}
+			});
+			track.setBackgroundColor(Color.parseColor(getString(R.color.color_white)));
+			track.setTextColor(Color.parseColor(getString(R.color.color_black)));
+			
+			//Load image belonging to track
+
+//			String fname = c.getFilesDir().getAbsolutePath()+"/myfile.png"; Bitmap bm = BitmapFactory.decodeFile(fname); iv.setImageBitmap(bm);
+			
+			track.setLayoutParams(lpButton);
+			row.addView(track);
+
+		}
+    	
+    }
+
+    
 	private void applicationInstalledFirstTime() {
 		boolean netOsmandWasInstalled = false;
 		try {

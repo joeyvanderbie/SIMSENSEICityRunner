@@ -73,15 +73,29 @@
                 android:src="@drawable/headliner_close" />
         </LinearLayout>
 
+        
+         <Spinner
+                android:id="@+id/neighbourhoodList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 />
+         <ScrollView 
+             android:isScrollContainer="true"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/Tracks"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            >
            
            <!-- Here come the available tracks provided by MainMenuActivity -->
-        </LinearLayout>
 
+           
+
+        </LinearLayout>
+</ScrollView>
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
