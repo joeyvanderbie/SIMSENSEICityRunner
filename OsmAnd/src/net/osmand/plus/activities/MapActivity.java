@@ -803,8 +803,8 @@ public class MapActivity extends AccessibleActivity implements
 			app.currentRouteRun = null;
 
 			final Intent intentSettings = new Intent(this,
-					OsmandIntents.getRunFinishedActivity());
-			intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					OsmandIntents.getMoodActivity());
+			intentSettings.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		} else {
 			NavUtils.navigateUpFromSameTask(this);

@@ -1,6 +1,7 @@
 package net.osmand.plus.activities;
 
 import net.osmand.plus.activities.search.SearchActivity;
+import net.osmand.sensei.affectbutton.MoodActivity;
 import android.app.Activity;
 
 public class OsmandIntents {
@@ -39,6 +40,10 @@ public class OsmandIntents {
 	
 	public static Class<? extends Activity> getRunFinishedActivity() {
 		return RunFinishedActivity.class;
+	}
+	
+	public static Class<? extends Activity> getMoodActivity() {
+		return MoodActivity.class;
 	}
 
 }

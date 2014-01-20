@@ -1,8 +1,15 @@
 package net.osmand.sensei.affectbutton;
 
+import org.hva.createit.digitallife.sam.AffectDomain;
+
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.R;
+import net.osmand.plus.activities.OsmandIntents;
+import net.osmand.sensei.db.AffectDataSource;
 import nl.sense_os.service.constants.SenseDataTypes;
+
+//import org.hva.createit.digitallife.sam.Affect;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +19,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 
-import com.askcs.android.affectbutton.Affect;
 import com.askcs.android.widget.AffectButton;
-//import com.askcs.android.affectbutton.Affect;
+import com.askcs.android.affectbutton.Affect;
 
 public class MoodActivity extends Activity implements OnTouchListener{
     private static final String TAG = "MoodMeter";
@@ -22,12 +28,21 @@ public class MoodActivity extends Activity implements OnTouchListener{
     private AffectButton ab;
     private Button cb;
     private OsmandApplication mApplication;
+    private String nextActivity;
+    private int tracknr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_affect_ab);
+		
+		Bundle extras = getIntent().getExtras();
 
+		if (extras != null) {
+			tracknr = extras.getInt("track", 0);
+			nextActivity = extras.getString("nextActivity", "finished");
+		}
+		
 		mApplication = (OsmandApplication) this.getApplicationContext();
 		
         ab = (AffectButton) this.findViewById(R.id.affectbutton);
@@ -55,24 +70,62 @@ public class MoodActivity extends Activity implements OnTouchListener{
 	public void confirmMood(){
 		Affect af = ab.getAffect();
 		Log.d(TAG, "P:"+af.getPleasure()+" D:"+af.getDominance()+" A:"+af.getArousal());;
+		
+		Bundle extras = getIntent().getExtras();
+
+		if (extras != null) {
+			tracknr = extras.getInt("track", 0);
+			nextActivity = extras.getString("nextActivity", "finished");
+		}else{
+			tracknr = 0;
+			nextActivity = "finished";
+		}
+		
 		//commit data to sense
 		insertData(af);
-		//TO-DO afvangen als het versturen fout gaat
 		
-		 startActivity(new Intent(this, AffectSAMActivity.class));
+
+		
+//		 startActivity(new Intent(this, AffectSAMActivity.class));
+		if(nextActivity.equals("map")){
+			Intent mapIntent = new Intent(this, OsmandIntents.getMapActivity());
+			mapIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			mapIntent.putExtra("track",tracknr);
+			startActivity(mapIntent);
+		}else{
+			Intent intentSettings = new Intent(this,
+					OsmandIntents.getRunFinishedActivity());
+			intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			this.startActivity(intentSettings);
+		}
 	}
 	
 	  private void insertData(Affect af) {
 	        Log.v(TAG, "Insert data point");
-
+	        
+	        long datetime = System.currentTimeMillis();
+	        org.hva.createit.digitallife.sam.Affect afhva = new org.hva.createit.digitallife.sam.Affect(new AffectDomain(af.getPleasure(), datetime),new AffectDomain(af.getArousal(), datetime),new AffectDomain(af.getDominance(), datetime), datetime); 
+	        
+	        AffectDataSource afData = new AffectDataSource(this);
+	        afData.open();
+	        int userid = 0;//hall userid op
+	        int runstate = 0;
+	        if(nextActivity.equals("finished")){
+	        	runstate = 1 ;
+	        }else{
+	        	runstate = 0;
+	        }
+	        afData.addAffect(0, tracknr, userid, runstate, afhva);
+	        afData.close();
+	        
 	        // Description of the sensor
 	        final String name = DEMO_SENSOR_NAME;
 	        final String displayName = "AffectAB";
 	        final String dataType = SenseDataTypes.JSON;
 	        final String description = name;
 	        // the value to be sent, in json format
-	        final String value = "{\"Pleasure\":\""+af.getPleasure()+"\",\"Dominance\":\""+af.getDominance()+"\",\"Arousal\":\""+af.getArousal()+"\"}";
-	        final long timestamp = System.currentTimeMillis();
+	        final String value = "{\"Pleasure\":\""+af.getPleasure()+"\",\"Dominance\":\""+af.getDominance()+"\",\"Arousal\":\""+af.getArousal()+"\",\"tracknr\":\""+tracknr+"\",\"runstate\":\""+runstate+"\"}";
+	        final long timestamp = datetime;
 
 	        // start new Thread to prevent NetworkOnMainThreadException
 	        new Thread() {

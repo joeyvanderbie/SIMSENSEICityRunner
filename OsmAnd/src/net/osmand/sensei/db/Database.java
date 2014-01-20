@@ -30,6 +30,8 @@ public final class Database {
 		public static final String TABLE_NAME = "affect";
 		public static final String COLUMN_NAME_USER_ID = "userid";
 		public static final String COLUMN_NAME_AFFECT_TOOL_ID = "affecttoolid";
+		public static final String COLUMN_NAME_ROUTE_ID = "routeid";
+		public static final String COLUMN_NAME_RUN_STATE = "runstate";
 		public static final String COLUMN_NAME_DATETIME = "datetime";
 		public static final String COLUMN_NAME_PLEASURE = "pleasure";
 		public static final String COLUMN_NAME_DOMINANCE = "dominance";
@@ -93,6 +95,8 @@ public final class Database {
 			+ Affect.TABLE_NAME + " (" + Affect._ID + " INTEGER PRIMARY KEY,"
 			+ Affect.COLUMN_NAME_USER_ID + INTEGER_TYPE + COMMA_SEP
 			+ Affect.COLUMN_NAME_AFFECT_TOOL_ID + INTEGER_TYPE + COMMA_SEP
+			+ Affect.COLUMN_NAME_ROUTE_ID+ INTEGER_TYPE + COMMA_SEP
+			+ Affect.COLUMN_NAME_RUN_STATE + INTEGER_TYPE + COMMA_SEP
 			+ Affect.COLUMN_NAME_DATETIME + TEXT_TYPE + COMMA_SEP
 			+ Affect.COLUMN_NAME_PLEASURE + REAL_TYPE + COMMA_SEP
 			+ Affect.COLUMN_NAME_DOMINANCE + REAL_TYPE + COMMA_SEP

@@ -20,6 +20,8 @@ public class AffectDataSource {
 			  Database.Affect._ID,
 			  Database.Affect.COLUMN_NAME_USER_ID,
 			  Database.Affect.COLUMN_NAME_AFFECT_TOOL_ID,
+			  Database.Affect.COLUMN_NAME_ROUTE_ID,
+			  Database.Affect.COLUMN_NAME_RUN_STATE,
 			  Database.Affect.COLUMN_NAME_AROUSAL,
 			  Database.Affect.COLUMN_NAME_PLEASURE,
 			  Database.Affect.COLUMN_NAME_DOMINANCE,
@@ -37,14 +39,17 @@ public class AffectDataSource {
 		    dbHelper.close();
 		  }
 
-		  public Affect addAffect(Affect affect, int user_id, int affect_tool_id) {
+		  //add run id
+		  public Affect addAffect(int affect_tool_id, int run_id, int user_id, int run_state, Affect af) {
 		    ContentValues values = new ContentValues();
 		    values.put(Database.Affect.COLUMN_NAME_USER_ID, user_id);
 		    values.put(Database.Affect.COLUMN_NAME_AFFECT_TOOL_ID, affect_tool_id);
-		    values.put(Database.Affect.COLUMN_NAME_AROUSAL, affect.getArousal().getDomain_value());
-		    values.put(Database.Affect.COLUMN_NAME_PLEASURE, affect.getPleasure().getDomain_value());
-		    values.put(Database.Affect.COLUMN_NAME_DOMINANCE, affect.getDominance().getDomain_value());
-		    values.put(Database.Affect.COLUMN_NAME_DATETIME, affect.getDatetime());
+		    values.put(Database.Affect.COLUMN_NAME_ROUTE_ID, run_id);
+		    values.put(Database.Affect.COLUMN_NAME_RUN_STATE, run_state);
+		    values.put(Database.Affect.COLUMN_NAME_AROUSAL, af.getArousal().getDomain_value());
+		    values.put(Database.Affect.COLUMN_NAME_PLEASURE, af.getPleasure().getDomain_value());
+		    values.put(Database.Affect.COLUMN_NAME_DOMINANCE, af.getDominance().getDomain_value());
+		    values.put(Database.Affect.COLUMN_NAME_DATETIME, af.getDatetime());
 		    
 		    long insertId = database.insert(Database.Affect.TABLE_NAME, null,
 		        values);

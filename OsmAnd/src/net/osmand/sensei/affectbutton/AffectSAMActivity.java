@@ -69,7 +69,7 @@ public class AffectSAMActivity extends Activity implements AffectEventListener {
 
 	        AffectDataSource afData = new AffectDataSource(this);
 	        afData.open();
-	        afData.addAffect(af, 0, 1);
+	       // afData.addAffect(af, 0, 0);
 	        afData.close();
 	        
 	        // Description of the sensor

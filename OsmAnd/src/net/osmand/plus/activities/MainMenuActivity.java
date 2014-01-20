@@ -499,9 +499,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			track.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					final Intent mapIndent = new Intent(activity, OsmandIntents.getMapActivity());
+					final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
 					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					mapIndent.putExtra("nextActivity", "map");
 					activity.startActivityForResult(mapIndent, 0);
 				}
 			});
@@ -895,25 +896,33 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	    
 	    
 		private void registerSIMSensors() {
-			final String sensorName = "runrecord";
-			final String displayName = "runrecord";	
-			final String dataType = SenseDataTypes.JSON;
-			final String description = sensorName;
-			final String value = "{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\"}";
-			final String deviceUuid;
-			// if (null == deviceUuid) {
-			deviceUuid = SenseApi.getDefaultDeviceUuid(this);
-			// }
 			new Thread() {
 
 				@Override
 				public void run() {
-					
+					boolean error = false;
 					//creeer hier alle sensoren die je wilt maken
-					if(((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(sensorName,
-							displayName, description, dataType, value,
+					if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
+							"runrecord",
+							"runrecord", 
+							"runrecord",
+							SenseDataTypes.JSON,
+							"{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\"}",
 							System.currentTimeMillis())){
-
+						error = true;
+					}	
+					if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
+							"affectbutton",
+							"AffectAB", 
+							"AffectAB",
+							SenseDataTypes.JSON,
+							"{\"Pleasure\":\""+0+"\",\"Dominance\":\""+0+"\",\"Arousal\":\""+0+"\",\"tracknr\":\""+0+"\",\"runstate\":\""+0+"\"}",
+							System.currentTimeMillis())){
+						error = true;
+					}
+						
+					
+					if(!error){
 						
 					//als alle nodige sensoren gemaakt zijn
 					//en alleen dan! Voeg gebruiker toe aan groep

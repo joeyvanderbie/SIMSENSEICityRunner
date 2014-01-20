@@ -45,9 +45,11 @@ public class NativeOsmandLibrary extends NativeLibrary {
 							log.debug("Creating NativeOsmandLibrary instance..."); //$NON-NLS-1$
 							library = new NativeOsmandLibrary();
 							isNativeSupported = true;
-						} catch(Throwable e) {
+						}catch(UnsatisfiedLinkError e) {
 							log.error("Failed to load new native library", e); //$NON-NLS-1$
-						}
+						}catch(Throwable e) {
+							log.error("Failed to load new native library", e); //$NON-NLS-1$
+						}	
 						if(!isNativeSupported) {
 							loadOldCore(libCpuSuffix);
 							log.debug("Creating NativeOsmandLibrary instance..."); //$NON-NLS-1$

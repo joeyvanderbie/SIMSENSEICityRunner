@@ -216,6 +216,17 @@
 		</service>
 		<receiver android:name="net.osmand.plus.OnNavigationServiceAlarmReceiver"/>
     	<activity android:name="net.osmand.plus.activities.OsmandBidForFixActivity"></activity>
+    	
+    	<!-- MOOD ACTIVITY -->
+        <activity
+            android:name="net.osmand.sensei.affectbutton.MoodActivity"
+            android:label="@string/title_activity_mood" >
+        </activity>
+        <!-- AFFECT SAM ACTIVITY -->
+        <activity
+            android:name="net.osmand.sensei.affectbutton.AffectSAMActivity"
+            android:label="@string/title_activity_mood" >
+        </activity>
 		
  <!-- MAIN SERVICE THAT MANAGES SENSING -->
         <service
