@@ -13,6 +13,8 @@ public final class Database {
 		public static final String TABLE_NAME = "user";
 		public static final String COLUMN_NAME_NAME = "name";
 		public static final String COLUMN_NAME_EMAIL = "email";
+		public static final String COLUMN_NAME_PASSWORD = "password";
+		public static final String COLUMN_NAME_TEAMID = "teamid";
 	}
 
 	/* Inner class that defines the table contents */
@@ -81,7 +83,9 @@ public final class Database {
 	public static final String SQL_CREATE_USER = "CREATE TABLE "
 			+ User.TABLE_NAME + " (" + User._ID + " INTEGER PRIMARY KEY,"
 			+ User.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP
-			+ User.COLUMN_NAME_EMAIL + TEXT_TYPE + " )";
+			+ User.COLUMN_NAME_EMAIL + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_PASSWORD + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_TEAMID + TEXT_TYPE +" )";
 	public static final String SQL_DELETE_USER = "DROP TABLE IF EXISTS "
 			+ User.TABLE_NAME;
 

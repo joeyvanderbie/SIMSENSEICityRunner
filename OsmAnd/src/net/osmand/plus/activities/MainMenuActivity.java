@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import net.osmand.IndexConstants;
+
 import net.osmand.access.AccessibleAlertBuilder;
 import net.osmand.data.LatLon;
 import net.osmand.plus.OsmandApplication;
@@ -16,11 +16,12 @@ import net.osmand.plus.Version;
 import net.osmand.plus.activities.search.SearchActivity;
 import net.osmand.plus.render.MapRenderRepositories;
 import net.osmand.sensei.data.RouteNeighbourhood;
+import net.osmand.sensei.data.UserData;
 import net.osmand.sensei.db.RouteDataSource;
+import net.osmand.sensei.db.UserDataSource;
 import nl.sense_os.service.ISenseServiceCallback;
 import nl.sense_os.service.commonsense.SenseApi;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import nl.sense_os.service.constants.SenseDataTypes;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
@@ -39,6 +40,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -57,11 +61,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.TextView;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.widget.Toast;
 
 public class MainMenuActivity extends Activity implements  OnItemSelectedListener{
 
@@ -78,6 +79,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	
 	private ProgressDialog startProgressDialog;
 	private Spinner neighbourhoods;
+	private boolean registerSensorsOnce = false;
 	
 	public void checkPreviousRunsForExceptions(boolean firstTime) {
 		long size = getPreferences(MODE_WORLD_READABLE).getLong(EXCEPTION_FILE_SIZE, 0);
@@ -240,6 +242,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				exit = true;
 			}
 		}
+
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.menu);
@@ -248,6 +251,12 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 		Window window = getWindow();
 		final Activity activity = this;
+		
+		SharedPreferences prefs = activity.getApplicationContext().getSharedPreferences("net.osmand.settings", MODE_WORLD_READABLE);
+		if (!prefs.contains("SENSE_REGISTERED")) {
+			registerSensorsOnce = true;
+			prefs.edit().putBoolean("SENSE_REGISTERED", true);
+		}
 		
 		//make buttons from available tracks
 //		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
@@ -419,6 +428,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
  
         // attaching data adapter to spinner
+        neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
         neighbourhoods.setAdapter(dataAdapter);
     }
     
@@ -723,9 +733,15 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
             return;
         }
 
-        // Store values at the time of the login attempt.
-        mEmail = "joeyvanderbie@gmail.com";
-        mPassword = "9Sense7Simplicity";
+        //To-DO: retrieve user values from database
+        
+        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
+ 		uds.open();
+ 		UserData user = uds.getUserData();
+ 		uds.close();
+ 		
+        mEmail = user.getEmail();
+        mPassword = user.getPassword();
 
         boolean cancel = false;
       
@@ -747,26 +763,52 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
             } catch (RemoteException e) {
                 Log.w(TAG, "Failed to log in at SensePlatform!", e);
                 onLoginFailure(false);
+            } catch (NullPointerException e){
+            	//No account available
+            	 onLoginFailure(false);
             }
         }
 	
 	 private void onLoginFailure(final boolean forbidden) {
 
-	        // update UI
-	        runOnUiThread(new Runnable() {
+			 	//retrieve login values from database
+		        //if values not exist register user
+		 		UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
+		 		uds.open();
+		 		UserData user = uds.getUserData();
+		 		uds.close();
+		 		
+		 		if(user.getEmail() == null || user.getPassword() == null)
+		        {
+		        	attemptRegistration();
+		        	
+		        	
+		        }else{
+		        	// update UI
+			        runOnUiThread(new Runnable() {
 
-	            @Override
-	            public void run() {
-	                showProgress(false);
+			            @Override
+			            public void run() {
+			                showProgress(false);
 
-	                    Toast.makeText(MainMenuActivity.this, R.string.login_failure, Toast.LENGTH_LONG)
-	                            .show();
-	            }
-	        });
+			                    Toast.makeText(MainMenuActivity.this, R.string.login_failure, Toast.LENGTH_LONG)
+			                            .show();
+			            }
+			        });
+		        }
+
+		 
+		 
+	        
 	    }
 
 	    private void onLoginSuccess() {
-
+	    	if(registerSensorsOnce){
+	            registerSensorsOnce = false;
+	    		registerSIMSensors();
+	    		
+	    	}
+        	
 	        // update UI
 	        runOnUiThread(new Runnable() {
 
@@ -781,6 +823,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	        //setResult(RESULT_OK);
 	       // finish();
 	    }
+	    
+	    
 	    
 	    private ISenseServiceCallback mServiceCallback = new ISenseServiceCallback.Stub() {
 
@@ -847,4 +891,157 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //	            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 	        }
 	    }
+	    
+	    
+	    
+		private void registerSIMSensors() {
+			final String sensorName = "runrecord";
+			final String displayName = "runrecord";	
+			final String dataType = SenseDataTypes.JSON;
+			final String description = sensorName;
+			final String value = "{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\"}";
+			final String deviceUuid;
+			// if (null == deviceUuid) {
+			deviceUuid = SenseApi.getDefaultDeviceUuid(this);
+			// }
+			new Thread() {
+
+				@Override
+				public void run() {
+					
+					//creeer hier alle sensoren die je wilt maken
+					if(((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(sensorName,
+							displayName, description, dataType, value,
+							System.currentTimeMillis())){
+
+						
+					//als alle nodige sensoren gemaakt zijn
+					//en alleen dan! Voeg gebruiker toe aan groep
+//					mApplication.getSensePlatform().addUserToGroup("9568",
+//							"9e6a6f89a42e911c4c31f06d17510c39");
+//					}
+					//test group
+					//Simtest
+//						{
+//						      "accepted": null,
+//						      "id": "9869",
+//						      "name": "simtest",
+//						      "description": "test data voor SIM 2014",
+//						      "public": false
+//						    }
+//						pass: c8d84a64f40f7b6eaeb7c97cc22141a3 - 99BaardHaren(
+						((OsmandApplication) getApplication()).getSensePlatform().addUserToGroup("9869",
+							"c8d84a64f40f7b6eaeb7c97cc22141a3");
+					}
+				}
+			}.start();
+		}
+		
+	    private void onRegistrationFailure(final boolean forbidden) {
+
+	        // update UI
+	        runOnUiThread(new Runnable() {
+
+	            @Override
+	            public void run() {
+	                showProgress(false);
+	                    Toast.makeText(MainMenuActivity.this, R.string.register_failure,
+	                            Toast.LENGTH_LONG).show();
+	            }
+	        });
+	    }
+
+	    private void onRegistrationSuccess() {
+
+	        // update UI
+	        runOnUiThread(new Runnable() {
+
+	            @Override
+	            public void run() {
+	                showProgress(false);
+	                Toast.makeText(MainMenuActivity.this, R.string.register_success,
+	                        Toast.LENGTH_LONG).show();
+	                attemptLogin();
+		        	//retry login
+	            }
+	        });
+	    }
+	    
+	    /**
+	     * Attempts to register the account specified by the registration form. If there are form errors
+	     * (invalid email, missing fields, etc.), the errors are presented and no actual registration
+	     * attempt is made.
+	     */
+	    private void attemptRegistration() {
+	        if (mBusy) {
+	            return;
+	        }
+
+
+	        // Store values at the time of the registration attempt.
+	        mEmail = "senseiuser+sim"+System.currentTimeMillis()+"@gmail.com";
+	        mPassword = "22hond";
+	        
+	        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
+	 		uds.open();
+	 		UserData user = new UserData(mEmail, mEmail, mPassword, 0);
+	 		uds.add(user);
+	 		uds.close();
+	 		
+	        
+	        //add username and password to database
+
+	        boolean cancel = false;
+	        View focusView = null;
+
+	            // Show a progress spinner, and kick off a background task to perform the user
+	            // registration attempt.
+	            showProgress(true);
+
+	            // register using SensePlatform
+	            try {
+	            	((OsmandApplication) getApplication()).getSensePlatform().registerUser(mEmail,
+	                        SenseApi.hashPassword(mPassword), mEmail, null, null, null, null, null,
+	                        null, mSenseCallback);
+	                // this is an asynchronous call, we get a callback when the registration is complete
+	                mBusy = true;
+	            } catch (IllegalStateException e) {
+	                Log.w(TAG, "Failed to register at SensePlatform!", e);
+	                onRegistrationFailure(false);
+	            } catch (RemoteException e) {
+	                Log.w(TAG, "Failed to register at SensePlatform!", e);
+	                onRegistrationFailure(false);
+	            }
+	    }
+
+private boolean mBusy;
+private ISenseServiceCallback mSenseCallback = new ISenseServiceCallback.Stub() {
+
+    @Override
+    public void onChangeLoginResult(int result) throws RemoteException {
+        // not used
+    }
+
+    @Override
+    public void onRegisterResult(int result) throws RemoteException {
+        mBusy = false;
+
+        if (result == -2) {
+            // registration forbidden
+            onRegistrationFailure(true);
+
+        } else if (result == -1) {
+            // registration failed
+            onRegistrationFailure(false);
+
+        } else {
+            onRegistrationSuccess();
+        }
+    }
+
+    @Override
+    public void statusReport(int status) throws RemoteException {
+        // not used
+    }
+};
 }

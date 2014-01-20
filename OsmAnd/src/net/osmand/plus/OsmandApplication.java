@@ -44,6 +44,7 @@ import net.osmand.render.RenderingRulesStorage;
 import net.osmand.sensei.data.RouteRunData;
 import net.osmand.sensei.db.RouteDataSource;
 import net.osmand.sensei.db.RouteRunDataSource;
+import net.osmand.sensei.db.UserDataSource;
 import net.osmand.util.Algorithms;
 import nl.sense_os.platform.SenseApplication;
 import android.app.Activity;
@@ -83,6 +84,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 	RoutingHelper routingHelper = null;
 	RouteRunDataSource routeRunDataSource = null;
 	RouteDataSource routeDataSource = null;
+	UserDataSource userDataSource = null;
 	FavouritesDbHelper favorites = null;
 	CommandPlayer player = null;
 
@@ -369,6 +371,13 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 			routeDataSource = new RouteDataSource(this);
 		}
 		return routeDataSource;
+	}
+	
+	public UserDataSource getUserDataSource(){
+		if(userDataSource == null){
+			userDataSource = new UserDataSource(this);
+		}
+		return userDataSource;
 	}
 
 	public ResourceManager getResourceManager() {

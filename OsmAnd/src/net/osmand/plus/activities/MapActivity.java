@@ -178,11 +178,11 @@ public class MapActivity extends AccessibleActivity implements
 		// This situtation could be when navigation suddenly crashed and after
 		// restarting
 		// it tries to continue the last route
-		if (settings.FOLLOW_THE_ROUTE.get()
-				&& !app.getRoutingHelper().isRouteCalculated()
-				&& !app.getRoutingHelper().isRouteBeingCalculated()) {
-			FailSafeFuntions.restoreRoutingMode(this);
-		}
+//		if (settings.FOLLOW_THE_ROUTE.get()
+//				&& !app.getRoutingHelper().isRouteCalculated()
+//				&& !app.getRoutingHelper().isRouteBeingCalculated()) {
+//			FailSafeFuntions.restoreRoutingMode(this);
+//		}
 
 		if (!settings.isLastKnownMapLocation()) {
 			// show first time when application ran
@@ -799,6 +799,8 @@ public class MapActivity extends AccessibleActivity implements
 			rrds.open();
 			rrds.update(rrd);
 			rrds.close();
+			
+			app.currentRouteRun = null;
 
 			final Intent intentSettings = new Intent(this,
 					OsmandIntents.getRunFinishedActivity());
