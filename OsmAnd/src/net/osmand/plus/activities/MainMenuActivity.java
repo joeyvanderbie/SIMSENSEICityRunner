@@ -914,7 +914,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 					if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
 							"affectbutton",
 							"AffectAB", 
-							"AffectAB",
+							"affectbutton",
 							SenseDataTypes.JSON,
 							"{\"Pleasure\":\""+0+"\",\"Dominance\":\""+0+"\",\"Arousal\":\""+0+"\",\"tracknr\":\""+0+"\",\"runstate\":\""+0+"\"}",
 							System.currentTimeMillis())){

@@ -1,4 +1,4 @@
-package net.osmand.sensei.affectbutton;
+package net.osmand.sensei.sensors;
 
 import net.osmand.plus.OsmandApplication;
 import net.osmand.plus.R;

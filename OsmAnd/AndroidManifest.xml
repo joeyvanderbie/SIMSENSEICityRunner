@@ -219,12 +219,12 @@
     	
     	<!-- MOOD ACTIVITY -->
         <activity
-            android:name="net.osmand.sensei.affectbutton.MoodActivity"
+            android:name="net.osmand.sensei.sensors.MoodActivity"
             android:label="@string/title_activity_mood" >
         </activity>
         <!-- AFFECT SAM ACTIVITY -->
         <activity
-            android:name="net.osmand.sensei.affectbutton.AffectSAMActivity"
+            android:name="net.osmand.sensei.sensors.AffectSAMActivity"
             android:label="@string/title_activity_mood" >
         </activity>
 		

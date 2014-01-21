@@ -1,7 +1,7 @@
 package net.osmand.plus.activities;
 
 import net.osmand.plus.activities.search.SearchActivity;
-import net.osmand.sensei.affectbutton.MoodActivity;
+import net.osmand.sensei.sensors.MoodActivity;
 import android.app.Activity;
 
 public class OsmandIntents {

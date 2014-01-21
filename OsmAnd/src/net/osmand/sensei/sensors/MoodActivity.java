@@ -1,4 +1,4 @@
-package net.osmand.sensei.affectbutton;
+package net.osmand.sensei.sensors;
 
 import org.hva.createit.digitallife.sam.AffectDomain;
 

@@ -39,6 +39,7 @@ import net.osmand.plus.views.OsmandMapTileView;
 import net.osmand.render.RenderingRulesStorage;
 import net.osmand.sensei.data.RouteRunData;
 import net.osmand.sensei.db.RouteRunDataSource;
+import net.osmand.sensei.sensors.AccelerometerListener;
 import net.osmand.util.Algorithms;
 import android.app.Dialog;
 import android.app.Notification;
@@ -48,6 +49,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -551,6 +554,11 @@ public class MapActivity extends AccessibleActivity implements
 		}
 	}
 
+	
+	 SensorManager sensorManager;
+	 Sensor accelerometer;
+	 AccelerometerListener fastestListener;
+	    
 	public void followRoute(ApplicationMode appMode, LatLon finalLocation,
 			List<LatLon> intermediatePoints,
 			net.osmand.Location currentLocation, GPXRouteParams gpxRoute) {
@@ -575,6 +583,15 @@ public class MapActivity extends AccessibleActivity implements
 		rrd = rrds.add(rrd);
 		rrds.close();
 		app.currentRouteRun = rrd;
+		
+		
+		 sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	     accelerometer = sensorManager
+	                .getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+	     fastestListener = new AccelerometerListener(this);
+	        sensorManager.registerListener(fastestListener, accelerometer,
+	                SensorManager.SENSOR_DELAY_FASTEST);
+	        fastestListener.startRecording();
 		
 		app.showDialogInitializingCommandPlayer(MapActivity.this);
 	}
@@ -792,6 +809,9 @@ public class MapActivity extends AccessibleActivity implements
 		routingHelper.removeListener(this);
 		
 		RouteRunData rrd = app.currentRouteRun;
+		
+		sensorManager.unregisterListener(fastestListener);
+		
 		if (rrd != null) {
 			rrd.setEnd_datetime(finishTimestamp);
 
@@ -804,6 +824,8 @@ public class MapActivity extends AccessibleActivity implements
 
 			final Intent intentSettings = new Intent(this,
 					OsmandIntents.getMoodActivity());
+			intentSettings.putExtra("track",route_id);
+			intentSettings.putExtra("nextActivity", "finished");
 			intentSettings.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		} else {
