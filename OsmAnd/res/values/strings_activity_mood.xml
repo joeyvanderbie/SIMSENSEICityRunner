@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_activity_mood">Mood meter</string>
+    <string name="title_activity_mood">Emotional state</string>
     <string name="button_confirm">confirm</string>
     <string name="text_question">Change the avatar to your current emotional state</string>
 

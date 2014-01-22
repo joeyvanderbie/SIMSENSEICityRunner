@@ -15,6 +15,8 @@ public final class Database {
 		public static final String COLUMN_NAME_EMAIL = "email";
 		public static final String COLUMN_NAME_PASSWORD = "password";
 		public static final String COLUMN_NAME_TEAMID = "teamid";
+		public static final String COLUMN_NAME_HEIGHT = "height";
+		public static final String COLUMN_NAME_WEIGHT = "weight";
 	}
 
 	/* Inner class that defines the table contents */
@@ -49,6 +51,7 @@ public final class Database {
 	public static abstract class MOVEMENT implements BaseColumns {
 		public static final String TABLE_NAME = "movement";
 		public static final String COLUMN_NAME_USER_ID = "userid";
+		public static final String COLUMN_NAME_RUN_ID = "routeid";
 		public static final String COLUMN_NAME_DATETIME = "datetime";
 		public static final String COLUMN_NAME_ACCEL_X = "accelx";
 		public static final String COLUMN_NAME_ACCEL_Y = "accely";
@@ -87,7 +90,9 @@ public final class Database {
 			+ User.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP
 			+ User.COLUMN_NAME_EMAIL + TEXT_TYPE + COMMA_SEP
 			+ User.COLUMN_NAME_PASSWORD + TEXT_TYPE + COMMA_SEP
-			+ User.COLUMN_NAME_TEAMID + TEXT_TYPE +" )";
+			+ User.COLUMN_NAME_TEAMID + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_HEIGHT + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_WEIGHT + TEXT_TYPE +" )";
 	public static final String SQL_DELETE_USER = "DROP TABLE IF EXISTS "
 			+ User.TABLE_NAME;
 
@@ -115,6 +120,7 @@ public final class Database {
 	public static final String SQL_CREATE_MOVEMENT = "CREATE TABLE "
 			+ MOVEMENT.TABLE_NAME + " (" + MOVEMENT._ID+ " INTEGER PRIMARY KEY," 
 			+ MOVEMENT.COLUMN_NAME_USER_ID + TEXT_TYPE + COMMA_SEP 
+			+ MOVEMENT.COLUMN_NAME_RUN_ID + TEXT_TYPE + COMMA_SEP
 			+ MOVEMENT.COLUMN_NAME_DATETIME + TEXT_TYPE + COMMA_SEP 
 			+ MOVEMENT.COLUMN_NAME_ACCEL_X + REAL_TYPE + COMMA_SEP 
 			+ MOVEMENT.COLUMN_NAME_ACCEL_Y + REAL_TYPE + COMMA_SEP 

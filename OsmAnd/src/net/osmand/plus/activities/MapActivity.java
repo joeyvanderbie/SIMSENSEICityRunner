@@ -103,6 +103,7 @@ public class MapActivity extends AccessibleActivity implements
 	private FrameLayout lockView;
 	
 	private int route_id = 0;
+	private int run_id = 0;
 	
 
 	private Notification getNotification() {
@@ -225,6 +226,7 @@ public class MapActivity extends AccessibleActivity implements
 			// tracks start at number 1
 			route_id = track;
 			if (track != 0) {
+				run_id = extras.getInt("run_id");
 				mapActions.navigateUsingGPX(ApplicationMode.PEDESTRIAN, track);
 			}
 
@@ -573,17 +575,7 @@ public class MapActivity extends AccessibleActivity implements
 		routingHelper.setFollowingMode(true);
 		routingHelper.setFinalAndCurrentLocation(finalLocation,
 				intermediatePoints, currentLocation, gpxRoute);
-		
-		RouteRunDataSource rrds = app.getRouteRunDataSource();
-		RouteRunData rrd = new RouteRunData();
-		rrd.setRoute_id(this.route_id);
-		rrd.setTeam_id(app.team_id);
-		rrd.setStart_datetime(System.currentTimeMillis());
-		rrds.open();
-		rrd = rrds.add(rrd);
-		rrds.close();
-		app.currentRouteRun = rrd;
-		
+
 		
 		 sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	     accelerometer = sensorManager
@@ -591,7 +583,7 @@ public class MapActivity extends AccessibleActivity implements
 	     fastestListener = new AccelerometerListener(this);
 	        sensorManager.registerListener(fastestListener, accelerometer,
 	                SensorManager.SENSOR_DELAY_FASTEST);
-	        fastestListener.startRecording();
+	        fastestListener.startRecording(run_id);
 		
 		app.showDialogInitializingCommandPlayer(MapActivity.this);
 	}
@@ -608,10 +600,25 @@ public class MapActivity extends AccessibleActivity implements
 	public RoutingHelper getRoutingHelper() {
 		return app.getRoutingHelper();
 	}
+	
+	public void showToast(final int resId, final Object... formatArgs) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				CharSequence msg = getString(resId, formatArgs);
+				Toast.makeText(MapActivity.this, msg, Toast.LENGTH_LONG)
+						.show();
+			}
+		});
+	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		fastestListener.submitLastSensorData();
+		sensorManager.unregisterListener(fastestListener);
+		
 		app.getLocationProvider().pauseAllUpdates();
 		app.getDaynightHelper().stopSensorIfNeeded();
 		settings.APPLICATION_MODE.removeListener(applicationModeListener);
@@ -809,8 +816,9 @@ public class MapActivity extends AccessibleActivity implements
 		routingHelper.removeListener(this);
 		
 		RouteRunData rrd = app.currentRouteRun;
-		
+		fastestListener.submitLastSensorData();
 		sensorManager.unregisterListener(fastestListener);
+		
 		
 		if (rrd != null) {
 			rrd.setEnd_datetime(finishTimestamp);
@@ -825,6 +833,7 @@ public class MapActivity extends AccessibleActivity implements
 			final Intent intentSettings = new Intent(this,
 					OsmandIntents.getMoodActivity());
 			intentSettings.putExtra("track",route_id);
+			intentSettings.putExtra("run_id",rrd.getId());
 			intentSettings.putExtra("nextActivity", "finished");
 			intentSettings.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);

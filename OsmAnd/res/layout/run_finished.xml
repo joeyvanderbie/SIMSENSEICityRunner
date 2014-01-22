@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_ligth_grey"
-android:padding="4dp">
- <LinearLayout
+    android:orientation="vertical"
+    android:padding="4dp" >
+
+    <LinearLayout
         android:id="@+id/TopBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,50 +14,48 @@ android:padding="4dp">
         android:orientation="horizontal" />
 
     <TextView
+        style="@style/unit.style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bijdrage" 
-           style="@style/unit.style"/>
+        android:text="@string/bijdrage" />
 
-   <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:orientation="horizontal"
-     android:weightSum="2" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2" >
 
-     <RelativeLayout
-         style="@style/unit.style"
-         android:layout_width="wrap_content"
-         android:layout_height="match_parent"
-         android:layout_weight="1" >
+        <RelativeLayout
+            style="@style/unit.style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
-         <TextView
-             android:id="@+id/TextView01"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_alignParentTop="true"
-             android:text="Route"
-             android:textAppearance="@style/unit.header" />
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Route"
+                android:textAppearance="@style/unit.header" />
 
-         <LinearLayout
-             style="@style/unit.info"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_below="@+id/TextView01"
-             android:orientation="horizontal" >
+            <LinearLayout
+                style="@style/unit.info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/TextView01"
+                android:orientation="horizontal" >
 
-             <TextView
-                 android:id="@+id/routeNumber"
-                 style="@style/unit.info"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="0" />
-         </LinearLayout>
-     </RelativeLayout>
+                <TextView
+                    android:id="@+id/routeNumber"
+                    style="@style/unit.info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
-    
- </LinearLayout>
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,6 +130,52 @@ android:padding="4dp">
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@string/distance_unit_km" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <RelativeLayout
+            style="@style/unit.style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/affect_overview" >
+
+            <TextView
+                android:id="@+id/affect_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/title_activity_mood"
+                android:textAppearance="@style/unit.header" />
+
+            <LinearLayout
+                style="@style/unit.info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/affect_header"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <net.osmand.sensei.sensors.StaticAffectButton
+                    android:id="@+id/affect_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="0dp"
+                    android:layout_weight="1" />
+
+                <net.osmand.sensei.sensors.StaticAffectButton
+                    android:id="@+id/affect_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="0dp"
+                    android:layout_weight="1" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

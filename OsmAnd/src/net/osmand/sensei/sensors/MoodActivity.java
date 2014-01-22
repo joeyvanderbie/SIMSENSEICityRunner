@@ -30,6 +30,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
     private OsmandApplication mApplication;
     private String nextActivity;
     private int tracknr;
+    private int run_id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 
 		if (extras != null) {
 			tracknr = extras.getInt("track", 0);
+			run_id = extras.getInt("run_id", 0);
 			nextActivity = extras.getString("nextActivity", "finished");
 		}
 		
@@ -75,6 +77,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 
 		if (extras != null) {
 			tracknr = extras.getInt("track", 0);
+			run_id = extras.getInt("run_id", 0);
 			nextActivity = extras.getString("nextActivity", "finished");
 		}else{
 			tracknr = 0;
@@ -91,6 +94,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 			Intent mapIntent = new Intent(this, OsmandIntents.getMapActivity());
 			mapIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			mapIntent.putExtra("track",tracknr);
+			mapIntent.putExtra("run_id", run_id);
 			startActivity(mapIntent);
 		}else{
 			Intent intentSettings = new Intent(this,
@@ -115,7 +119,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 	        }else{
 	        	runstate = 0;
 	        }
-	        afData.addAffect(0, tracknr, userid, runstate, afhva);
+	        afData.addAffect(0, run_id, userid, runstate, afhva);
 	        afData.close();
 	        
 	        // Description of the sensor
@@ -124,7 +128,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 	        final String dataType = SenseDataTypes.JSON;
 	        final String description = name;
 	        // the value to be sent, in json format
-	        final String value = "{\"Pleasure\":\""+af.getPleasure()+"\",\"Dominance\":\""+af.getDominance()+"\",\"Arousal\":\""+af.getArousal()+"\",\"tracknr\":\""+tracknr+"\",\"runstate\":\""+runstate+"\"}";
+	        final String value = "{\"Pleasure\":\""+af.getPleasure()+"\",\"Dominance\":\""+af.getDominance()+"\",\"Arousal\":\""+af.getArousal()+"\",\"tracknr\":\""+tracknr+"\",\"run_id\":\""+run_id+"\",\"runstate\":\""+runstate+"\"}";
 	        final long timestamp = datetime;
 
 	        // start new Thread to prevent NetworkOnMainThreadException

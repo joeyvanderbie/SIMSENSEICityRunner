@@ -15,9 +15,12 @@ import net.osmand.plus.R;
 import net.osmand.plus.Version;
 import net.osmand.plus.activities.search.SearchActivity;
 import net.osmand.plus.render.MapRenderRepositories;
+import net.osmand.sensei.data.AccelData;
 import net.osmand.sensei.data.RouteNeighbourhood;
+import net.osmand.sensei.data.RouteRunData;
 import net.osmand.sensei.data.UserData;
 import net.osmand.sensei.db.RouteDataSource;
+import net.osmand.sensei.db.RouteRunDataSource;
 import net.osmand.sensei.db.UserDataSource;
 import nl.sense_os.service.ISenseServiceCallback;
 import nl.sense_os.service.commonsense.SenseApi;
@@ -187,7 +190,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			@Override
 			public void onClick(View v) {
 				TipsAndTricksActivity tactivity = new TipsAndTricksActivity(activity);
-				Dialog dlg = tactivity.getDialogToShowTips(false, true);
+				Dialog dlg = tactivity.getDialogToShowTips(true, false);
 				dlg.show();
 			}
 		});
@@ -499,9 +502,21 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			track.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					RouteRunDataSource rrds = app.getRouteRunDataSource();
+					RouteRunData rrd = new RouteRunData();
+					rrd.setRoute_id(Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					rrd.setTeam_id(app.team_id);
+					rrd.setStart_datetime(System.currentTimeMillis());
+					rrds.open();
+					rrd = rrds.add(rrd);
+					rrds.close();
+					app.currentRouteRun = rrd;
+					
+					
 					final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
 					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					mapIndent.putExtra("run_id",rrd.getId());
 					mapIndent.putExtra("nextActivity", "map");
 					activity.startActivityForResult(mapIndent, 0);
 				}
@@ -627,33 +642,33 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		anim.setInterpolator(new AccelerateInterpolator());
 		menuView.setAnimation(anim);
 
-		View showMap = dlg.findViewById(R.id.MapButton);
-		showMap.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dlg.dismiss();
-			}
-		});
-		View settingsButton = dlg.findViewById(R.id.SettingsButton);
-		settingsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent settings = new Intent(a, OsmandIntents.getSettingsActivity());
-				a.startActivity(settings);
-				dlg.dismiss();
-			}
-		});
-
-		View favouritesButton = dlg.findViewById(R.id.FavoritesButton);
-		favouritesButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent favorites = new Intent(a, OsmandIntents.getFavoritesActivity());
-				favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				a.startActivity(favorites);
-				dlg.dismiss();
-			}
-		});
+//		View showMap = dlg.findViewById(R.id.MapButton);
+//		showMap.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				dlg.dismiss();
+//			}
+//		});
+//		View settingsButton = dlg.findViewById(R.id.SettingsButton);
+//		settingsButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent settings = new Intent(a, OsmandIntents.getSettingsActivity());
+//				a.startActivity(settings);
+//				dlg.dismiss();
+//			}
+//		});
+//
+//		View favouritesButton = dlg.findViewById(R.id.FavoritesButton);
+//		favouritesButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent favorites = new Intent(a, OsmandIntents.getFavoritesActivity());
+//				favorites.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//				a.startActivity(favorites);
+//				dlg.dismiss();
+//			}
+//		});
 
 		View closeButton = dlg.findViewById(R.id.CloseButton);
 		closeButton.setOnClickListener(new OnClickListener() {
@@ -671,23 +686,25 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				// 3. bad results if user comes from favorites
 				// a.setResult(MainMenuActivity.APP_EXIT_CODE);
 				// a.finish();
+	
+				
 			}
 		});
 
-		View searchButton = dlg.findViewById(R.id.SearchButton);
-		searchButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				final Intent search = new Intent(a, OsmandIntents.getSearchActivity());
-				LatLon loc = searchLocation;
-				search.putExtra(SearchActivity.SEARCH_LAT, loc.getLatitude());
-				search.putExtra(SearchActivity.SEARCH_LON, loc.getLongitude());
-				// causes wrong position caching:  search.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				search.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				a.startActivity(search);
-				dlg.dismiss();
-			}
-		});
+//		View searchButton = dlg.findViewById(R.id.SearchButton);
+//		searchButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				final Intent search = new Intent(a, OsmandIntents.getSearchActivity());
+//				LatLon loc = searchLocation;
+//				search.putExtra(SearchActivity.SEARCH_LAT, loc.getLatitude());
+//				search.putExtra(SearchActivity.SEARCH_LON, loc.getLongitude());
+//				// causes wrong position caching:  search.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//				search.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				a.startActivity(search);
+//				dlg.dismiss();
+//			}
+//		});
 		menuView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -744,9 +761,6 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
         mEmail = user.getEmail();
         mPassword = user.getPassword();
 
-        boolean cancel = false;
-      
-
              // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
            // mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
@@ -778,13 +792,16 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		 		uds.open();
 		 		UserData user = uds.getUserData();
 		 		uds.close();
+		 		if(user == null){
+		 			attemptRegistration();
 		 		
-		 		if(user.getEmail() == null || user.getPassword() == null)
-		        {
+		 		}else if(user.getEmail() == null || user.getPassword() == null) {
 		        	attemptRegistration();
 		        	
+		        }else if(user.getEmail().equals("") || user.getPassword().equals("")){
+		        	attemptRegistration();
 		        	
-		        }else{
+	 			}else{
 		        	// update UI
 			        runOnUiThread(new Runnable() {
 
@@ -919,6 +936,14 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 							"{\"Pleasure\":\""+0+"\",\"Dominance\":\""+0+"\",\"Arousal\":\""+0+"\",\"tracknr\":\""+0+"\",\"runstate\":\""+0+"\"}",
 							System.currentTimeMillis())){
 						error = true;
+					}if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
+											"sensei_accelerometer", 
+											"sensei_accelerometer",
+											"sensei_accelerometer", 
+											SenseDataTypes.JSON, 
+											"{\"x-axis\":\""+0+"\",\"y-axis\":\""+0+"\",\"z-axis\":\""+0+"\",\"run_id\":\""+0+"\",\"timestamp\":\""+0+"\"}"
+											, System.currentTimeMillis())){
+							error = true;
 					}
 						
 					
@@ -993,8 +1018,16 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	        
 	        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
 	 		uds.open();
-	 		UserData user = new UserData(mEmail, mEmail, mPassword, 0);
-	 		uds.add(user);
+	 		UserData user = uds.getUserData();
+	 		if(user == null){
+	 			user = new UserData(mEmail, mEmail, mPassword, 0);
+	 			uds.add(user);
+	 		}else{
+	 			user.setEmail(mEmail);
+	 			user.setPassword(mPassword);
+	 			user.setName(mEmail);
+	 			uds.update(user);
+	 			}
 	 		uds.close();
 	 		
 	        
