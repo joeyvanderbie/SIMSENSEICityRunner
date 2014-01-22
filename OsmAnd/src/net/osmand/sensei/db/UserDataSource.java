@@ -18,7 +18,9 @@ public class UserDataSource {
 			Database.User.COLUMN_NAME_NAME,
 			Database.User.COLUMN_NAME_EMAIL,
 			Database.User.COLUMN_NAME_PASSWORD,
-			Database.User.COLUMN_NAME_TEAMID};
+			Database.User.COLUMN_NAME_TEAMID,
+			Database.User.COLUMN_NAME_HEIGHT,
+			Database.User.COLUMN_NAME_WEIGHT};
 
 	public UserDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -32,7 +34,7 @@ public class UserDataSource {
 		dbHelper.close();
 	}
 
-	public int add(String name, String email, String password, int teamid) {
+	public int add(String name, String email, String password, int teamid, double height, double weight) {
 		ContentValues values = new ContentValues();
 		values.put(Database.User.COLUMN_NAME_NAME,
 				name);
@@ -51,7 +53,26 @@ public class UserDataSource {
 	}
 
 	public void add(UserData user){
-		add(user.getName(), user.getEmail(), user.getPassword(), user.getTeamid());
+		add(user.getName(), user.getEmail(), user.getPassword(), user.getTeamid(), user.getHeight(), user.getWeight());
+	}
+	
+	public void update(UserData user){
+		ContentValues values = new ContentValues();
+		values.put(Database.User.COLUMN_NAME_NAME,
+				user.getName());
+		values.put(Database.User.COLUMN_NAME_EMAIL,
+				user.getEmail());
+		values.put(Database.User.COLUMN_NAME_PASSWORD,
+				user.getPassword());
+		values.put(Database.User.COLUMN_NAME_TEAMID,
+				user.getTeamid());
+		values.put(Database.User.COLUMN_NAME_HEIGHT,
+				user.getHeight());
+		values.put(Database.User.COLUMN_NAME_WEIGHT,
+				user.getWeight());
+		
+		
+		database.update(Database.User.TABLE_NAME, values, Database.User._ID + " = "+user.getId(), null);
 	}
 	
 

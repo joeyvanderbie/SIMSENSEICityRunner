@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   
+    <TextView 
+        
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_data_text"
+            android:layout_margin="@dimen/margin_defaut"
+        />
+    
+     <EditText 
+            android:inputType="numberDecimal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/weight_hint"
+        android:id="@+id/weight"
+        
+            android:layout_margin="@dimen/margin_defaut"
+            />
+    
+    <EditText 
+            android:inputType="numberDecimal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/height_hint"
+        android:id="@+id/height"
+        
+            android:layout_margin="@dimen/margin_defaut"
+            />
+    
+  <TextView 
+        
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/SIM_teamnr_text"
+            
+            android:layout_margin="@dimen/margin_defaut"
+        />
+    
+
+        <EditText 
+            android:inputType="number"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/team_nr_hint"
+        android:id="@+id/TeamNR"
+        
+            android:layout_margin="@dimen/margin_defaut"
+            />
+    
+     
+     
+        <Button
+        android:id="@+id/SaveButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_buttons_save"
+            />
+</LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">Sensei City Runner</string>
+    <string name="app_name">SIM Sensei City Runner</string>
     <string name="app_version">0.1</string>
     <!-- Not translatable -->
     <string name="ga_api_key">UA-28342846-2</string>
@@ -10,7 +10,7 @@
     <string name="next_tips_and_tricks_not_translate">
     </string>
     
-    <string name="track_finished">Run succesvol gelopen</string>
+    <string name="track_finished">Run finished</string>
     <string name="tip_welcome_title">Welkom bij Sensei City Runner</string>
      <string name="tip_welcome_text">Special voor SIM hebben we een app gemaakt: Sensei City Runner
          \nMet de app kan je figuren in de stad lopen, die vervolgens worden weergegeven op de kaart.
@@ -25,12 +25,28 @@
          \nLoop deze track uit
          \nen zie je figuur verschijnen!
          \nDeel je favoriete figuren om te laten zien dat jij de ultieme City Runner bent!</string>
-        <string name="bijdrage">Gefeliciteerd!
+        
+         <!-- UserData Activity -->
+            <string name="title_user_data_activity">User data</string>
+           <string name="user_data_text">To make the app work perfect and for our research we need some data.
+				\nDon\'t worry we don\'t need to know much and the data is processed anonymously.
+               \nStill if you are not comfortable with filling in the data, leave it blank.</string>
+          <string name="SIM_teamnr_text">If you are a student from the HvA and are participating in the Student In Motions -week
+         \nWe also need your team number.</string>
+     
+     <string name="height_hint">Insert your height in cm</string>  
+     <string name="weight_hint">Insert your weight in kg</string>  
+     <string name="team_nr_hint">Insert your team nr</string>    
+     
+      
+            
+        
+        <!-- RunFinished Activity -->
+          <string name="bijdrage">Gefeliciteerd!
             \nJe bent sportief bezig geweest, hebt Big Data gegenereerd en hebt een bijdrage geleverd aan de wetenschap.
             \nDe wetenschappers aan de Hogeschool van Amsterdam zijn erg blij met je bijdrage en gaan de geannonimeerde gegevens verder analyseren om nieuwe inzichten te ontwikkelen op het gebied van hardlopen in de stad.
             </string>
             
-        
         <string name="time">Duration</string>
         <string name="time_unit_minutes">minutes</string>
        

@@ -6,9 +6,33 @@ public class UserData {
 	String email;
 	String password;
 	int teamid;
+	double height;
+	double weight;
 	
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 	public UserData(){
 		
+	}
+	
+	public UserData(String name, String email, String password){
+		this.name = name;
+		this.email = email;
+		this.password = password;
 	}
 	
 	public UserData(String name, String email, String password, int teamid){
