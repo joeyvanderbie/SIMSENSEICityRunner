@@ -20,7 +20,9 @@ public class UserDataSource {
 			Database.User.COLUMN_NAME_PASSWORD,
 			Database.User.COLUMN_NAME_TEAMID,
 			Database.User.COLUMN_NAME_HEIGHT,
-			Database.User.COLUMN_NAME_WEIGHT};
+			Database.User.COLUMN_NAME_WEIGHT,
+			Database.User.COLUMN_NAME_AGE,
+			Database.User.COLUMN_NAME_GENDER};
 
 	public UserDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -34,7 +36,7 @@ public class UserDataSource {
 		dbHelper.close();
 	}
 
-	public int add(String name, String email, String password, int teamid, double height, double weight) {
+	public int add(String name, String email, String password, int teamid, double height, double weight, int age, String gender) {
 		ContentValues values = new ContentValues();
 		values.put(Database.User.COLUMN_NAME_NAME,
 				name);
@@ -44,6 +46,16 @@ public class UserDataSource {
 				password);
 		values.put(Database.User.COLUMN_NAME_TEAMID,
 				teamid);
+		values.put(Database.User.COLUMN_NAME_HEIGHT,
+						height);
+		values.put(Database.User.COLUMN_NAME_WEIGHT,
+								weight);
+
+		values.put(Database.User.COLUMN_NAME_AGE,
+								age);
+
+		values.put(Database.User.COLUMN_NAME_GENDER,
+								gender);
 		
 		
 		long insertId = database.insert(Database.User.TABLE_NAME, null,
@@ -53,7 +65,7 @@ public class UserDataSource {
 	}
 
 	public void add(UserData user){
-		add(user.getName(), user.getEmail(), user.getPassword(), user.getTeamid(), user.getHeight(), user.getWeight());
+		add(user.getName(), user.getEmail(), user.getPassword(), user.getTeamid(), user.getHeight(), user.getWeight(), user.getAge(), user.getGender());
 	}
 	
 	public void update(UserData user){
@@ -70,7 +82,10 @@ public class UserDataSource {
 				user.getHeight());
 		values.put(Database.User.COLUMN_NAME_WEIGHT,
 				user.getWeight());
-		
+		values.put(Database.User.COLUMN_NAME_AGE,
+				user.getAge());
+		values.put(Database.User.COLUMN_NAME_GENDER,
+						user.getGender());
 		
 		database.update(Database.User.TABLE_NAME, values, Database.User._ID + " = "+user.getId(), null);
 	}
@@ -82,7 +97,9 @@ public class UserDataSource {
 		Cursor cursor = database.query(Database.User.TABLE_NAME,
 				allColumns, null,null, null, null, null, "1");
 
-		cursor.moveToFirst();
+		if(!cursor.moveToFirst()){
+			return null;
+		}
 		while (!cursor.isAfterLast()) {
 			accels = cursorToUserData(cursor);
 			cursor.moveToNext();
@@ -102,6 +119,10 @@ public class UserDataSource {
 		rrr.setEmail(cursor.getString(2));
 		rrr.setPassword(cursor.getString(3));
 		rrr.setTeamid(cursor.getInt(4));
+		rrr.setHeight(cursor.getInt(5));
+		rrr.setWeight(cursor.getInt(6));
+		rrr.setAge(cursor.getInt(7));
+		rrr.setGender(cursor.getString(8));
 
 		return rrr;
 	}

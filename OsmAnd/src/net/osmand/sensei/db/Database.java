@@ -17,6 +17,8 @@ public final class Database {
 		public static final String COLUMN_NAME_TEAMID = "teamid";
 		public static final String COLUMN_NAME_HEIGHT = "height";
 		public static final String COLUMN_NAME_WEIGHT = "weight";
+		public static final String COLUMN_NAME_AGE = "age";
+		public static final String COLUMN_NAME_GENDER = "gender";
 	}
 
 	/* Inner class that defines the table contents */
@@ -92,7 +94,9 @@ public final class Database {
 			+ User.COLUMN_NAME_PASSWORD + TEXT_TYPE + COMMA_SEP
 			+ User.COLUMN_NAME_TEAMID + TEXT_TYPE + COMMA_SEP
 			+ User.COLUMN_NAME_HEIGHT + TEXT_TYPE + COMMA_SEP
-			+ User.COLUMN_NAME_WEIGHT + TEXT_TYPE +" )";
+			+ User.COLUMN_NAME_WEIGHT + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_AGE + TEXT_TYPE + COMMA_SEP
+			+ User.COLUMN_NAME_GENDER + TEXT_TYPE +" )";
 	public static final String SQL_DELETE_USER = "DROP TABLE IF EXISTS "
 			+ User.TABLE_NAME;
 

@@ -12,6 +12,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TipsAndTricksActivity {
@@ -109,6 +111,7 @@ public class TipsAndTricksActivity {
 	}
 	
 	public Dialog getDialogToShowTips(boolean showFirst, boolean random){
+		random = false;
 		
 		final Dialog dlg = new Dialog(ctx);
 		dlg.setContentView(R.layout.tips_and_tricks);
@@ -140,6 +143,19 @@ public class TipsAndTricksActivity {
 		final Button nextButton = ((Button)dlg.findViewById(R.id.NextButton));
 		final Button prevButton = (Button)dlg.findViewById(R.id.PreviousButton);
 		
+		final EditText teamNr = (EditText) dlg.findViewById(R.id.TeamNR);
+
+		final Button teamNrSaveButton = ((Button)dlg.findViewById(R.id.TeamNrButton));
+		teamNrSaveButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 		prevButton.setEnabled(historyInd[0] > 0);
 		nextButton.setEnabled(historyInd[0] < getNumberOfTips() - 1);
 		
@@ -170,6 +186,7 @@ public class TipsAndTricksActivity {
 			public void onClick(View view) {
 				if(historyInd[0] > 0){
 					historyInd[0] --;
+					updateScreen(historyInd[0], dlg);
 					dlg.setTitle(getTipName(toShow.get(historyInd[0])));
 					tipDescription.setText(getTipDescription(toShow.get(historyInd[0])));
 					tipDescription.scrollTo(0, 0);
@@ -187,6 +204,18 @@ public class TipsAndTricksActivity {
 		});
 		return dlg;
 	}
+	
+	public void updateScreen(int screennr, Dialog dlg){
+		LinearLayout ll = (LinearLayout) dlg.findViewById(R.id.team_nr_input);
+		
+		if(screennr == 1){
+			//insert SIM team nr
+			ll.setVisibility(View.VISIBLE);
+		}else{
+			ll.setVisibility(View.GONE);
+		}
+	}
+	
 
 
 }

@@ -189,9 +189,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		helpButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				TipsAndTricksActivity tactivity = new TipsAndTricksActivity(activity);
-				Dialog dlg = tactivity.getDialogToShowTips(true, false);
-				dlg.show();
+//				TipsAndTricksActivity tactivity = new TipsAndTricksActivity(activity);
+//				Dialog dlg = tactivity.getDialogToShowTips(true, false);
+//				dlg.show();
+				activity.startActivity(new Intent(activity,WelcomeActivity.class));
 			}
 		});
 	}
@@ -758,8 +759,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
  		UserData user = uds.getUserData();
  		uds.close();
  		
-        mEmail = user.getEmail();
-        mPassword = user.getPassword();
+      
 
              // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -768,6 +768,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
             // log in (you only need to do this once, Sense will remember the login)
             try {
+            	  mEmail = user.getEmail();
+                  mPassword = user.getPassword();
             	((OsmandApplication) getApplication()).getSensePlatform().login(mEmail, SenseApi.hashPassword(mPassword),
                         mServiceCallback);
                 // this is an asynchronous call, we get a callback when the login is complete
@@ -924,7 +926,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 							"runrecord", 
 							"runrecord",
 							SenseDataTypes.JSON,
-							"{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\"}",
+							"{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\",\"id\":\""+0+"\"}",
 							System.currentTimeMillis())){
 						error = true;
 					}	

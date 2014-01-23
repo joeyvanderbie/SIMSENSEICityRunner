@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:gravity="center" android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+		android:layout_margin="@dimen/margin_defaut">
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="horizontal"
+		android:gravity="center" android:id="@+id/LinearLayoutButtons"
+		android:layout_alignParentBottom="true" 
+		android:weightSum="2">
+
+ 			<Button
+            android:id="@+id/PreviousButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/previous_button"
+            android:layout_weight="1" >
+        </Button>
+
+        <Button
+            android:id="@+id/NextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="70dp"
+            android:text="@string/next_button" 
+            android:layout_weight="1" >
+        </Button>
+
+	</LinearLayout>
+
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    
+        android:layout_alignParentTop="true" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name_sim"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name_city"
+            android:textSize="60dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+    <TextView 
+        android:id="@+id/welcome_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_defaut"
+            android:text="@string/welcome"
+            android:autoLink="web"
+        />
+
+
+</LinearLayout>
+<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	 android:layout_above="@id/LinearLayoutButtons"   
+    >
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+        <ImageView
+            android:id="@+id/HVA"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/hva" />
+
+        <ImageView
+            android:id="@+id/CREATEIT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dip"
+            android:layout_weight="1"
+            android:src="@drawable/createit" />
+
+        <ImageView
+            android:id="@+id/SIM"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/sim" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <ImageView
+            android:id="@+id/CITYSDK"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/citysdk" />
+
+        <ImageView
+            android:id="@+id/COMMIT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_defaut"
+            android:layout_weight="1"
+            android:src="@drawable/commit" />
+
+        <ImageView
+            android:id="@+id/ACE"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_defaut"
+            android:layout_weight="1"
+            android:src="@drawable/ace" />
+    </LinearLayout>
+</LinearLayout>
+</RelativeLayout>

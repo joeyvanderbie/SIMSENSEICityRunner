@@ -1,63 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="@dimen/margin_defaut"
+    android:gravity="center"
     android:orientation="vertical" >
-   
-    <TextView 
-        
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/PreviousButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minWidth="70dp"
+            android:text="@string/previous_button" >
+        </Button>
+
+        <Button
+            android:id="@+id/NextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minWidth="70dp"
+            android:text="@string/next_button" >
+        </Button>
+    </LinearLayout>
+<ScrollView android:id="@+id/ScrollView01"
+		android:layout_above="@id/LinearLayoutButtons" android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		
+        android:layout_alignParentTop="true">
+	
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/user_data_text"
-            android:layout_margin="@dimen/margin_defaut"
-        />
-    
-     <EditText 
-            android:inputType="numberDecimal"
+            android:text="@string/user_data_text" />
+
+        <Spinner
+            android:id="@+id/gender_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/array_gender" />
+
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/age_hint"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/weight"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/weight_hint"
-        android:id="@+id/weight"
-        
-            android:layout_margin="@dimen/margin_defaut"
-            />
-    
-    <EditText 
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/height"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/height_hint"
-        android:id="@+id/height"
-        
-            android:layout_margin="@dimen/margin_defaut"
-            />
-    
-  <TextView 
-        
+            android:inputType="numberDecimal" />
+
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/SIM_teamnr_text"
-            
-            android:layout_margin="@dimen/margin_defaut"
-        />
-    
+            android:layout_marginTop="@dimen/margin_defaut" />
 
-        <EditText 
-            android:inputType="number"
+        <EditText
+            android:id="@+id/TeamNR"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/team_nr_hint"
-        android:id="@+id/TeamNR"
-        
-            android:layout_margin="@dimen/margin_defaut"
-            />
-    
-     
-     
-        <Button
-        android:id="@+id/SaveButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/default_buttons_save"
-            />
-</LinearLayout>
+            android:inputType="number" />
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

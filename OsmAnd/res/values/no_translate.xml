@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="app_name">SIM Sensei City Runner</string>
+    <string name="app_name_sim">SIM SENSEI</string>
+    <string name="app_name_city">City Runner</string>
     <string name="app_version">0.1</string>
     <!-- Not translatable -->
     <string name="ga_api_key">UA-28342846-2</string>
@@ -11,7 +13,7 @@
     </string>
     
     <string name="track_finished">Run finished</string>
-    <string name="tip_welcome_title">Welkom bij Sensei City Runner</string>
+    <string name="tip_welcome_title">Welcome</string>
      <string name="tip_welcome_text">Special voor SIM hebben we een app gemaakt: Sensei City Runner
          \nMet de app kan je figuren in de stad lopen, die vervolgens worden weergegeven op de kaart.
          \nDe City Runner app is niet alleen leuk, met je hardloop run genereer je Big Data en draagt bij aan wetenschappelijk onderzoek!
@@ -34,6 +36,7 @@
           <string name="SIM_teamnr_text">If you are a student from the HvA and are participating in the Student In Motions -week
          \nWe also need your team number.</string>
      
+     <string name="age_hint">Insert your age in years</string>  
      <string name="height_hint">Insert your height in cm</string>  
      <string name="weight_hint">Insert your weight in kg</string>  
      <string name="team_nr_hint">Insert your team nr</string>    
@@ -59,55 +62,35 @@
         
         <!-- Eula , to edit from Boskoi-->
 	<string name="hello_eula">Hello Eula</string>
-	<string name="eula_1">1. Be friendly</string>
-	<string name="eula_1_sub">Ask permission when ownership is unclear</string>
-	<string name="eula_2">2. Be generous</string>
-	<string name="eula_2_sub">Only pick what you will eat. Leave most for others (or wildlife)</string>
-	<string name="eula_3">3. Be alert</string>
-	<string name="eula_3_sub">Be ware of toxicity and don\'t tread on other plants when picking</string>
-	<string name="eula_4">4. Be careful</string>
-	<string name="eula_4_sub">Don\'t put any rare or protected species on the map</string>
-	<string name="license_title">Boskoi is Open Source</string>
-	<string name="license">Boskoi is licensed under the LGPL v3 license. More information on <a href="http://www.boskoi.org/open">http://www.boskoi.org/open</a></string>
-	<string name="privacy_title">Privacy</string>
-	<string name="privacy_info">We use Google Analytics to improve our application, read what this implies on <a href="http://www.google.com/intl/en_uk/analytics/tos.html">http://goo.gl/2EXSr</a>. A version without Analytics can be provided on request</string>
-	<string name="thankyou">Thank you for taking the time to read our rules, if you accept our terms you are free to enjoy the fruits of the world!</string>
-	
+	<string name="license_title">Open Source</string>
+	<string name="license">This app is based on OsmAnd http://osmand.net
+	    \nThis app is licensed under the LGPL v3 license http://www.gnu.org/licenses/gpl.html
+		\nA copy of the source code can be provide when requested.
+	</string>
+	<string name="thankyou">Thank you for using the SIM SENSEI City Runner app and enjoy running!</string>
 	
 	
    <string name="eulaBtn">Show rules</string>
-   <string name="eula_title">Boskoi Terms of Use</string>
+   <string name="eula_title">Terms of Use</string>
    <string name="eula_accept">Accept</string>
    <string name="eula_refuse">Refuse</string>
-   <string name="eula">For using the application we urge you to follow these rules:\n
-		\n
-		1. Be friendly.\n 
-		Ask permission when ownership is unclear.\n
-		\n
-		2. Be generous\n
-		How much do you really need? Only pick what you will eat. Leave most for others (or wildlife).\n
-		\n
-		3. Be alert\n
-		Be ware of toxicity and don\'t tread on other plants when picking.\n
-		\n
-		4. Be careful\n
-		Don\'t put any rare or protected species on the map.\n
-		\n
-		Thank you for taking the time to read our rules, now enjoy the fruits of the world!
+   <string name="eula">The SIM SENSEI City Runner app allows you to run figures in the city of Amsterdam.
+       \nThe City Runner app is made by the Amsterdam University of Applied Sciences (Hogeschool van Amsterdam), and a result of the collaboration between the Students in Motion project, the COMMIT research project SENSEI, the Amsterdam Centre of Expertise project Sense in the City and the CitySDK project.
+\n
+\nThe City Runner app is part of a scientific study designed to help researchers to analyse how you run and how you feel when running.
+\nThe app logs movement and location data while you are running. Before and after a run it asks for your emotional state.
+\nYour data is saved under an anonymous account.
+\n
+\nMore information about the app can be found at http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en
+\n
+\nBy using this application you concent to allowing your data to be used by researchers in order to better recognize and coach sporting activities.
 	</string>
-	<string name="lgplBtn">Show licence information</string>
-	<string name="lgpl">Licensing\n\n
-		Boskoi is an Open Source platform based on Ushahidi (<a href="http://www.ushahidi.com">http://www.ushahidi.com</a>)\n\n
-		Boskoi is licensed under the LGPL v3 license (<a href="http://www.gnu.org/licenses/lgpl.html">http://www.gnu.org/licenses/lgpl.html</a>)\n\n
-		More information on <a href="http://www.boskoi.org/open">http://www.boskoi.org/open</a>
-	</string>
-	<string name="privacyBtn">Show privacy information</string>
-	<string name="privacy">Privacy\n\n
-For improving our application we log user behavior using Google Analytics.\n\n
-This logging is stored on the Google Analytics server and is used privately, we do not share this information with other parties! The Google Analytics usage license can be found on: \n <a href="http://www.google.com/intl/en_uk/analytics/tos.html">http://www.google.com/intl/en_uk/analytics/tos.html</a>\n\n
-You should note that the analytics currently can not be turned off. If you do not want us to log your behavior please inform us and we will supply you with a version which does not log your behavior.</string>
-	
-	
+	<string name="welcome">The SIM SENSEI City Runner app allows you to run figures in the city of Amsterdam.
+\nThe app is made for the Student in Motions week and part of a scientific study designed to help researchers to analyse how you run and how you feel when running.
+\n
+\nMore information about Students in Motion can be found <a href="http://www.studentsinmotion.com">here</a>
+\nMore information about the research can be found <a href="http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en">here</a></string>
+
 	
 	<!-- SENSE -->
 	    <string name="title_activity_main">Sense Demo</string>

@@ -217,11 +217,17 @@
 		<receiver android:name="net.osmand.plus.OnNavigationServiceAlarmReceiver"/>
     	<activity android:name="net.osmand.plus.activities.OsmandBidForFixActivity"></activity>
     	
+    	<!-- WelcomeACTIVITY -->
+        <activity
+            android:name="net.osmand.plus.activities.WelcomeActivity"
+            android:label="@string/tip_welcome_title" >
+        </activity>
     	<!-- UserData ACTIVITY -->
         <activity
             android:name="net.osmand.plus.activities.UserDataActivity"
             android:label="@string/title_user_data_activity" >
-        </activity><!-- MOOD ACTIVITY -->
+        </activity>
+        <!-- MOOD ACTIVITY -->
         <activity
             android:name="net.osmand.sensei.sensors.MoodActivity"
             android:label="@string/title_activity_mood" >
