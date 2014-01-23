@@ -201,7 +201,7 @@ public class RunFinishedActivity extends SherlockActivity {
 		RouteRunData rrd = rrds.getLastRouteRun();
 		rrds.close();
 		
-		final String value = "{\"runid\":\""+rrd.getRoute_id()+"\",\"startdatetime\":\""+rrd.getStart_datetime()+"\",\"enddatetime\":\""+rrd.getEnd_datetime()+"\"}";
+		final String value = "{\"runid\":\""+rrd.getRoute_id()+"\",\"startdatetime\":\""+rrd.getStart_datetime()+"\",\"enddatetime\":\""+rrd.getEnd_datetime()+"\",\"id\":\""+rrd.getId()+"\"}";
 		
 		//timestamp is van toevoeging
 		final long timestamp = System.currentTimeMillis();// estTimestamp;
