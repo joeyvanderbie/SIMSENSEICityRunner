@@ -53,7 +53,7 @@ class Eula {
                 Activity.MODE_PRIVATE);
 
         //testcode for eala
-        //preferences.edit().putBoolean(PREFERENCE_EULA_ACCEPTED, false).commit();
+        preferences.edit().putBoolean(PREFERENCE_EULA_ACCEPTED, false).commit();
         //end testcode
         
         if (!preferences.getBoolean(PREFERENCE_EULA_ACCEPTED, false)) {
@@ -63,20 +63,8 @@ class Eula {
             dialog.setTitle(R.string.eula_title);
             dialog.setCancelable(true);
             //there are a lot of settings, for dialog, check them all out!
-
-            TextView versionName = (TextView) dialog.findViewById(R.id.version_name);
-            PackageManager manager = activity.getPackageManager(); 
-            PackageInfo info;
-    		try {
-    			info = manager.getPackageInfo(activity.getPackageName(), 0);
-    			versionName.setText(versionName.getText()+" "+info.versionName);
-    		} catch (NameNotFoundException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
             
     		
-            Linkify.addLinks((TextView) dialog.findViewById(R.id.privacy), Linkify.ALL);
             Linkify.addLinks((TextView) dialog.findViewById(R.id.license), Linkify.ALL);
             
             //set up button

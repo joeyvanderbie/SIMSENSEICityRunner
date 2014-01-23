@@ -1,18 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:layout_margin="@dimen/margin_defaut"
+    android:orientation="vertical" >
 
-   	 <ProgressBar
-   	     android:id="@+id/ProgressBar"
-   	     android:layout_width="wrap_content"
-   	     android:layout_height="wrap_content"
-   	     android:layout_gravity="center|center_vertical"
-   	     android:layout_weight="0.56"
-   	     android:alpha="0.5"
-   	     android:indeterminate="true"
-   	     android:indeterminateOnly="true">
-	</ProgressBar>
-	<!-- this setting is giving a not so nice screen on android 1.6 fix this with a fragment -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dip"
+            android:text="@string/app_name_sim"
+            android:textSize="20dip"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name_city"
+            android:textSize="60dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_vertical"
+        android:layout_weight="0.56"
+        android:alpha="0.5"
+        android:indeterminate="true"
+        android:indeterminateOnly="true" >
+    </ProgressBar>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <ImageView
+            android:id="@+id/HVA"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/hva" />
+
+        <ImageView
+            android:id="@+id/CREATEIT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dip"
+            android:layout_weight="1"
+            android:src="@drawable/createit" />
+
+        <ImageView
+            android:id="@+id/SIM"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/sim" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <ImageView
+            android:id="@+id/CITYSDK"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/citysdk" />
+
+        <ImageView
+            android:id="@+id/COMMIT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_defaut"
+            android:layout_weight="1"
+            android:src="@drawable/commit" />
+
+        <ImageView
+            android:id="@+id/ACE"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_defaut"
+            android:layout_weight="1"
+            android:src="@drawable/ace" />
+    </LinearLayout>
+
 </LinearLayout>
