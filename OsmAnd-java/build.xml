@@ -28,22 +28,22 @@
 
 
 	<target name="copy_resources">
-		<copy todir="${src.absolute.dir}/net/osmand/router/">
+		<copy todir="${src.absolute.dir}/org/hva/cityrunner/router/">
 			<fileset dir="../../resources/routing/">
 				<include name="*.xml" />
 			</fileset>
 		</copy>
-		<copy todir="${src.absolute.dir}/net/osmand/render/">
+		<copy todir="${src.absolute.dir}/org/hva/cityrunner/render/">
 			<fileset dir="../../resources/rendering_styles/">
 				<include name="*.xml" />
 			</fileset>
 		</copy>
-		<copy todir="${src.absolute.dir}/net/osmand/osm/">
+		<copy todir="${src.absolute.dir}/org/hva/cityrunner/osm/">
 			<fileset dir="../../resources/obf_creation/">
 				<include name="rendering_types.xml" />
 			</fileset>
 		</copy>
-		<copy todir="${src.absolute.dir}/net/osmand/map/">
+		<copy todir="${src.absolute.dir}/org/hva/cityrunner/map/">
 			<fileset dir="../../resources/countries-info/">
 				<include name="countries.reginfo" />
 			</fileset>
@@ -80,7 +80,7 @@
 		<delete file="MANIFEST.MF" />
 		<manifest file="MANIFEST.MF">
 			<attribute name="Built-By" value="${user.name}" />
-			<attribute name="Main-Class" value="net.osmand.swing.OsmExtractionUI" />
+			<attribute name="Main-Class" value="org.hva.cityrunner.swing.OsmExtractionUI" />
 			<attribute name="Class-Path" value="${lib.list}" />
 		</manifest>
 

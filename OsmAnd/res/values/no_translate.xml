@@ -36,10 +36,18 @@
           <string name="SIM_teamnr_text">If you are a student from the HvA and are participating in the Student In Motions -week
          \nWe also need your team number.</string>
      
-     <string name="age_hint">Insert your age in years</string>  
-     <string name="height_hint">Insert your height in cm</string>  
-     <string name="weight_hint">Insert your weight in kg</string>  
-     <string name="team_nr_hint">Insert your team nr</string>    
+     <string name="age_hint">Insert your age</string>  
+     <string name="height_hint">Insert your height</string>  
+     <string name="weight_hint">Insert your weight</string>  
+     <string name="team_nr_hint">Insert your team nr</string>   
+     <string name="height_label">Height</string> 
+     <string name="height_unit">cm</string>
+     <string name="weight_label">Weight</string> 
+     <string name="weight_unit">kg</string>
+     <string name="age_label">Age</string> 
+     <string name="age_unit">years</string>
+     <string name="teamnr_label">Team number</string> 
+     <string name="gender_label">Gender</string> 
      
       
             
@@ -91,6 +99,15 @@
 \nMore information about Students in Motion can be found <a href="http://www.studentsinmotion.com">here</a>
 \nMore information about the research can be found <a href="http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en">here</a></string>
 
+	<string name="title_explain_activity">Steps to take</string>
+	<string name="explain_text">To start running take the following steps:
+	   \n
+	    \n1. Select your neighbourhood
+	    \n2. Choose a route te run
+	    \n3. Give your current emotional state
+	    \n4. Run the route
+	    \n5. When finished, give your new emtional state
+	    \n6. You all done! Go run some more, or admire your run on the CitySDK</string>
 	
 	<!-- SENSE -->
 	    <string name="title_activity_main">Sense Demo</string>

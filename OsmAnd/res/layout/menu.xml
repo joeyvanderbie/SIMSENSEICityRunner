@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.osmand.access.AccessibleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.hva.cityrunner.access.AccessibleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    class="net.osmand.access.AccessibleLayout"
+    class="org.hva.cityrunner.access.AccessibleLayout"
     android:background="@color/color_ligth_grey" >
 
     <LinearLayout
@@ -245,4 +245,4 @@
         </TableLayout>
     </LinearLayout>
 
-</net.osmand.access.AccessibleLayout>
+</org.hva.cityrunner.access.AccessibleLayout>

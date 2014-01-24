@@ -13,8 +13,8 @@ if [ ! -f "$nativelib" ]; then
 fi
 
 # Get pid of our process
-pid=`adb shell ps | grep 'net.osmand' | head -n1 | awk '{print $2}'`
-package=`adb shell ps | grep 'net.osmand' | head -n1 | awk '{print $9}'`
+pid=`adb shell ps | grep 'org.hva.cityrunner' | head -n1 | awk '{print $2}'`
+package=`adb shell ps | grep 'org.hva.cityrunner' | head -n1 | awk '{print $9}'`
 echo "OsmAnd package: $package"
 echo "OsmAnd pid: $pid"
 

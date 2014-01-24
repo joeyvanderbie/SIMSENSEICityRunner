@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
 
-    <net.osmand.access.ExplorableTextView
+    <org.hva.cityrunner.access.ExplorableTextView
         android:id="@+id/TipDescription"
         style="@style/ListText"
         android:layout_width="fill_parent"

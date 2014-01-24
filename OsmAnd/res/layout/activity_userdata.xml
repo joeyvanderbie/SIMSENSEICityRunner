@@ -33,62 +33,146 @@
             android:text="@string/next_button" >
         </Button>
     </LinearLayout>
-<ScrollView android:id="@+id/ScrollView01"
-		android:layout_above="@id/LinearLayoutButtons" android:layout_width="fill_parent"
-		android:layout_height="match_parent"
-		
-        android:layout_alignParentTop="true">
-	
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_data_text" />
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/LinearLayoutButtons"
+        android:layout_alignParentTop="true" >
 
-        <Spinner
-            android:id="@+id/gender_spinner"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/array_gender" />
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age_hint"
-            android:inputType="number" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/user_data_text" />
 
-        <EditText
-            android:id="@+id/weight"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/weight_hint"
-            android:inputType="numberDecimal" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/height"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/height_hint"
-            android:inputType="numberDecimal" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender_label" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/SIM_teamnr_text"
-            android:layout_marginTop="@dimen/margin_defaut" />
+                <Spinner
+                    android:id="@+id/gender_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/array_gender" />
+            </LinearLayout>
 
-        <EditText
-            android:id="@+id/TeamNR"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/team_nr_hint"
-            android:inputType="number" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_label"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/age_hint"
+                    android:inputType="number" 
+                    android:layout_weight="2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_unit" 
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_label" 
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/weight_hint"
+                    android:inputType="numberDecimal" 
+                    android:layout_weight="2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_unit" 
+                    android:layout_weight="1"/>>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/height_label"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/height_hint"
+                    android:inputType="numberDecimal" 
+                    android:layout_weight="2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/height_unit" 
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_defaut"
+                android:text="@string/SIM_teamnr_text" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teamnr_label" />
+
+                <EditText
+                    android:id="@+id/TeamNR"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/team_nr_hint"
+                    android:inputType="number" />
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

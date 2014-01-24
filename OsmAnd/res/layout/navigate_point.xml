@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res/net.osmand.plus" 
+    xmlns:custom="http://schemas.android.com/apk/res/org.hva.cityrunner.plus" 
     android:layout_width="fill_parent" android:layout_height="fill_parent" >
 <LinearLayout
   android:layout_width="fill_parent"
   android:layout_height="fill_parent" android:orientation="vertical" android:gravity="center_horizontal">
-<net.osmand.view.ExpandableLinearLayout custom:maxVisibleWidth="800dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" >
+<org.hva.cityrunner.view.ExpandableLinearLayout custom:maxVisibleWidth="800dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" >
 <TextView android:id="@+id/TextView" android:textSize="16sp" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="4dp" android:layout_marginBottom="4dp" android:text="@string/navigate_point_top_text"></TextView>
 
 <TableLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:stretchColumns="1">
@@ -24,6 +24,6 @@
 <TextView android:id="@+id/ValidateTextView" android:textSize="16sp"  android:visibility="gone"  android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" android:gravity="center" android:textColor="@color/color_invalid"></TextView>
 </TableLayout>
 
-</net.osmand.view.ExpandableLinearLayout>
+</org.hva.cityrunner.view.ExpandableLinearLayout>
 </LinearLayout>
 </ScrollView>

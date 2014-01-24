@@ -163,14 +163,14 @@
                 android:orientation="horizontal"
                 android:weightSum="2" >
 
-                <net.osmand.sensei.sensors.StaticAffectButton
+                <org.hva.cityrunner.sensei.sensors.StaticAffectButton
                     android:id="@+id/affect_start"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="0dp"
                     android:layout_weight="1" />
 
-                <net.osmand.sensei.sensors.StaticAffectButton
+                <org.hva.cityrunner.sensei.sensors.StaticAffectButton
                     android:id="@+id/affect_end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
