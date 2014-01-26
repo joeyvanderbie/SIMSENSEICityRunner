@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_margin="@dimen/margin_defaut"
-    android:orientation="vertical" >
+    android:padding="@dimen/margin_defaut"
+    android:orientation="vertical" 
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -24,7 +25,8 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name_city"
             android:textSize="60dip"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            android:gravity="center_horizontal"/>
     </LinearLayout>
 
     <ProgressBar
@@ -43,20 +45,23 @@
         android:layout_height="50dip"
         android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3" >
+        android:weightSum="2.6" >
 
         <ImageView
             android:id="@+id/HVA"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:src="@drawable/hva" />
 
         <ImageView
             android:id="@+id/CREATEIT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10dip"
+            android:layout_marginBottom="13dip"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="13dp"
             android:layout_weight="1"
             android:src="@drawable/createit" />
 
@@ -64,29 +69,30 @@
             android:id="@+id/SIM"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:src="@drawable/sim" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="50dip"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="3" >
+        android:weightSum="2.8" >
 
         <ImageView
             android:id="@+id/CITYSDK"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:src="@drawable/citysdk" />
 
         <ImageView
             android:id="@+id/COMMIT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_defaut"
+            
+            android:layout_marginBottom="@dimen/margin_defaut"
+            android:layout_marginTop="@dimen/margin_defaut"
             android:layout_weight="1"
             android:src="@drawable/commit" />
 
@@ -94,9 +100,11 @@
             android:id="@+id/ACE"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_defaut"
+            android:layout_marginTop="@dimen/margin_defaut"
+            
+            android:layout_marginBottom="@dimen/margin_defaut"
             android:layout_weight="1"
-            android:src="@drawable/ace" />
+            android:src="@drawable/ace"/>
     </LinearLayout>
 
 </LinearLayout>
