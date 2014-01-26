@@ -99,10 +99,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Intent intent = new Intent(Intent.ACTION_SEND);
-						intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "osmand.app@gmail.com" }); //$NON-NLS-1$
+						intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "j.h.f.van.der.bie@hva.nl" }); //$NON-NLS-1$
 						intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
 						intent.setType("vnd.android.cursor.dir/email"); //$NON-NLS-1$
-						intent.putExtra(Intent.EXTRA_SUBJECT, "OsmAnd bug"); //$NON-NLS-1$
+						intent.putExtra(Intent.EXTRA_SUBJECT, "City Runner bug"); //$NON-NLS-1$
 						StringBuilder text = new StringBuilder();
 						text.append("\nDevice : ").append(Build.DEVICE); //$NON-NLS-1$
 						text.append("\nBrand : ").append(Build.BRAND); //$NON-NLS-1$
@@ -366,6 +366,9 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			return;
 		}
 		OsmandApplication app = getMyApplication();
+		
+		app.showDialogInitializingCommandPlayer(this);
+		
 		// restore follow route mode
 //		if(app.getSettings().FOLLOW_THE_ROUTE.get() && !app.getRoutingHelper().isRouteCalculated()){
 //			final Intent mapIndent = new Intent(this, OsmandIntents.getMapActivity());
@@ -393,10 +396,12 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				appVersionChanged = true;
 			}
 						
-			if (i == 1 || i == 2 || i== 3 || appVersionChanged) {
-				TipsAndTricksActivity tipsActivity = new TipsAndTricksActivity(this);
-				Dialog dlg = tipsActivity.getDialogToShowTips(!appVersionChanged, false);
-				dlg.show();
+			if (i == 1 || appVersionChanged) {
+//				TipsAndTricksActivity tipsActivity = new TipsAndTricksActivity(this);
+//				Dialog dlg = tipsActivity.getDialogToShowTips(!appVersionChanged, false);
+//				dlg.show();
+
+				activity.startActivity(new Intent(activity,WelcomeActivity.class));
 			} else {
 				if (startProgressDialog.isShowing()) {
 					startProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -548,25 +553,25 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			netOsmandWasInstalled = false;
 		}
 		
-		if(netOsmandWasInstalled){
-			Builder builder = new AccessibleAlertBuilder(this);
-			builder.setMessage(R.string.osmand_net_previously_installed);
-			builder.setPositiveButton(R.string.default_buttons_ok, null);
-			builder.show();
-		} else {
-			Builder builder = new AccessibleAlertBuilder(this);
-			builder.setMessage(R.string.first_time_msg);
-			builder.setPositiveButton(R.string.first_time_download, new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					startActivity(new Intent(MainMenuActivity.this, OsmandIntents.getDownloadIndexActivity()));
-				}
-
-			});
-			builder.setNegativeButton(R.string.first_time_continue, null);
-			builder.show();
-		}
+//		if(netOsmandWasInstalled){
+//			Builder builder = new AccessibleAlertBuilder(this);
+//			builder.setMessage(R.string.osmand_net_previously_installed);
+//			builder.setPositiveButton(R.string.default_buttons_ok, null);
+//			builder.show();
+//		} else {
+//			Builder builder = new AccessibleAlertBuilder(this);
+//			builder.setMessage(R.string.first_time_msg);
+//			builder.setPositiveButton(R.string.first_time_download, new DialogInterface.OnClickListener() {
+//
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					startActivity(new Intent(MainMenuActivity.this, OsmandIntents.getDownloadIndexActivity()));
+//				}
+//
+//			});
+//			builder.setNegativeButton(R.string.first_time_continue, null);
+//			builder.show();
+//		}
 	}
 	
 	protected void checkVectorIndexesDownloaded() {

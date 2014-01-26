@@ -135,6 +135,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 		super.onCreate();
 		 
 		tracksFromAssetsToSD();
+		voiceFromAssetsToSD();
 		
 		settingsAPI = new org.hva.cityrunner.plus.api.SettingsAPIImpl(this);
 		externalServiceAPI = new org.hva.cityrunner.plus.api.ExternalServiceAPIImpl(this);
@@ -179,7 +180,64 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 		
 		
 	}
-	
+	private void voiceFromAssetsToSD(){
+		try {
+			AssetManager assetFiles = getAssets();
+
+			// MyHtmlFiles is the name of folder from inside our assets folder
+			String[] files = assetFiles.list("voice/en");
+
+			File dir = new File(Environment.getExternalStorageDirectory() + "/osmand/voice/en");
+			// have the object build the directory structure, if needed.
+			dir.mkdirs();
+			
+			// Initialize streams
+			InputStream in = null;
+			OutputStream out = null;
+
+			for (int i = 0; i < files.length; i++) {
+
+//				if (files[i].toString().equalsIgnoreCase("images")
+//						|| files[i].toString().equalsIgnoreCase("js")) {
+//
+//					/*
+//					 * @Do nothing. images and js are folders but they will be
+//					 * interpreted as files.
+//					 * 
+//					 * @This is to prevent the app from throwing file not found
+//					 * exception.
+//					 */
+//
+//				} else {
+
+					/*
+					 * @Folder name is also case sensitive
+					 * 
+					 * @MyHtmlFiles is the folder from our assets
+					 */
+					in = assetFiles.open("voice/en/" + files[i]);
+
+					/*
+					 * Currently we will copy the files to the root directory
+					 * but you should create specific directory for your app
+					 */
+					out = new FileOutputStream(
+							Environment.getExternalStorageDirectory() + "/osmand/voice/en/"
+									+ files[i]);
+					copyAssetFiles(in, out);
+
+//				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 	private void tracksFromAssetsToSD(){
 		try {
 			AssetManager assetFiles = getAssets();

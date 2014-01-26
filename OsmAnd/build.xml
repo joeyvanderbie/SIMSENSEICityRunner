@@ -22,6 +22,7 @@
 			<fileset dir="../../resources/" >
 				<include name="specialphrases/**"/>
 				<include name="voice/**/*.p"/>
+				<include name="voice/en/**"/>
 			</fileset>
 		</copy>
 		<copy todir="res/">
