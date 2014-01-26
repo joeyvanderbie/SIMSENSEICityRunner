@@ -227,6 +227,11 @@
             android:name="org.hva.cityrunner.plus.activities.UserDataActivity"
             android:label="@string/title_user_data_activity" >
         </activity>
+        <!-- Explain ACTIVITY -->
+        <activity
+            android:name="org.hva.cityrunner.plus.activities.ExplainActivity"
+            android:label="@string/title_explain_activity" >
+        </activity>
         <!-- MOOD ACTIVITY -->
         <activity
             android:name="org.hva.cityrunner.sensei.sensors.MoodActivity"
