@@ -429,7 +429,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     	routeDs.open();
     	 List<String> lables =routeDs.getAllRoutesString();
     	routeDs.close();
- 
+    	lables.add(0, this.getString(R.string.select_neighbourhood));
+    	
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, lables);
@@ -437,7 +438,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
         // Drop down layout style - list view with radio button
         dataAdapter
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
- 
+
         // attaching data adapter to spinner
         neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
         neighbourhoods.setAdapter(dataAdapter);
@@ -446,11 +447,13 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
             long id) {
-        // On selecting a spinner item
-        String label = parent.getItemAtPosition(position).toString();
-
- 
-        showRoutesForNeighbourhood(label);
+    	if(position != 0){
+	        // On selecting a spinner item
+	        String label = parent.getItemAtPosition(position).toString();
+	        showRoutesForNeighbourhood(label);
+    	}else{
+    		showNoNeighbourhoodSelected();
+    	}
         
     }
  
@@ -458,6 +461,11 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
  
+    }
+    
+    private void showNoNeighbourhoodSelected(){
+    	LinearLayout tracks = (LinearLayout) findViewById(R.id.Tracks);
+		tracks.removeAllViews(); 
     }
     
     private void showRoutesForNeighbourhood(String neighbourhood){
@@ -546,7 +554,6 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			
 			track.setLayoutParams(lpButton);
 			row.addView(track);
-
 		}
     	
     }

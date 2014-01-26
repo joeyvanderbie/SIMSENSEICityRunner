@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
@@ -61,8 +62,16 @@ public class RunFinishedActivity extends SherlockActivity {
 			
 			@Override
 			public void onClick(View v) {
-				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), Environment.getExternalStorageDirectory().getAbsolutePath()+"/CityRunner.jpg");
+				String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/CityRunner"+System.currentTimeMillis()+".jpg";
+				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
 				
+				
+				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+				Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
+				sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+				sharingIntent.putExtra(Intent.EXTRA_TEXT, "Body text of the new status");
+				sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+				startActivity(Intent.createChooser(sharingIntent, "Share image using"));
 			}
 		});
 
