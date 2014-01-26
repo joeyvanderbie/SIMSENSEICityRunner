@@ -1,10 +1,14 @@
 package org.hva.cityrunner.plus.activities;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import nl.sense_os.service.constants.SenseDataTypes;
 
 import org.hva.cityrunner.plus.OsmandApplication;
+import org.hva.cityrunner.plus.R;
 import org.hva.cityrunner.sensei.data.AccelData;
 import org.hva.cityrunner.sensei.data.AffectData;
 import org.hva.cityrunner.sensei.data.RouteRunData;
@@ -12,16 +16,21 @@ import org.hva.cityrunner.sensei.db.AccelDataSource;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.sensors.StaticAffectButton;
-import org.hva.cityrunner.plus.R;
-
 import org.json.JSONArray;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +49,22 @@ public class RunFinishedActivity extends SherlockActivity {
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.run_finished_title);
-		// R.drawable.tab_settings_screen_icon
+		
 	
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.run_finished);
+		
+		
+		Button share = (Button) findViewById(R.id.share);
+		share.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), Environment.getExternalStorageDirectory().getAbsolutePath()+"/CityRunner.jpg");
+				
+			}
+		});
 
 	}
 	
@@ -118,7 +138,7 @@ public class RunFinishedActivity extends SherlockActivity {
 	
 	private void uploadDataToSense(){
 		insertData();//test sense data upload
-		senseInsertAccelerometerData();
+		//senseInsertAccelerometerData();
 		flushData();
 	}
 	
@@ -232,5 +252,46 @@ public class RunFinishedActivity extends SherlockActivity {
 		});
 	}
 
+	
+	private static Bitmap takeScreenShot(Activity activity)
+	{
+	    View view = activity.getWindow().getDecorView();
+	    view.setDrawingCacheEnabled(true);
+	    view.buildDrawingCache();
+	    Bitmap b1 = view.getDrawingCache();
+	    Rect frame = new Rect();
+	    activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+	    int statusBarHeight = frame.top;
+	    Point size = new Point();
+	    activity.getWindowManager().getDefaultDisplay().getSize(size);
+	    int width = size.x;
+	    int height = size.y;
+	    
+	    Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height  - statusBarHeight);
+	    view.destroyDrawingCache();
+	    return b;
+	}
+	private static void savePic(Bitmap b, String strFileName)
+	{
+	    FileOutputStream fos = null;
+	    try
+	    {
+	        fos = new FileOutputStream(strFileName);
+	        if (null != fos)
+	        {
+	            b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+	            fos.flush();
+	            fos.close();
+	        }
+	    }
+	    catch (FileNotFoundException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    catch (IOException e)
+	    {
+	        e.printStackTrace();
+	    }
+	}
 
 }
