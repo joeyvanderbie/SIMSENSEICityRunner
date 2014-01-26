@@ -192,12 +192,12 @@
 			<category android:name="android.intent.category.DEFAULT"></category>
 			<data android:scheme="geo"></data>
 			</intent-filter>
-			<intent-filter>
+			<!-- <intent-filter>
     			<data android:scheme="http" android:host="maps.google.com" />
     			<action android:name="android.intent.action.VIEW" />
     			<category android:name="android.intent.category.DEFAULT"/>
 				<category android:name="android.intent.category.BROWSABLE"/>
-			</intent-filter>
+			</intent-filter>-->
 			<!-- requires read permission -->
 			<!-- 
 			<intent-filter android:label="OsmAnd">
@@ -231,6 +231,11 @@
         <activity
             android:name="org.hva.cityrunner.plus.activities.ExplainActivity"
             android:label="@string/title_explain_activity" >
+        </activity>
+        <!-- NavigateToPoint ACITVITY -->
+        <activity
+            android:name="org.hva.cityrunner.plus.activities.NavigateToStartActivity"
+            android:label="@string/navigate_to_point" >
         </activity>
         <!-- MOOD ACTIVITY -->
         <activity

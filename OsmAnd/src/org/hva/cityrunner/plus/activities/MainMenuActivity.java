@@ -519,14 +519,22 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 					rrd = rrds.add(rrd);
 					rrds.close();
 					app.currentRouteRun = rrd;
-					
-					
-					final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
-					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+					final Intent mapIndent = new Intent(activity, NavigateToStartActivity.class);//OsmandIntents.getMapActivity());
+					//mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
 					mapIndent.putExtra("run_id",rrd.getId());
 					mapIndent.putExtra("nextActivity", "map");
 					activity.startActivityForResult(mapIndent, 0);
+					
+					
+					
+//					final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
+//					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+//					mapIndent.putExtra("run_id",rrd.getId());
+//					mapIndent.putExtra("nextActivity", "map");
+//					activity.startActivityForResult(mapIndent, 0);
 				}
 			});
 			track.setBackgroundColor(Color.parseColor(getString(R.color.color_white)));
