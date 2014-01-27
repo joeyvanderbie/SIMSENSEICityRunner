@@ -57,6 +57,22 @@ public class RunFinishedActivity extends SherlockActivity {
 		setContentView(R.layout.run_finished);
 		
 		invalidateOptionsMenu();
+		Button share = (Button ) this.findViewById(R.id.shareButton);
+		share.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/osmand/CityRunner"+System.currentTimeMillis()+".jpg";
+				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
+				
+				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+				Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
+				sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+				sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner!");
+				sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+				startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+			}
+		});
 
 	}
 	
