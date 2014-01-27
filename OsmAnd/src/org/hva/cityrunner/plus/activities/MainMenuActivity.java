@@ -385,6 +385,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			pref.edit().putString(VERSION_INSTALLED, Version.getFullVersion(app)).commit();
 			
 			applicationInstalledFirstTime();
+			activity.startActivity(new Intent(activity,WelcomeActivity.class));
 		} else {
 			int i = pref.getInt(TIPS_SHOW, 0);
 			if (i < 7){
@@ -441,7 +442,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
         // attaching data adapter to spinner
         neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
-        neighbourhoods.setAdapter(dataAdapter);
+        //hier crashed soms de app op, dat zou niet mogen!
+        if(neighbourhoods != null){
+        	neighbourhoods.setAdapter(dataAdapter);
+        }
     }
     
     @Override
