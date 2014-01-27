@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/color_ligth_grey"
     android:orientation="vertical"
     android:padding="4dp" >
-
-    <Button
-        android:id="@+id/share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share" />
-    
-    <LinearLayout
-        android:id="@+id/TopBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" />
 
     <TextView
         style="@style/unit.style"
@@ -108,7 +95,7 @@
             style="@style/unit.style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/distance_header"
@@ -147,11 +134,11 @@
         android:weightSum="2" >
 
         <RelativeLayout
+            android:id="@+id/affect_overview"
             style="@style/unit.style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/affect_overview" >
+            android:layout_weight="1" >
 
             <TextView
                 android:id="@+id/affect_header"
@@ -173,18 +160,48 @@
                     android:id="@+id/affect_start"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="0dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:padding="0dp" />
 
                 <org.hva.cityrunner.sensei.sensors.StaticAffectButton
                     android:id="@+id/affect_end"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="0dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:padding="0dp" />
             </LinearLayout>
         </RelativeLayout>
-    </LinearLayout>
+     <RelativeLayout
+            android:id="@+id/teamnr_overview"
+            style="@style/unit.style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
 
+            <TextView
+                android:id="@+id/teamnr_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/teamnr_label"
+                android:textAppearance="@style/unit.header" />
+
+            <LinearLayout
+                style="@style/unit.info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/teamnr_header"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <TextView
+                    style="@style/unit.info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2" />
+            </LinearLayout>
+        </RelativeLayout>
+       
+    </LinearLayout>
 
 </LinearLayout>

@@ -396,7 +396,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				appVersionChanged = true;
 			}
 						
-			if (i == 1 || appVersionChanged) {
+			if (i <= 1 || appVersionChanged) {
 //				TipsAndTricksActivity tipsActivity = new TipsAndTricksActivity(this);
 //				Dialog dlg = tipsActivity.getDialogToShowTips(!appVersionChanged, false);
 //				dlg.show();

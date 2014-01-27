@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 public class RunFinishedActivity extends SherlockActivity {
@@ -51,30 +52,22 @@ public class RunFinishedActivity extends SherlockActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.run_finished_title);
 		
-	
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.run_finished);
 		
-		
-		Button share = (Button) findViewById(R.id.share);
-		share.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/CityRunner"+System.currentTimeMillis()+".jpg";
-				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
-				
-				
-				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-				Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
-				sharingIntent.setType("*/*");// shareIntent.setType("*/*");
-				sharingIntent.putExtra(Intent.EXTRA_TEXT, "Body text of the new status");
-				sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-				startActivity(Intent.createChooser(sharingIntent, "Share image using"));
-			}
-		});
+		invalidateOptionsMenu();
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// if (getSupportActionBar().getSelectedNavigationIndex() == 0) {
+			   menu.add("Share")
+             .setIcon(android.R.drawable.ic_menu_share)
+             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+       //  }
+         return true;
 	}
 	
 	@Override
@@ -89,6 +82,20 @@ public class RunFinishedActivity extends SherlockActivity {
 	        NavUtils.navigateUpTo(this, mainmenu);
 	        return true;
 	    }
+	    
+	    if(item.getTitle().equals("Share")){
+	    	String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/osmand/CityRunner"+System.currentTimeMillis()+".jpg";
+			RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
+			
+			
+			Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+			Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
+			sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+			sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner!");
+			sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+			startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+	    }
+	    
 	    return super.onOptionsItemSelected(item);
 	}
 	
