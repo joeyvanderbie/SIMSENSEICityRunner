@@ -542,6 +542,12 @@ public class MapActivity extends AccessibleActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		
+		if(fastestListener != null){
+			fastestListener.submitLastSensorData();
+			sensorManager.unregisterListener(fastestListener);
+		}
+		
 		FailSafeFuntions.quitRouteRestoreDialog();
 		OsmandPlugin.onMapActivityDestroy(this);
 		mapViewTrackingUtilities.setMapView(null);
@@ -619,8 +625,10 @@ public class MapActivity extends AccessibleActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		fastestListener.submitLastSensorData();
-		sensorManager.unregisterListener(fastestListener);
+		if(fastestListener != null){
+			fastestListener.submitLastSensorData();
+			sensorManager.unregisterListener(fastestListener);
+		}
 		
 		app.getLocationProvider().pauseAllUpdates();
 		app.getDaynightHelper().stopSensorIfNeeded();
@@ -642,6 +650,8 @@ public class MapActivity extends AccessibleActivity implements
 		app.getResourceManager().setBusyIndicator(null);
 		OsmandPlugin.onMapActivityPause(this);
 	}
+	
+	
 
 	public void updateApplicationModeSettings() {
 		// update vector renderer
