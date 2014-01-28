@@ -64,6 +64,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -484,25 +486,32 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 		LinearLayout tracks = (LinearLayout) findViewById(R.id.Tracks);
 		tracks.removeAllViews();
-		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
+		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
 		int margin = 8;
 		lpButton.setMargins(margin, margin, margin, margin);
 		
 		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		lpLayout.setMargins(margin, margin, margin, margin);
 		LinearLayout row = null;
-		int itemsPerLayout = 2;
+		int itemsPerLayout = 3;
+
+		
 		for(int i = 0; i < 3; i++){
+			ImageButton trackVisual = new ImageButton(this);
+			trackVisual.setScaleType(ScaleType.FIT_CENTER);
 			String ftrack = "";
 			switch(i){
 			case 0:
 				ftrack = rn.getRoute_h()+".gpx";
+				trackVisual.setImageResource(R.drawable.h);
 				break;
 			case 1:
 				ftrack = rn.getRoute_v()+".gpx";
+				trackVisual.setImageResource(R.drawable.v);
 				break;
 			case 2:
 				ftrack = rn.getRoute_a()+".gpx";
+				trackVisual.setImageResource(R.drawable.a);
 				break;
 			}
 			
@@ -510,14 +519,47 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			if(i % itemsPerLayout == 0){
 				row = new LinearLayout(this);
 				row.setLayoutParams(lpLayout);
-				row.setWeightSum(2);
+				row.setWeightSum(3);
 				row.setOrientation(LinearLayout.HORIZONTAL);
+//				row.setOrientation(LinearLayout.VERTICAL);
 				tracks.addView(row);
 			}
 			//create new track here and add to main view
+			
 			Button track = new Button(this);
 			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
 			final Activity activity = this;
+			
+			trackVisual.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					RouteRunDataSource rrds = app.getRouteRunDataSource();
+					RouteRunData rrd = new RouteRunData();
+					rrd.setRoute_id(Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					rrd.setTeam_id(app.team_id);
+					rrd.setStart_datetime(System.currentTimeMillis());
+					rrds.open();
+					rrd = rrds.add(rrd);
+					rrds.close();
+					app.currentRouteRun = rrd;
+
+					final Intent mapIndent = new Intent(activity, NavigateToStartActivity.class);//OsmandIntents.getMapActivity());
+					//mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+					mapIndent.putExtra("run_id",rrd.getId());
+					mapIndent.putExtra("nextActivity", "map");
+					activity.startActivityForResult(mapIndent, 0);
+					
+					
+					
+//					final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
+//					mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
+//					mapIndent.putExtra("run_id",rrd.getId());
+//					mapIndent.putExtra("nextActivity", "map");
+//					activity.startActivityForResult(mapIndent, 0);
+				}
+			});
 			
 			track.setOnClickListener(new OnClickListener() {
 				@Override
@@ -557,7 +599,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //			String fname = c.getFilesDir().getAbsolutePath()+"/myfile.png"; Bitmap bm = BitmapFactory.decodeFile(fname); iv.setImageBitmap(bm);
 			
 			track.setLayoutParams(lpButton);
-			row.addView(track);
+			trackVisual.setLayoutParams(lpButton);
+			trackVisual.setMaxHeight(100);
+			row.addView(trackVisual);
+			//row.addView(track);
 		}
     	
     }

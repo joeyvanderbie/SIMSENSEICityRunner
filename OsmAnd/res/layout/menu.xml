@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.hva.cityrunner.access.AccessibleLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     class="org.hva.cityrunner.access.AccessibleLayout"
-    android:background="@color/color_ligth_grey" >
+    android:background="@color/color_white" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/Headliner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_defaut"
-            android:layout_marginBottom="0dp"
+            android:layout_alignParentTop="true"
             android:background="@color/color_white"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
-                android:src="@drawable/icon_small" />
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_defaut"
+            android:paddingRight="@dimen/margin_defaut"
+            android:paddingTop="@dimen/margin_defaut" >
 
             <TextView
-                android:id="@+id/AppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="3dp"
-                android:text="@string/app_name"
-                android:textColor="@color/color_black"
-                android:textSize="20sp" />
+                android:text="@string/app_name_sim"
+                android:textSize="20dip"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/TextVersion"
@@ -42,7 +34,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="@string/app_version"
@@ -54,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="7dp"
                 android:clickable="true"
                 android:contentDescription="@string/help"
                 android:focusable="true"
@@ -66,37 +56,130 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="2dp"
-                android:layout_marginTop="7dp"
                 android:clickable="true"
                 android:contentDescription="@string/close"
                 android:focusable="true"
                 android:src="@drawable/headliner_close" />
         </LinearLayout>
 
-        
-         <Spinner
-                android:id="@+id/neighbourhoodList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/array_neighbourhood"
-                 />
-         <ScrollView 
-             android:isScrollContainer="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/Tracks"
+            android:id="@+id/HeaderApp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" 
-            >
-           
-           <!-- Here come the available tracks provided by MainMenuActivity -->
+            android:layout_below="@id/Headliner"
+            android:layout_marginLeft="@dimen/margin_defaut"
+            android:layout_marginRight="@dimen/margin_defaut"
+            android:layout_marginTop="0dip"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-           
-
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name_city"
+                android:textSize="60dip"
+                android:textStyle="bold" />
         </LinearLayout>
-</ScrollView>
+
+        <Spinner
+            android:id="@+id/neighbourhoodList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/HeaderApp"
+            android:entries="@array/array_neighbourhood" />
+
+
+        <LinearLayout
+            android:id="@+id/sponsors"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_defaut"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3" >
+
+                <ImageView
+                    android:id="@+id/HVA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/hva" />
+
+                <ImageView
+                    android:id="@+id/CREATEIT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dip"
+                    android:layout_weight="1"
+                    android:src="@drawable/createit" />
+
+                <ImageView
+                    android:id="@+id/SIM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/sim" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3" >
+
+                <ImageView
+                    android:id="@+id/CITYSDK"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/citysdk" />
+
+                <ImageView
+                    android:id="@+id/COMMIT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_defaut"
+                    android:layout_weight="1"
+                    android:src="@drawable/commit" />
+
+                <ImageView
+                    android:id="@+id/ACE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_defaut"
+                    android:layout_weight="1"
+                    android:src="@drawable/ace" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            		android:layout_above="@id/sponsors"
+            android:layout_below="@id/neighbourhoodList"
+            android:isScrollContainer="true" >
+
+            <LinearLayout
+                android:id="@+id/Tracks"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <!-- Here come the available tracks provided by MainMenuActivity -->
+
+            </LinearLayout>
+        </ScrollView>
+        
+        
+        <!-- Old osmand menu not removed because of compatibility isues -->
+
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -244,6 +327,6 @@
                 </LinearLayout>
             </TableRow>
         </TableLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </org.hva.cityrunner.access.AccessibleLayout>
