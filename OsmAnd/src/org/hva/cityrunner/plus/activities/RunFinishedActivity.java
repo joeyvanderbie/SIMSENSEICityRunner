@@ -15,6 +15,7 @@ import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.AccelDataSource;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
+import org.hva.cityrunner.sensei.db.UserDataSource;
 import org.hva.cityrunner.sensei.sensors.StaticAffectButton;
 import org.json.JSONArray;
 
@@ -27,6 +28,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +51,7 @@ public class RunFinishedActivity extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
 		((OsmandApplication) getApplication()).applyTheme(this);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setTitle(R.string.run_finished_title);
 		
 		super.onCreate(savedInstanceState);
@@ -74,6 +76,10 @@ public class RunFinishedActivity extends SherlockActivity {
 			}
 		});
 
+		
+		//if(app.currentRouteRun != null){
+			uploadDataToSense();
+		//}
 	}
 	
 	@Override
@@ -139,6 +145,13 @@ public class RunFinishedActivity extends SherlockActivity {
 		TextView routeNr = (TextView) findViewById(R.id.routeNumber);
 		routeNr.setText(""+rrd.getRoute_id());
 		
+		TextView teamnr = (TextView) findViewById(R.id.teamnr_text);
+		UserDataSource uds = app.getUserDataSource();
+		uds.open();
+		teamnr.setText(""+
+				uds.getUserData().getTeamid());
+		uds.close();
+		
 		run_id = rrd.getId();
 		
 		StaticAffectButton abStart = (StaticAffectButton) this.findViewById(R.id.affect_start);
@@ -162,16 +175,24 @@ public class RunFinishedActivity extends SherlockActivity {
 			afo.setVisibility(View.GONE);
 		}
 		
-		
-		//if(app.currentRouteRun != null){
-			uploadDataToSense();
-		//}
 	}
 	
 	private void uploadDataToSense(){
-		insertData();//test sense data upload
-		//senseInsertAccelerometerData();
-		flushData();
+		  final Handler handler = new Handler();
+	        handler.postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	            	insertData();//test sense data upload
+	            	//senseInsertAccelerometerData();
+
+	            }
+	        }, 500);
+	        handler.postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	            	flushData();
+	            }
+	        }, 60000);//after 1 minute submit data
 	}
 	
 	private void flushData() {
