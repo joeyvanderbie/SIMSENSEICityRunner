@@ -24,8 +24,8 @@ public class ExplainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intentSettings = new Intent(ExplainActivity.this,
 						MainMenuActivity.class);
-				intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//				intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(intentSettings);
 			}
 		});

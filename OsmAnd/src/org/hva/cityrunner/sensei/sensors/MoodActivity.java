@@ -99,7 +99,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
 		}else{
 			Intent intentSettings = new Intent(this,
 					OsmandIntents.getRunFinishedActivity());
-			intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			//intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		}
 	}
