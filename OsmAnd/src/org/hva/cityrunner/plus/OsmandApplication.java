@@ -604,25 +604,25 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 	}
 
 	public synchronized void closeApplication(final Activity activity) {
-		if (getNavigationService() != null) {
-			Builder bld = new AlertDialog.Builder(activity);
-			bld.setMessage(R.string.background_service_is_enabled_question);
-			bld.setPositiveButton(R.string.default_buttons_yes, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					closeApplicationAnyway(activity, true);
-				}
-			});
-			bld.setNegativeButton(R.string.default_buttons_no, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					closeApplicationAnyway(activity, false);
-				}
-			});
-			bld.show();
-		} else {
+//		if (getNavigationService() != null) {
+//			Builder bld = new AlertDialog.Builder(activity);
+//			bld.setMessage(R.string.background_service_is_enabled_question);
+//			bld.setPositiveButton(R.string.default_buttons_yes, new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					closeApplicationAnyway(activity, true);
+//				}
+//			});
+//			bld.setNegativeButton(R.string.default_buttons_no, new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					closeApplicationAnyway(activity, false);
+//				}
+//			});
+//			bld.show();
+//		} else {
 			closeApplicationAnyway(activity, true);
-		}
+//		}
 	}
 
 	private void closeApplicationAnyway(final Activity activity, boolean disableService) {

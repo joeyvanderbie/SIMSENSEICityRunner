@@ -828,6 +828,8 @@ public class MapActivity extends AccessibleActivity implements
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		routingHelper.removeListener(this);
 		
+		mapActions.stopNavigationAction(mapView);
+		
 		RouteRunData rrd = app.currentRouteRun;
 		fastestListener.submitLastSensorData();
 		sensorManager.unregisterListener(fastestListener);
