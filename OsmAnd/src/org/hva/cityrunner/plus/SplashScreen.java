@@ -32,7 +32,7 @@ public class SplashScreen extends Activity implements Eula.OnEulaAgreedTo {
             	mAlreadyAgreedToEula = Eula.show(sp);
                 startSplashThread();
             }
-        }, 3000);
+        }, 2000);
         
     }
     
