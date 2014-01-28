@@ -402,7 +402,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //				Dialog dlg = tipsActivity.getDialogToShowTips(!appVersionChanged, false);
 //				dlg.show();
 
-				activity.startActivity(new Intent(activity,WelcomeActivity.class));
+				//activity.startActivity(new Intent(activity,WelcomeActivity.class));
 			} else {
 				if (startProgressDialog.isShowing()) {
 					startProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
