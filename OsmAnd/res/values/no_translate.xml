@@ -3,7 +3,7 @@
     <string name="app_name">SIM SENSEI City Runner</string>
     <string name="app_name_sim">SIM SENSEI</string>
     <string name="app_name_city">City Runner</string>
-    <string name="app_version">BETA</string>
+    <string name="app_version">BETA 2</string>
     <!-- Not translatable -->
     <string name="ga_api_key">UA-28342846-2</string>
     <string name="ga_dispatchPeriod">10</string>
