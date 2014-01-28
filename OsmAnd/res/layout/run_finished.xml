@@ -6,17 +6,13 @@
     android:orientation="vertical"
     android:padding="4dp" >
 
-    <TextView
-        style="@style/unit.style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bijdrage" />
     <Button 
         android:id="@+id/shareButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/shareButton"
         />
+   
 
     <LinearLayout
         android:layout_width="match_parent"

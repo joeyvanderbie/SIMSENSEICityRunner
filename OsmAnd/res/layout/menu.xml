@@ -78,6 +78,7 @@
                 android:id="@+id/neighbourhoodList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:entries="@array/array_neighbourhood"
                  />
          <ScrollView 
              android:isScrollContainer="true"
