@@ -25,14 +25,7 @@ public class SplashScreen extends Activity implements Eula.OnEulaAgreedTo {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);     
         sp= this;
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            	mAlreadyAgreedToEula = Eula.show(sp);
-                startSplashThread();
-            }
-        }, 2000);
+        startSplashThread();
         
     }
     
@@ -57,24 +50,21 @@ public class SplashScreen extends Activity implements Eula.OnEulaAgreedTo {
 
     
     private void startSplashThread(){
-        // thread for displaying the SplashScreen
-        Thread splashTread = new Thread() {
-            @Override
-            public void run() {
+    	 
+              	mAlreadyAgreedToEula = Eula.show(sp);
+              	if (mAlreadyAgreedToEula) {
+
+        			Intent newIntent = new Intent(SplashScreen.this,
+        					MainMenuActivity.class);
+        			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        			// newIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        			startActivity(newIntent);
+
+        		}
+             
  
-                	if( mAlreadyAgreedToEula){
-                		
-            	 			Intent newIntent = new Intent(SplashScreen.this,MainMenuActivity.class);
-            	 			newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            	 			//newIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            	 			startActivity(newIntent);
-            	 		
-                		finish();
-                	}
-            }
-            
-        };
-        splashTread.start();
+		
     }
     
     @Override
