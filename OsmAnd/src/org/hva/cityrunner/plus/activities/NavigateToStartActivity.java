@@ -8,11 +8,13 @@ import java.util.List;
 
 import org.hva.cityrunner.CallbackWithObject;
 import org.hva.cityrunner.IndexConstants;
+import org.hva.cityrunner.Location;
 import org.hva.cityrunner.access.AccessibleToast;
 import org.hva.cityrunner.plus.ApplicationMode;
 import org.hva.cityrunner.plus.GPXUtilities;
 import org.hva.cityrunner.plus.GPXUtilities.GPXFile;
 import org.hva.cityrunner.plus.GPXUtilities.WptPt;
+import org.hva.cityrunner.plus.OsmAndLocationProvider.OsmAndLocationListener;
 import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.R;
 
@@ -21,19 +23,23 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NavigateToStartActivity  extends Activity{
+public class NavigateToStartActivity  extends Activity implements OsmAndLocationListener{
 	
 	int tracknr = 0;
 	int run_id = 0;
 	String nextActivity = "map";
 	 private NavigateToStartActivity activity;
 	 private TextView startingPoint;
+	 org.hva.cityrunner.Location location ;
+	 WptPt startLocationTrack;
+	 Button next;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +57,14 @@ public class NavigateToStartActivity  extends Activity{
 			nextActivity = extras.getString("nextActivity", "map");
 		}
         
-        Button next = (Button) findViewById(R.id.NextButton);
+       next = (Button) findViewById(R.id.NextButton);
 		next.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+
+				 getMyApplication().getLocationProvider().removeLocationListener(NavigateToStartActivity.this);
+				
 				final Intent mapIndent = new Intent(activity, OsmandIntents.getMoodActivity());//OsmandIntents.getMapActivity());
 				mapIndent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				mapIndent.putExtra("track",tracknr);
@@ -64,12 +73,14 @@ public class NavigateToStartActivity  extends Activity{
 				activity.startActivityForResult(mapIndent, 0);
 			}
 		});
+		next.setEnabled(false);
 		
 		Button prev = (Button) findViewById(R.id.PreviousButton);
 		prev.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				 getMyApplication().getLocationProvider().removeLocationListener(NavigateToStartActivity.this);
 				finish();
 			}
 		});
@@ -87,8 +98,15 @@ public class NavigateToStartActivity  extends Activity{
 		//update afstand van locatie op scherm.
 		//als locatie binnen 100m van startlocatie is, maak start button actief.
 		
-		
-		
+		startingPoint = (TextView) activity.findViewById(R.id.point_text);
+			location = getMyApplication().getLocationProvider()
+					.getFirstTimeRunDefaultLocation();
+			getMyApplication().getLocationProvider().addLocationListener(this);
+			getMyApplication().getLocationProvider().resumeAllUpdates();
+			if (location != null) {
+				String text = "Lat:"+location.getLatitude()+"\nLong:"+location.getLongitude();
+				startingPoint.setText(text);
+			}
 	}
 	
 	
@@ -99,6 +117,8 @@ public class NavigateToStartActivity  extends Activity{
 				@Override
 				public boolean processResult(GPXFile result) {
 					final WptPt start = result.tracks.get(0).segments.get(0).points.get(0);
+					startLocationTrack = start;
+					
 					startingPoint = (TextView) activity.findViewById(R.id.point_text);
 					String text = "Lat:"+start.lat+"\nLong:"+start.lon;
 					startingPoint.setText(text);
@@ -121,6 +141,24 @@ public class NavigateToStartActivity  extends Activity{
 				
 				
 			}, trackNumber);
+	 }
+	 
+	 @Override
+	 protected void onPause(){
+		 getMyApplication().getLocationProvider().removeLocationListener(this);
+		 super.onPause();
+	 }
+	 
+	 @Override
+	 protected void onDestroy(){
+		 getMyApplication().getLocationProvider().removeLocationListener(NavigateToStartActivity.this);
+		 super.onDestroy();
+	 }
+	 
+	 @Override
+	 protected void onResume(){
+		 super.onResume();
+		 getMyApplication().getLocationProvider().addLocationListener(this);
 	 }
 	 
 	 public void getGPXFile(final CallbackWithObject<GPXFile> callbackWithObject, int nr){
@@ -205,5 +243,30 @@ public class NavigateToStartActivity  extends Activity{
 					}
 				}
 			}
+		}
+
+		@Override
+		public void updateLocation(Location location) {
+			if(location != null && startLocationTrack != null){
+				double distance = measure(startLocationTrack.lat,startLocationTrack.lon, location.getLatitude() , location.getLongitude());
+						startingPoint.setText(""+distance);
+				if(distance < 300){
+					next.setEnabled(true);
+				}
+			}else if(startLocationTrack == null){
+				Log.e("SIM SENSEI LOCTIONLISTENER", new NullPointerException("No startLocation found!").toString());
+			}
+		}
+		
+		private double measure(double lat1, double lon1, double lat2, double lon2){  // generally used geo measurement function
+		    double R = 6378.137; // Radius of earth in KM
+		    double dLat = (lat2 - lat1) * Math.PI / 180;
+		    double dLon = (lon2 - lon1) * Math.PI / 180;
+		    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+		    Math.sin(dLon/2) * Math.sin(dLon/2);
+		    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		    double d = R * c;
+		    return d * 1000; // meters
 		}
 }

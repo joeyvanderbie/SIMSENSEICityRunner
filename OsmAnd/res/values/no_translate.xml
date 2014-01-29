@@ -67,7 +67,7 @@
         <string name="shareButton">Share your run</string>
         
         
-        <!-- Eula , to edit from Boskoi-->
+        <!-- Eula -->
 	<string name="hello_eula">Hello Eula</string>
 	<string name="license_title">Open Source</string>
 	<string name="license">This app is based on OsmAnd http://osmand.net
@@ -114,7 +114,8 @@
 	<string name="start_button">Start</string>
 	<string name="navigate_to_point">Please navigate to the starting point before starting your run.
 	    \n And press the start button to start running! </string>
-	<string name="starting_point">Your starting point is:</string>
+	<string name="starting_point">Move within 300m distance of your starting point to begin.
+	    \nYou are currently x meters from your starting point: </string>
 	<string name="show_on_google_maps">Show on map</string>
 	
 	<!-- SENSE -->
