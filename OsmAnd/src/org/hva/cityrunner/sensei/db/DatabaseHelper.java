@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	// If you change the database schema, you must increment the database
 	// version.
-	public static final int DATABASE_VERSION = 10;
+	public static final int DATABASE_VERSION = 12;
 	public static final String DATABASE_NAME = "SenseiCityRunner.db";
 
 	public DatabaseHelper(Context context) {
@@ -20,8 +20,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(Database.SQL_CREATE_AFFECT);
 		db.execSQL(Database.SQL_CREATE_AFFECT_TOOL);
 		db.execSQL(Database.SQL_CREATE_MOVEMENT);
+		db.execSQL(Database.SQL_CREATE_GYRO);
 		db.execSQL(Database.SQL_CREATE_ROUTE_RUN);
 		db.execSQL(Database.SQL_CREATE_ROUTE);
+		db.execSQL(Database.SQL_CREATE_LOCATION);
 		insertRoutes(db);
 	}
 
@@ -35,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(Database.SQL_DELETE_MOVEMENT);
 		db.execSQL(Database.SQL_DELETE_ROUTE_RUN);
 		db.execSQL(Database.SQL_DELETE_ROUTE);
+		db.execSQL(Database.SQL_DELETE_LOCATION);
 		onCreate(db);
 	}
 
@@ -43,46 +46,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	private void insertRoutes(SQLiteDatabase db) {
-		addRoute(db, "Burgwallen-OudeZijde", 1, 2, 3);
-		addRoute(db, "Burgwallen-NieuweZijde", 4, 5, 6);
+		addRoute(db, "Burgwallen-Oude Zijde", 1, 2, 3);
+		addRoute(db, "Burgwallen-Nieuwe Zijde", 4, 5, 6);
 		addRoute(db, "Grachtengordel", 7, 8, 9);
 		addRoute(db, "Nieuwmarkt", 10, 11, 12);
 		addRoute(db, "Haarlemmerbuurt", 13, 14, 15);
 		addRoute(db, "Jordaan", 16, 17, 18);
-		addRoute(db, "DeWeteringschans", 19, 20, 21);
+		addRoute(db, "De Weteringschans", 19, 20, 21);
 		addRoute(db, "Weesperbuurt", 22, 23, 24);
-		addRoute(db, "OostelijkeEilanden", 25, 26, 27);
+		addRoute(db, "Oostelijke Eilanden", 25, 26, 27);
 		addRoute(db, "Kadijken", 28, 29, 30);
 		addRoute(db, "Westelijkhavengebied", 31, 32, 33);
 		addRoute(db, "Houthavens", 34, 35, 36);
 		addRoute(db, "Zeeheldenbuurt", 37, 38, 39);
 		addRoute(db, "Staatsliedenbuurt", 40, 41, 42);
-		addRoute(db, "FrederikHendrikbuurt", 43, 44, 45);
-		addRoute(db, "DaCostabuurt", 46, 47, 48);
+		addRoute(db, "Frederik Hendrikbuurt", 43, 44, 45);
+		addRoute(db, "Da Costabuurt", 46, 47, 48);
 		addRoute(db, "Kinkerbuurt", 49, 50, 51);
-		addRoute(db, "VanLennepbuurt", 52, 53, 54);
+		addRoute(db, "Van Lennepbuurt", 52, 53, 54);
 		addRoute(db, "Helmersbuurt", 55, 56, 57);
 		addRoute(db, "Vondelbuurt", 58, 59, 60);
 		addRoute(db, "IndischeBuurt", 61, 62, 63);
-		addRoute(db, "OostelijkHavengebied", 64, 65, 66);
+		addRoute(db, "Oostelijk Havengebied", 64, 65, 66);
 		addRoute(db, "Zeeburgereiland", 67, 68, 69);
 		addRoute(db, "Ijburg", 70, 71, 72);
 		addRoute(db, "Sloterdijk", 73, 74, 75);
 		addRoute(db, "Erasmuspark", 76, 77, 78);
-		addRoute(db, "DeKolenkit", 79, 80, 81);
-		addRoute(db, "VanGalenbuurt", 82, 83, 84);
+		addRoute(db, "De Kolenkit", 79, 80, 81);
+		addRoute(db, "Van Galenbuurt", 82, 83, 84);
 		addRoute(db, "Westindischebuurt", 85, 86, 87);
-		addRoute(db, "IJpleinenVogelbuurt", 88, 89, 90);
+		addRoute(db, "IJpleinen Vogelbuurt", 88, 89, 90);
 		addRoute(db, "Nieuwendam", 91, 92, 93);
-		addRoute(db, "TuindorpOostzaan", 94, 95, 96);
+		addRoute(db, "Tuindorp Oostzaan", 94, 95, 96);
 		addRoute(db, "Kadoelen", 97, 98, 99);
 		addRoute(db, "Buikslotermeer", 100, 101, 102);
 		addRoute(db, "Slotermeer", 103, 104, 105);
 		addRoute(db, "Geuzenveld", 106, 107, 108);
 		addRoute(db, "Osdorp", 109, 110, 111);
-		addRoute(db, "DeAker", 112, 113, 114);
+		addRoute(db, "De Aker", 112, 113, 114);
 		addRoute(db, "Slotervaart", 115, 116, 117);
-		addRoute(db, "OvertoomseVeld", 118, 119, 120);
+		addRoute(db, "Overtoomse Veld", 118, 119, 120);
 		addRoute(db, "Westlandgracht", 121, 122, 123);
 		addRoute(db, "Bullewijk", 124, 125, 126);
 		addRoute(db, "Bijlmer-Centrum", 127, 128, 129);
@@ -96,9 +99,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		addRoute(db, "Frankendael", 151, 152, 153);
 		addRoute(db, "Middenmeer", 156, 155, 154);
 		addRoute(db, "Betondorp", 157, 158, 159);
-		addRoute(db, "DeOmval", 160, 161, 162);
-		addRoute(db, "OudePijp", 163, 164, 165);
-		addRoute(db, "NieuwePijp", 166, 167, 168);
+		addRoute(db, "De Omval", 160, 161, 162);
+		addRoute(db, "Oude Pijp", 163, 164, 165);
+		addRoute(db, "Nieuwe Pijp", 166, 167, 168);
 		addRoute(db, "Diamantbuurt", 169, 170, 171);
 		addRoute(db, "Hoofddorppleinbuurt", 172, 173, 174);
 		addRoute(db, "Schinkelbuurt", 175, 176, 177);

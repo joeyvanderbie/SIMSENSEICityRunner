@@ -23,10 +23,7 @@ public class AccelDataSource {
 			Database.MOVEMENT.COLUMN_NAME_DATETIME,
 			Database.MOVEMENT.COLUMN_NAME_ACCEL_X,
 			Database.MOVEMENT.COLUMN_NAME_ACCEL_Y,
-			Database.MOVEMENT.COLUMN_NAME_ACCEL_Z,
-			Database.MOVEMENT.COLUMN_NAME_GYRO_X,
-			Database.MOVEMENT.COLUMN_NAME_GYRO_Y,
-			Database.MOVEMENT.COLUMN_NAME_GYRO_Z };
+			Database.MOVEMENT.COLUMN_NAME_ACCEL_Z};
 
 	public AccelDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -86,9 +83,6 @@ public class AccelDataSource {
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_X, accel.getX());
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_Y, accel.getY());
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_Z, accel.getZ());
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_X, 0);
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_Y, 0);
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_Z, 0);
 		values.put(Database.MOVEMENT.COLUMN_NAME_DATETIME, accel.getTimestamp());
 
 		long insertId = database.insert(Database.MOVEMENT.TABLE_NAME, null,
@@ -109,9 +103,6 @@ public class AccelDataSource {
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_X, accel.getX());
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_Y, accel.getY());
 		values.put(Database.MOVEMENT.COLUMN_NAME_ACCEL_Z, accel.getZ());
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_X, 0);
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_Y, 0);
-		values.put(Database.MOVEMENT.COLUMN_NAME_GYRO_Z, 0);
 		values.put(Database.MOVEMENT.COLUMN_NAME_DATETIME, accel.getTimestamp());
 
 		database.insert(Database.MOVEMENT.TABLE_NAME, null, values);

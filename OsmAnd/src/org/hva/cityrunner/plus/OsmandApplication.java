@@ -45,6 +45,7 @@ import org.hva.cityrunner.plus.voice.CommandPlayer;
 import org.hva.cityrunner.plus.voice.CommandPlayerException;
 import org.hva.cityrunner.plus.voice.CommandPlayerFactory;
 import org.hva.cityrunner.sensei.data.RouteRunData;
+import org.hva.cityrunner.sensei.db.LocationDataSource;
 import org.hva.cityrunner.sensei.db.RouteDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
@@ -87,6 +88,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 	RoutingHelper routingHelper = null;
 	RouteRunDataSource routeRunDataSource = null;
 	RouteDataSource routeDataSource = null;
+	LocationDataSource locationDataSource = null;
 	UserDataSource userDataSource = null;
 	FavouritesDbHelper favorites = null;
 	CommandPlayer player = null;
@@ -439,6 +441,13 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 			userDataSource = new UserDataSource(this);
 		}
 		return userDataSource;
+	}
+	
+	public LocationDataSource getLocationDataSource(){
+		if(locationDataSource == null){
+			locationDataSource = new LocationDataSource(this);
+		}
+		return locationDataSource;
 	}
 
 	public ResourceManager getResourceManager() {

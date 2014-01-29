@@ -24,9 +24,10 @@ public final class Database {
 	/* Inner class that defines the table contents */
 	public static abstract class Location implements BaseColumns {
 		public static final String TABLE_NAME = "location";
-		public static final String COLUMN_NAME_USER_ID = "userid";
+		public static final String COLUMN_NAME_RUN_ID = "runid";
 		public static final String COLUMN_NAME_DATETIME = "datetime";
-		public static final String COLUMN_NAME_LOCATION = "location";
+		public static final String COLUMN_NAME_LATITUDE = "latitude";
+		public static final String COLUMN_NAME_LONGITUDE = "longitude";
 	}
 
 	/* Inner class that defines the table contents */
@@ -58,6 +59,13 @@ public final class Database {
 		public static final String COLUMN_NAME_ACCEL_X = "accelx";
 		public static final String COLUMN_NAME_ACCEL_Y = "accely";
 		public static final String COLUMN_NAME_ACCEL_Z = "accelz";
+	}
+	
+	/* Inner class that defines the table contents */
+	public static abstract class GYRO implements BaseColumns {
+		public static final String TABLE_NAME = "gyroscope";
+		public static final String COLUMN_NAME_RUN_ID = "routeid";
+		public static final String COLUMN_NAME_DATETIME = "datetime";
 		public static final String COLUMN_NAME_GYRO_X = "gyrox";
 		public static final String COLUMN_NAME_GYRO_Y = "gyroy";
 		public static final String COLUMN_NAME_GYRO_Z = "gyroz";
@@ -128,12 +136,19 @@ public final class Database {
 			+ MOVEMENT.COLUMN_NAME_DATETIME + TEXT_TYPE + COMMA_SEP 
 			+ MOVEMENT.COLUMN_NAME_ACCEL_X + REAL_TYPE + COMMA_SEP 
 			+ MOVEMENT.COLUMN_NAME_ACCEL_Y + REAL_TYPE + COMMA_SEP 
-			+ MOVEMENT.COLUMN_NAME_ACCEL_Z + REAL_TYPE + COMMA_SEP 
-			+ MOVEMENT.COLUMN_NAME_GYRO_X + REAL_TYPE + COMMA_SEP 
-			+ MOVEMENT.COLUMN_NAME_GYRO_Y + REAL_TYPE + COMMA_SEP 
-			+ MOVEMENT.COLUMN_NAME_GYRO_Z + REAL_TYPE + " )";
+			+ MOVEMENT.COLUMN_NAME_ACCEL_Z + REAL_TYPE + " )";
 	public static final String SQL_DELETE_MOVEMENT = "DROP TABLE IF EXISTS "
 			+ MOVEMENT.TABLE_NAME;
+	
+	public static final String SQL_CREATE_GYRO = "CREATE TABLE "
+			+ GYRO.TABLE_NAME + " (" + GYRO._ID+ " INTEGER PRIMARY KEY," 
+			+ GYRO.COLUMN_NAME_RUN_ID + TEXT_TYPE + COMMA_SEP
+			+ GYRO.COLUMN_NAME_DATETIME + TEXT_TYPE + COMMA_SEP 
+			+ GYRO.COLUMN_NAME_GYRO_X + REAL_TYPE + COMMA_SEP 
+			+ GYRO.COLUMN_NAME_GYRO_Y + REAL_TYPE + COMMA_SEP 
+			+ GYRO.COLUMN_NAME_GYRO_Z + REAL_TYPE + " )";
+	public static final String SQL_DELETE_GYRO = "DROP TABLE IF EXISTS "
+			+ GYRO.TABLE_NAME;
 	
 	public static final String SQL_CREATE_ROUTE_RUN = "CREATE TABLE "
 			+ RouteRun.TABLE_NAME + " (" + RouteRun._ID+ " INTEGER PRIMARY KEY," 
@@ -155,4 +170,15 @@ public final class Database {
 	public static final String SQL_DELETE_ROUTE = "DROP TABLE IF EXISTS "
 			+ Route.TABLE_NAME;
 
+	public static final String SQL_CREATE_LOCATION = "CREATE TABLE "
+			+ Location.TABLE_NAME + " (" + Location._ID+ " INTEGER PRIMARY KEY," 
+			+ Location.COLUMN_NAME_RUN_ID + TEXT_TYPE + COMMA_SEP 
+			+ Location.COLUMN_NAME_DATETIME+ TEXT_TYPE + COMMA_SEP 
+			+ Location.COLUMN_NAME_LATITUDE + TEXT_TYPE + COMMA_SEP 
+			+ Location.COLUMN_NAME_LONGITUDE + TEXT_TYPE + " )";
+	
+	public static final String SQL_DELETE_LOCATION = "DROP TABLE IF EXISTS "
+			+ Location.TABLE_NAME;
+
+	
 }

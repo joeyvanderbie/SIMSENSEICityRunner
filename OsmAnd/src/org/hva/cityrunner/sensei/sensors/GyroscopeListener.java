@@ -2,37 +2,37 @@ package org.hva.cityrunner.sensei.sensors;
 
 import java.util.ArrayList;
 
+import org.hva.cityrunner.plus.R;
 import org.hva.cityrunner.plus.activities.MapActivity;
 import org.hva.cityrunner.sensei.data.AccelData;
-import org.hva.cityrunner.sensei.db.AccelDataSource;
-import org.hva.cityrunner.plus.R;
-
+import org.hva.cityrunner.sensei.data.GyroData;
+import org.hva.cityrunner.sensei.db.GyroDataSource;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
-public class AccelerometerListener implements SensorEventListener {
+public class GyroscopeListener implements SensorEventListener {
 
     private long startTime;
     private int numSamples;
     private boolean isActive = false;
     private double samplingRate = 0.0;
-    private MapActivity accelerometerTest;
-    private ArrayList<AccelData> samples;
-    private AccelDataSource ads;
+    private MapActivity gyroscopeTest;
+    private ArrayList<GyroData> samples;
+    private GyroDataSource ads;
     private int run_id;
     
-    public AccelerometerListener(MapActivity accelerometerTest) {
-        this.accelerometerTest = accelerometerTest;
+    public GyroscopeListener(MapActivity gyroscopeTest) {
+        this.gyroscopeTest = gyroscopeTest;
         
     }
     public double getSamplingRate() {
         return samplingRate;
     }
     
-    public ArrayList<AccelData> getSamples(){
+    public ArrayList<GyroData> getSamples(){
     	return samples;
     }
     
@@ -40,8 +40,8 @@ public class AccelerometerListener implements SensorEventListener {
         startTime = System.currentTimeMillis();
         numSamples = 0;
         isActive = true;
-        this.samples = new ArrayList<AccelData>();
-        ads = new AccelDataSource(accelerometerTest);
+        this.samples = new ArrayList<GyroData>();
+        ads = new GyroDataSource(gyroscopeTest);
         this.run_id = run_id;
 		
     }
@@ -65,28 +65,27 @@ public class AccelerometerListener implements SensorEventListener {
                 startTime = now;
                 numSamples = 0;
                 
-                //accelerometerTest.displayRates();
-                Log.d("AcceleromterTest", "displayrate: "+samplingRate);
+                //gyroscopeTest.displayRates();
+                Log.d("GyroscopeListener", "displayrate: "+samplingRate);
                 
                 //add samples to database
                 ads.open();
                // ads.addAccelDataList(samples, 0, run_id);
-                ads.addAccelDataListFast(samples, 0, run_id);
+                ads.addGyroDataListFast(samples, 0, run_id);
     			ads.close();
-                samples = new ArrayList<AccelData>();
+                samples = new ArrayList<GyroData>();
                 
-              //  accelerometerTest.showToast(R.string.msg_sent_data, " Add 1000 accelerometer samplings to DB");
+               //gyroscopeTest.showToast(R.string.msg_sent_data, " Add 1000 gyroscope samplings to DB");
             }
             
-            samples.add(new AccelData(event.timestamp, event.values[0], event.values[1], event.values[2], run_id));
+            samples.add(new GyroData(event.timestamp, event.values[0], event.values[1], event.values[2], run_id));
         }
     }
     
     public void submitLastSensorData(){
     	ads.open();
-        // ads.addAccelDataList(samples, 0, run_id);
-         ads.addAccelDataListFast(samples, 0, run_id);
+         ads.addGyroDataListFast(samples, 0, run_id);
 			ads.close();
-         samples = new ArrayList<AccelData>();
+         samples = new ArrayList<GyroData>();
     }
 }

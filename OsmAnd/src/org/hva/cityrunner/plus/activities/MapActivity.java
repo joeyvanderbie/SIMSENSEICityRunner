@@ -19,6 +19,7 @@ import org.hva.cityrunner.access.AccessibleToast;
 import org.hva.cityrunner.access.MapAccessibilityActions;
 import org.hva.cityrunner.plus.ApplicationMode;
 import org.hva.cityrunner.plus.BusyIndicator;
+import org.hva.cityrunner.plus.OsmAndLocationProvider.OsmAndLocationListener;
 import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.OsmandPlugin;
 import org.hva.cityrunner.plus.OsmandSettings;
@@ -38,9 +39,12 @@ import org.hva.cityrunner.plus.routing.RoutingHelper.RouteCalculationProgressCal
 import org.hva.cityrunner.plus.views.AnimateDraggingMapThread;
 import org.hva.cityrunner.plus.views.OsmandMapLayer;
 import org.hva.cityrunner.plus.views.OsmandMapTileView;
+import org.hva.cityrunner.sensei.data.LocationData;
 import org.hva.cityrunner.sensei.data.RouteRunData;
+import org.hva.cityrunner.sensei.db.LocationDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.sensors.AccelerometerListener;
+import org.hva.cityrunner.sensei.sensors.GyroscopeListener;
 import org.hva.cityrunner.plus.R;
 
 
@@ -54,6 +58,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.LocationListener;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -73,7 +78,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MapActivity extends AccessibleActivity implements
-		IRouteInformationListener {
+		IRouteInformationListener, OsmAndLocationListener {
 
 	private static final int SHOW_POSITION_MSG_ID = 7;
 	private static final int LONG_KEYPRESS_MSG_ID = 28;
@@ -306,6 +311,8 @@ public class MapActivity extends AccessibleActivity implements
 			// recreated or not
 		}
 
+
+		app.getLocationProvider().addLocationListener(this);
 		app.getLocationProvider().checkIfLastKnownLocationIsValid();
 		// for voice navigation
 		if (settings.AUDIO_STREAM_GUIDANCE.get() != null) {
@@ -543,10 +550,18 @@ public class MapActivity extends AccessibleActivity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		
-		if(fastestListener != null){
-			fastestListener.submitLastSensorData();
-			sensorManager.unregisterListener(fastestListener);
+		if(accelerometerListener != null){
+			accelerometerListener.submitLastSensorData();
+			sensorManager.unregisterListener(accelerometerListener);
 		}
+		
+		if(gyroscopeListener != null){
+			gyroscopeListener.submitLastSensorData();
+			sensorManager.unregisterListener(gyroscopeListener);
+		}
+		
+
+		app.getLocationProvider().removeLocationListener(this);
 		
 		FailSafeFuntions.quitRouteRestoreDialog();
 		OsmandPlugin.onMapActivityDestroy(this);
@@ -568,7 +583,8 @@ public class MapActivity extends AccessibleActivity implements
 	
 	 SensorManager sensorManager;
 	 Sensor accelerometer;
-	 AccelerometerListener fastestListener;
+	 AccelerometerListener accelerometerListener;
+	 GyroscopeListener gyroscopeListener;
 	    
 	public void followRoute(ApplicationMode appMode, LatLon finalLocation,
 			List<LatLon> intermediatePoints,
@@ -576,6 +592,9 @@ public class MapActivity extends AccessibleActivity implements
 		getMapViewTrackingUtilities().backToLocationImpl();
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		routingHelper.addListener(this);
+		
+		app.getLocationProvider().addLocationListener(this);
+		
 		settings.APPLICATION_MODE.set(appMode);
 		settings.FOLLOW_THE_ROUTE.set(true);
 		if (gpxRoute == null) {
@@ -589,10 +608,17 @@ public class MapActivity extends AccessibleActivity implements
 		 sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	     accelerometer = sensorManager
 	                .getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-	     fastestListener = new AccelerometerListener(this);
-	        sensorManager.registerListener(fastestListener, accelerometer,
+	     accelerometerListener = new AccelerometerListener(this);
+	        sensorManager.registerListener(accelerometerListener, accelerometer,
 	                SensorManager.SENSOR_DELAY_FASTEST);
-	        fastestListener.startRecording(run_id);
+	        accelerometerListener.startRecording(run_id);
+	        
+		     Sensor gyroscope = sensorManager
+		                .getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+		     gyroscopeListener = new GyroscopeListener(this);
+		        sensorManager.registerListener(gyroscopeListener, gyroscope,
+		                SensorManager.SENSOR_DELAY_FASTEST);
+		        gyroscopeListener.startRecording(run_id);
 		
 		app.showDialogInitializingCommandPlayer(MapActivity.this);
 	}
@@ -625,11 +651,17 @@ public class MapActivity extends AccessibleActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(fastestListener != null){
-			fastestListener.submitLastSensorData();
-			sensorManager.unregisterListener(fastestListener);
+		if(accelerometerListener != null){
+			accelerometerListener.submitLastSensorData();
+			sensorManager.unregisterListener(accelerometerListener);
 		}
 		
+		if(gyroscopeListener != null){
+			gyroscopeListener.submitLastSensorData();
+			sensorManager.unregisterListener(gyroscopeListener);
+		}
+
+		app.getLocationProvider().removeLocationListener(this);
 		app.getLocationProvider().pauseAllUpdates();
 		app.getDaynightHelper().stopSensorIfNeeded();
 		settings.APPLICATION_MODE.removeListener(applicationModeListener);
@@ -828,11 +860,18 @@ public class MapActivity extends AccessibleActivity implements
 		RoutingHelper routingHelper = app.getRoutingHelper();
 		routingHelper.removeListener(this);
 		
+		app.getLocationProvider().removeLocationListener(this);
+		
 		mapActions.stopNavigationAction(mapView);
 		
 		RouteRunData rrd = app.currentRouteRun;
-		fastestListener.submitLastSensorData();
-		sensorManager.unregisterListener(fastestListener);
+		accelerometerListener.submitLastSensorData();
+		sensorManager.unregisterListener(accelerometerListener);
+		
+		if(gyroscopeListener != null){
+			gyroscopeListener.submitLastSensorData();
+			sensorManager.unregisterListener(gyroscopeListener);
+		}
 		
 		
 		if (rrd != null) {
@@ -857,5 +896,22 @@ public class MapActivity extends AccessibleActivity implements
 		}
 
 	}
+	
+	
+	public void addCurrentLocationToDB(Location currentLocation){
+		LocationDataSource lds = app.getLocationDataSource();
+		lds.open();
+		lds.add(new LocationData(currentLocation, run_id));
+		lds.close();
+	}
+
+
+	@Override
+	public void updateLocation(Location location) {
+		if(location != null){
+			addCurrentLocationToDB(location);
+		}
+	}
+	
 
 }
