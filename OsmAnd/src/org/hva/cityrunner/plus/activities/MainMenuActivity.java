@@ -87,6 +87,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	private ProgressDialog startProgressDialog;
 	private Spinner neighbourhoods;
 	private boolean registerSensorsOnce = false;
+	private static SharedPreferences prefs;
 	
 	public void checkPreviousRunsForExceptions(boolean firstTime) {
 		long size = getPreferences(MODE_WORLD_READABLE).getLong(EXCEPTION_FILE_SIZE, 0);
@@ -168,7 +169,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		String textVersion = Version.getAppVersion(((OsmandApplication) activity.getApplication()));
 		final TextView textVersionView = (TextView) window.findViewById(R.id.TextVersion);
 		textVersionView.setText(textVersion);
-		SharedPreferences prefs = activity.getApplicationContext().getSharedPreferences("org.hva.cityrunner.settings", MODE_WORLD_READABLE);
+		prefs = activity.getApplicationContext().getSharedPreferences("org.hva.cityrunner.settings", MODE_WORLD_READABLE);
 		
 		// only one commit should be with contribution version flag
 //		 prefs.edit().putBoolean(CONTRIBUTION_VERSION_FLAG, true).commit();
@@ -264,6 +265,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		if (!prefs.contains("SENSE_REGISTERED")) {
 			registerSensorsOnce = true;
 			prefs.edit().putBoolean("SENSE_REGISTERED", true);
+		}else{
+			registerSensorsOnce = prefs.getBoolean("SENSE_REGISTERED", true);
 		}
 		
 		//make buttons from available tracks
@@ -314,7 +317,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		//Login on Sense
 		attemptLogin();
 		
-		neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
+		neighbourhoods = (Spinner) window.findViewById(R.id.neighbourhoodList);
 		loadSpinnerData();
 		neighbourhoods.setOnItemSelectedListener(this);
 		
@@ -443,7 +446,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        neighbourhoods = (Spinner) findViewById(R.id.neighbourhoodList);
+      //  neighbourhoods = (Spinner) window.findViewById(R.id.neighbourhoodList);
         //hier crashed soms de app op, dat zou niet mogen!
         if(neighbourhoods != null){
         	neighbourhoods.setAdapter(dataAdapter);
@@ -470,12 +473,14 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     }
     
     private void showNoNeighbourhoodSelected(){
-    	LinearLayout tracks = (LinearLayout) findViewById(R.id.Tracks);
+    	Window window = getWindow();
+    	LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
 		tracks.removeAllViews(); 
     }
     
     private void showRoutesForNeighbourhood(String neighbourhood){
     	final OsmandApplication app = ((OsmandApplication) getApplication());
+    	Window window = getWindow();
 
         // database handler
     	RouteDataSource routeDs = app.getRouteDataSource();
@@ -484,7 +489,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     	routeDs.close();
     	
 
-		LinearLayout tracks = (LinearLayout) findViewById(R.id.Tracks);
+		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
 		tracks.removeAllViews();
 		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
 		int margin = 8;
@@ -548,7 +553,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 					mapIndent.putExtra("track",Integer.parseInt(tracknr.substring(0, tracknr.length()-4)));
 					mapIndent.putExtra("run_id",rrd.getId());
 					mapIndent.putExtra("nextActivity", "map");
-					activity.startActivityForResult(mapIndent, 0);
+					activity.startActivity(mapIndent);
 					
 					
 					
@@ -1051,6 +1056,9 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 	            @Override
 	            public void run() {
+
+	    			registerSensorsOnce = true;
+	    			prefs.edit().putBoolean("SENSE_REGISTERED", true);
 	                showProgress(false);
 	                    Toast.makeText(MainMenuActivity.this, R.string.register_failure,
 	                            Toast.LENGTH_LONG).show();
@@ -1065,6 +1073,9 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 	            @Override
 	            public void run() {
+
+	    			registerSensorsOnce = false;
+	    			prefs.edit().putBoolean("SENSE_REGISTERED", false);
 	                showProgress(false);
 	                Toast.makeText(MainMenuActivity.this, R.string.register_success,
 	                        Toast.LENGTH_LONG).show();
