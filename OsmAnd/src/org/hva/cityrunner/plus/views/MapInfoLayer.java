@@ -235,8 +235,8 @@ public class MapInfoLayer extends OsmandMapLayer {
 		// Top widgets
 		ImageViewWidget compassView = mic.createCompassView(map);
 		mapInfoControls.registerTopWidget(compassView, R.drawable.widget_compass, R.string.map_widget_compass, "compass", MapWidgetRegistry.LEFT_CONTROL, all, 5);
-		View config = createConfiguration();
-		mapInfoControls.registerTopWidget(config, R.drawable.widget_config, R.string.map_widget_config, "config", MapWidgetRegistry.RIGHT_CONTROL, all, 10).required(ApplicationMode.DEFAULT);
+		//View config = createConfiguration();
+//		mapInfoControls.registerTopWidget(config, R.drawable.widget_config, R.string.map_widget_config, "config", MapWidgetRegistry.RIGHT_CONTROL, all, 10).required(ApplicationMode.DEFAULT);
 		mapInfoControls.registerTopWidget(monitoringServices.createMonitoringWidget(view, map), R.drawable.widget_monitoring, R.string.map_widget_monitoring_services,
 				"monitoring_services", MapWidgetRegistry.LEFT_CONTROL, exceptCar, 12);
 		mapInfoControls.registerTopWidget(mic.createLockInfo(map), R.drawable.widget_lock_screen, R.string.bg_service_screen_lock, "bgService", 
@@ -761,40 +761,40 @@ public class MapInfoLayer extends OsmandMapLayer {
 		}
 	}
 	
-	private View createConfiguration(){
-		final OsmandMapTileView view = map.getMapView();
-		
-		FrameLayout.LayoutParams fparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		final Drawable config = view.getResources().getDrawable(R.drawable.map_config);
-		final Drawable configWhite = view.getResources().getDrawable(R.drawable.map_config_white);
-		ImageViewWidget configuration = new ImageViewWidget(map) {
-			private boolean nm;
-			
-			@Override
-			public boolean updateInfo(DrawSettings drawSettings) {
-				boolean nightMode = drawSettings != null && drawSettings.isNightMode();
-				if(nightMode != this.nm) {
-					this.nm = nightMode;
-					setImageDrawable(nightMode ? configWhite : config);
-					return true;
-				}
-				return false;
-			}
-		};
-		configuration.setBackgroundDrawable(config);
-		FrameLayout fl = new ConfigLayout(view.getContext(), configuration) ;
-		fl.addView(configuration, fparams);
-		fparams = new FrameLayout.LayoutParams(config.getMinimumWidth(), config.getMinimumHeight());
-		progressBar = new View(view.getContext());
-		fl.addView(progressBar, fparams);
-		fl.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openViewConfigureDialog();
-			}
-		});
-		return fl;
-	}
+//	private View createConfiguration(){
+//		final OsmandMapTileView view = map.getMapView();
+//		
+//		FrameLayout.LayoutParams fparams = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//		final Drawable config = view.getResources().getDrawable(R.drawable.map_config);
+//		final Drawable configWhite = view.getResources().getDrawable(R.drawable.map_config_white);
+//		ImageViewWidget configuration = new ImageViewWidget(map) {
+//			private boolean nm;
+//			
+//			@Override
+//			public boolean updateInfo(DrawSettings drawSettings) {
+//				boolean nightMode = drawSettings != null && drawSettings.isNightMode();
+//				if(nightMode != this.nm) {
+//					this.nm = nightMode;
+//					setImageDrawable(nightMode ? configWhite : config);
+//					return true;
+//				}
+//				return false;
+//			}
+//		};
+//		configuration.setBackgroundDrawable(config);
+//		FrameLayout fl = new ConfigLayout(view.getContext(), configuration) ;
+//		fl.addView(configuration, fparams);
+//		fparams = new FrameLayout.LayoutParams(config.getMinimumWidth(), config.getMinimumHeight());
+//		progressBar = new View(view.getContext());
+//		fl.addView(progressBar, fparams);
+//		fl.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				openViewConfigureDialog();
+//			}
+//		});
+//		return fl;
+//	}
 	private View createLayer(){
 //		final Drawable globusDrawable = view.getResources().getDrawable(R.drawable.map_globus);
 //		final Drawable globusDrawableWhite = view.getResources().getDrawable(R.drawable.map_globus_white);
