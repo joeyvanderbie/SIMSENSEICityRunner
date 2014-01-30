@@ -57,7 +57,7 @@ public class MapControlsLayer extends OsmandMapLayer {
 	private TextPaint zoomTextPaint;
 	private Drawable zoomShadow;
 	
-	private Button backToMenuButton;
+	//private Button backToMenuButton;
 	private Drawable modeShadow;
 	
 	private Drawable rulerDrawable;
@@ -97,7 +97,7 @@ public class MapControlsLayer extends OsmandMapLayer {
 		
 		initZoomButtons(view, parent);
 
-		initBackToMenuButton(view, parent);
+	//	initBackToMenuButton(view, parent);
 		
 		initRuler(view, parent);
 		
@@ -152,58 +152,58 @@ public class MapControlsLayer extends OsmandMapLayer {
 	private Drawable cacheAppModeIcon = null;
 	
 	private void drawApplicationMode(Canvas canvas, boolean nightMode) {
-		ApplicationMode  appMode = view.getSettings().getApplicationMode();
-		if(appMode != cacheApplicationMode){
-			modeShadow.setBounds(backToMenuButton.getLeft() + (int) (2 * scaleCoefficient), backToMenuButton.getTop() - (int) (24 * scaleCoefficient),
-					backToMenuButton.getRight() - (int) (4 * scaleCoefficient), backToMenuButton.getBottom());
-			if(appMode == ApplicationMode.CAR){
-			//	cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.car_small_white : R.drawable.car_small);
-				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_car_dark : R.drawable.ic_action_car_light);
-			} else if(appMode == ApplicationMode.BICYCLE){
-//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.bicycle_small_white : R.drawable.bicycle_small);
-				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_bicycle_dark : R.drawable.ic_action_bicycle_light);
-			} else if(appMode == ApplicationMode.PEDESTRIAN){
-//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.pedestrian_small_white : R.drawable.pedestrian_small);
-				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_pedestrian_dark : R.drawable.ic_action_pedestrian_light);
-			} else {
-//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.default_small_white : R.drawable.default_small);
-				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.app_mode_globus_dark : R.drawable.app_mode_globus_light);
-			}
-			int l = modeShadow.getBounds().left + (modeShadow.getBounds().width() - cacheAppModeIcon.getMinimumWidth()) / 2;
-			int t = (int) (modeShadow.getBounds().top + 2 * scaleCoefficient);
-			cacheAppModeIcon.setBounds(l, t, l + cacheAppModeIcon.getMinimumWidth(), t + cacheAppModeIcon.getMinimumHeight());	
-		}
-		modeShadow.draw(canvas);
-		if(cacheAppModeIcon != null){
-			cacheAppModeIcon.draw(canvas);
-		}
-		
+//		ApplicationMode  appMode = view.getSettings().getApplicationMode();
+//		if(appMode != cacheApplicationMode){
+//			modeShadow.setBounds(backToMenuButton.getLeft() + (int) (2 * scaleCoefficient), backToMenuButton.getTop() - (int) (24 * scaleCoefficient),
+//					backToMenuButton.getRight() - (int) (4 * scaleCoefficient), backToMenuButton.getBottom());
+//			if(appMode == ApplicationMode.CAR){
+//			//	cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.car_small_white : R.drawable.car_small);
+//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_car_dark : R.drawable.ic_action_car_light);
+//			} else if(appMode == ApplicationMode.BICYCLE){
+////				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.bicycle_small_white : R.drawable.bicycle_small);
+//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_bicycle_dark : R.drawable.ic_action_bicycle_light);
+//			} else if(appMode == ApplicationMode.PEDESTRIAN){
+////				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.pedestrian_small_white : R.drawable.pedestrian_small);
+//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.ic_action_pedestrian_dark : R.drawable.ic_action_pedestrian_light);
+//			} else {
+////				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.default_small_white : R.drawable.default_small);
+//				cacheAppModeIcon = view.getResources().getDrawable(nightMode? R.drawable.app_mode_globus_dark : R.drawable.app_mode_globus_light);
+//			}
+//			int l = modeShadow.getBounds().left + (modeShadow.getBounds().width() - cacheAppModeIcon.getMinimumWidth()) / 2;
+//			int t = (int) (modeShadow.getBounds().top + 2 * scaleCoefficient);
+//			cacheAppModeIcon.setBounds(l, t, l + cacheAppModeIcon.getMinimumWidth(), t + cacheAppModeIcon.getMinimumHeight());	
+//		}
+//		modeShadow.draw(canvas);
+//		if(cacheAppModeIcon != null){
+//			cacheAppModeIcon.draw(canvas);
+//		}
+//		
 	}
 	
 	private void onApplicationModePress() {
-		final QuickAction mQuickAction = new QuickAction(backToMenuButton);
-		//int[] icons = new int[] { R.drawable.default_small, R.drawable.car_small, R.drawable.bicycle_small, R.drawable.pedestrian_small };
-		int[] icons = new int[] { R.drawable.ic_action_globus_light, R.drawable.ic_action_car_light, R.drawable.ic_action_bicycle_light, R.drawable.ic_action_pedestrian_light };
-		int[] values = new int[] { R.string.app_mode_default, R.string.app_mode_car, R.string.app_mode_bicycle,
-				R.string.app_mode_pedestrian };
-		final ApplicationMode[] modes = new ApplicationMode[] { ApplicationMode.DEFAULT, ApplicationMode.CAR, ApplicationMode.BICYCLE,
-				ApplicationMode.PEDESTRIAN };
-		for (int i = 0; i < 4; i++) {
-			final ActionItem action = new ActionItem();
-			action.setTitle(view.getResources().getString(values[i]));
-			action.setIcon(view.getResources().getDrawable(icons[i]));
-			final int j = i;
-			action.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					view.getSettings().APPLICATION_MODE.set(modes[j]);
-					mQuickAction.dismiss();
-				}
-			});
-			mQuickAction.addActionItem(action);
-		}
-		mQuickAction.setAnimStyle(QuickAction.ANIM_AUTO);
-		mQuickAction.show();
+//		final QuickAction mQuickAction = new QuickAction(backToMenuButton);
+//		//int[] icons = new int[] { R.drawable.default_small, R.drawable.car_small, R.drawable.bicycle_small, R.drawable.pedestrian_small };
+//		int[] icons = new int[] { R.drawable.ic_action_globus_light, R.drawable.ic_action_car_light, R.drawable.ic_action_bicycle_light, R.drawable.ic_action_pedestrian_light };
+//		int[] values = new int[] { R.string.app_mode_default, R.string.app_mode_car, R.string.app_mode_bicycle,
+//				R.string.app_mode_pedestrian };
+//		final ApplicationMode[] modes = new ApplicationMode[] { ApplicationMode.DEFAULT, ApplicationMode.CAR, ApplicationMode.BICYCLE,
+//				ApplicationMode.PEDESTRIAN };
+//		for (int i = 0; i < 4; i++) {
+//			final ActionItem action = new ActionItem();
+//			action.setTitle(view.getResources().getString(values[i]));
+//			action.setIcon(view.getResources().getDrawable(icons[i]));
+//			final int j = i;
+//			action.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					view.getSettings().APPLICATION_MODE.set(modes[j]);
+//					mQuickAction.dismiss();
+//				}
+//			});
+//			mQuickAction.addActionItem(action);
+//		}
+//		mQuickAction.setAnimStyle(QuickAction.ANIM_AUTO);
+//		mQuickAction.show();
 	}
 	
 	
@@ -241,42 +241,42 @@ public class MapControlsLayer extends OsmandMapLayer {
 	}
 
 
-	@Override
-	public boolean onSingleTap(PointF point) {
-		if (modeShadow.getBounds().contains((int) point.x, (int) point.y)) {
-			onApplicationModePress();
-			return true;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean onSingleTap(PointF point) {
+//		if (modeShadow.getBounds().contains((int) point.x, (int) point.y)) {
+//			onApplicationModePress();
+//			return true;
+//		}
+//		return false;
+//	}
 
 	
-	private void initBackToMenuButton(final OsmandMapTileView view, FrameLayout parent) {
-		android.widget.FrameLayout.LayoutParams params;
-		Context ctx = view.getContext();
-		backToMenuButton = new Button(ctx);
-		backToMenuButton.setContentDescription(ctx.getString(R.string.backToMenu));
-		backToMenuButton.setBackgroundResource(R.drawable.map_btn_menu);
-		params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-					Gravity.BOTTOM | Gravity.LEFT);
-		parent.addView(backToMenuButton, params);
-		backToMenuButton.setEnabled(true);
-		
-		modeShadow = view.getResources().getDrawable(R.drawable.zoom_background);
-		
-		
-		backToMenuButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// double lat = activity.getMapView().getLatitude();
-				// double lon = activity.getMapView().getLongitude();
-				// MainMenuActivity.backToMainMenuDialog(activity, new LatLon(lat, lon));
-				activity.getMapActions().openOptionsMenuAsList();
-			}
-		});
-		
-		activity.accessibleContent.add(backToMenuButton);
-	}
+//	private void initBackToMenuButton(final OsmandMapTileView view, FrameLayout parent) {
+//		android.widget.FrameLayout.LayoutParams params;
+//		Context ctx = view.getContext();
+//		backToMenuButton = new Button(ctx);
+//		backToMenuButton.setContentDescription(ctx.getString(R.string.backToMenu));
+//		backToMenuButton.setBackgroundResource(R.drawable.map_btn_menu);
+//		params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+//					Gravity.BOTTOM | Gravity.LEFT);
+//		parent.addView(backToMenuButton, params);
+//		backToMenuButton.setEnabled(true);
+//		
+//		modeShadow = view.getResources().getDrawable(R.drawable.zoom_background);
+//		
+//		
+//		backToMenuButton.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				// double lat = activity.getMapView().getLatitude();
+//				// double lon = activity.getMapView().getLongitude();
+//				// MainMenuActivity.backToMainMenuDialog(activity, new LatLon(lat, lon));
+//				activity.getMapActions().openOptionsMenuAsList();
+//			}
+//		});
+//		
+//		activity.accessibleContent.add(backToMenuButton);
+//	}
 	
 	private void initRuler(OsmandMapTileView view, FrameLayout parent) {
 		rulerTextPaint = new TextPaint();
