@@ -24,9 +24,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/app_name_city"
-            android:textSize="60dip"
-            android:textStyle="bold" 
-            android:gravity="center_horizontal"/>
+            android:textSize="55dip"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ProgressBar
