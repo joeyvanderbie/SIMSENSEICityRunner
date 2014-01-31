@@ -198,21 +198,21 @@ public class ContextMenuLayer extends OsmandMapLayer {
 
 	@Override
 	public boolean onLongPressEvent(PointF point) {
-		if ((Build.VERSION.SDK_INT < 14) && !view.getSettings().SCROLL_MAP_BY_GESTURES.get()) {
-			if (!selectedObjects.isEmpty())
-				view.showMessage(activity.getMyApplication().getLocationProvider().getNavigationHint(latLon));
-			return true;
-		}
-		
-		if(pressedInTextView(point.x, point.y) > 0){
-			setLocation(null, ""); //$NON-NLS-1$
-			view.refreshMap();
-			return true;
-		}
-		LatLon latLon = selectObjectsForContextMenu(point);
-		String description = getSelectedObjectDescription();
-		setLocation(latLon, description);
-		view.refreshMap();
+//		if ((Build.VERSION.SDK_INT < 14) && !view.getSettings().SCROLL_MAP_BY_GESTURES.get()) {
+//			if (!selectedObjects.isEmpty())
+//				view.showMessage(activity.getMyApplication().getLocationProvider().getNavigationHint(latLon));
+//			return true;
+//		}
+//		
+//		if(pressedInTextView(point.x, point.y) > 0){
+//			setLocation(null, ""); //$NON-NLS-1$
+//			view.refreshMap();
+//			return true;
+//		}
+//		LatLon latLon = selectObjectsForContextMenu(point);
+//		String description = getSelectedObjectDescription();
+//		setLocation(latLon, description);
+//		view.refreshMap();
 		return true;
 	}
 
