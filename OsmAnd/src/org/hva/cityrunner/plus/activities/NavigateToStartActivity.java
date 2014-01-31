@@ -73,7 +73,7 @@ public class NavigateToStartActivity  extends Activity implements OsmAndLocation
 				activity.startActivityForResult(mapIndent, 0);
 			}
 		});
-		next.setEnabled(false);
+		//next.setEnabled(false);
 		
 		Button prev = (Button) findViewById(R.id.PreviousButton);
 		prev.setOnClickListener(new OnClickListener() {

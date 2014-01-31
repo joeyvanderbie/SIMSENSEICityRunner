@@ -7,16 +7,12 @@ import java.util.Map;
 
 import org.hva.cityrunner.Location;
 import org.hva.cityrunner.StateChangedListener;
-import org.hva.cityrunner.data.LatLon;
-import org.hva.cityrunner.map.MapTileDownloader.DownloadRequest;
-import org.hva.cityrunner.map.MapTileDownloader.IMapDownloaderCallback;
-import org.hva.cityrunner.render.RenderingRulesStorage;
-import org.hva.cityrunner.util.Algorithms;
-
-import org.hva.cityrunner.access.AccessibilityPlugin;
 import org.hva.cityrunner.access.AccessibleActivity;
 import org.hva.cityrunner.access.AccessibleToast;
 import org.hva.cityrunner.access.MapAccessibilityActions;
+import org.hva.cityrunner.data.LatLon;
+import org.hva.cityrunner.map.MapTileDownloader.DownloadRequest;
+import org.hva.cityrunner.map.MapTileDownloader.IMapDownloaderCallback;
 import org.hva.cityrunner.plus.ApplicationMode;
 import org.hva.cityrunner.plus.BusyIndicator;
 import org.hva.cityrunner.plus.OsmAndLocationProvider.OsmAndLocationListener;
@@ -24,29 +20,29 @@ import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.OsmandPlugin;
 import org.hva.cityrunner.plus.OsmandSettings;
 import org.hva.cityrunner.plus.PoiFilter;
+import org.hva.cityrunner.plus.R;
 import org.hva.cityrunner.plus.TargetPointsHelper;
 import org.hva.cityrunner.plus.Version;
 import org.hva.cityrunner.plus.activities.MapActivityActions.DirectionDialogStyle;
-import org.hva.cityrunner.plus.activities.search.SearchActivity;
 import org.hva.cityrunner.plus.base.FailSafeFuntions;
 import org.hva.cityrunner.plus.base.MapViewTrackingUtilities;
 import org.hva.cityrunner.plus.render.RendererRegistry;
 import org.hva.cityrunner.plus.resources.ResourceManager;
-import org.hva.cityrunner.plus.routing.RoutingHelper;
 import org.hva.cityrunner.plus.routing.RouteProvider.GPXRouteParams;
+import org.hva.cityrunner.plus.routing.RoutingHelper;
 import org.hva.cityrunner.plus.routing.RoutingHelper.IRouteInformationListener;
 import org.hva.cityrunner.plus.routing.RoutingHelper.RouteCalculationProgressCallback;
 import org.hva.cityrunner.plus.views.AnimateDraggingMapThread;
 import org.hva.cityrunner.plus.views.OsmandMapLayer;
 import org.hva.cityrunner.plus.views.OsmandMapTileView;
+import org.hva.cityrunner.render.RenderingRulesStorage;
 import org.hva.cityrunner.sensei.data.LocationData;
 import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.LocationDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.sensors.AccelerometerListener;
 import org.hva.cityrunner.sensei.sensors.GyroscopeListener;
-import org.hva.cityrunner.plus.R;
-
+import org.hva.cityrunner.util.Algorithms;
 
 import android.app.Dialog;
 import android.app.Notification;
@@ -58,21 +54,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.location.LocationListener;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -127,6 +123,22 @@ public class MapActivity extends AccessibleActivity implements
 								PendingIntent.FLAG_UPDATE_CURRENT));
 		return notification;
 	}
+	
+	public void onBackPressed(){
+	     // do something here and don't write super.onBackPressed()
+		if(accelerometerListener != null){
+			accelerometerListener.submitLastSensorData();
+			sensorManager.unregisterListener(accelerometerListener);
+		}
+		
+		if(gyroscopeListener != null){
+			gyroscopeListener.submitLastSensorData();
+			sensorManager.unregisterListener(gyroscopeListener);
+		}
+		
+		
+		super.onBackPressed();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -146,6 +158,15 @@ public class MapActivity extends AccessibleActivity implements
 		startProgressDialog.setCancelable(true);
 		app.checkApplicationIsBeingInitialized(this, startProgressDialog);
 		parseLaunchIntentLocation();
+		
+		Button finish = (Button) findViewById(R.id.button_Finish_Route);
+		finish.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				routeIsFinished(System.currentTimeMillis());
+			}
+		});
 
 		mapView = (OsmandMapTileView) findViewById(R.id.MapView);
 		mapView.setTrackBallDelegate(new OsmandMapTileView.OnTrackBallListener() {
