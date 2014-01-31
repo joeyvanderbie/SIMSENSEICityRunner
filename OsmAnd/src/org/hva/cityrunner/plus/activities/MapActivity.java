@@ -448,52 +448,52 @@ public class MapActivity extends AccessibleActivity implements
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
-				&& app.getInternalAPI().accessibilityEnabled()) {
-			if (!uiHandler.hasMessages(LONG_KEYPRESS_MSG_ID)) {
-				Message msg = Message.obtain(uiHandler, new Runnable() {
-					@Override
-					public void run() {
-						app.getLocationProvider().emitNavigationHint();
-					}
-				});
-				msg.what = LONG_KEYPRESS_MSG_ID;
-				uiHandler.sendMessageDelayed(msg, LONG_KEYPRESS_DELAY);
-			}
-			return true;
-		} else if (keyCode == KeyEvent.KEYCODE_MENU
-				&& event.getRepeatCount() == 0) {
-			mapActions.openOptionsMenuAsList();
-			return true;
-		} else if (keyCode == KeyEvent.KEYCODE_SEARCH
-				&& event.getRepeatCount() == 0) {
-			Intent newIntent = new Intent(MapActivity.this,
-					OsmandIntents.getSearchActivity());
-			// causes wrong position caching:
-			// newIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			LatLon loc = getMapLocation();
-			newIntent.putExtra(SearchActivity.SEARCH_LAT, loc.getLatitude());
-			newIntent.putExtra(SearchActivity.SEARCH_LON, loc.getLongitude());
-			startActivity(newIntent);
-			newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			return true;
-		} else if (!app.getRoutingHelper().isFollowingMode()
-				&& OsmandPlugin.getEnabledPlugin(AccessibilityPlugin.class) != null) {
-			// Find more appropriate plugin for it?
-			if (keyCode == KeyEvent.KEYCODE_VOLUME_UP
-					&& event.getRepeatCount() == 0) {
-				if (mapView.isZooming()) {
-					changeZoom(mapView.getZoom() + 2);
-				} else {
-					changeZoom(mapView.getZoom() + 1);
-				}
-				return true;
-			} else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
-					&& event.getRepeatCount() == 0) {
-				changeZoom(mapView.getZoom() - 1);
-				return true;
-			}
-		}
+//		if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+//				&& app.getInternalAPI().accessibilityEnabled()) {
+//			if (!uiHandler.hasMessages(LONG_KEYPRESS_MSG_ID)) {
+//				Message msg = Message.obtain(uiHandler, new Runnable() {
+//					@Override
+//					public void run() {
+//						app.getLocationProvider().emitNavigationHint();
+//					}
+//				});
+//				msg.what = LONG_KEYPRESS_MSG_ID;
+//				uiHandler.sendMessageDelayed(msg, LONG_KEYPRESS_DELAY);
+//			}
+//			return true;
+//		} else if (keyCode == KeyEvent.KEYCODE_MENU
+//				&& event.getRepeatCount() == 0) {
+//			//mapActions.openOptionsMenuAsList();
+//			return true;
+//		} else if (keyCode == KeyEvent.KEYCODE_SEARCH
+//				&& event.getRepeatCount() == 0) {
+//			Intent newIntent = new Intent(MapActivity.this,
+//					OsmandIntents.getSearchActivity());
+//			// causes wrong position caching:
+//			// newIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//			LatLon loc = getMapLocation();
+//			newIntent.putExtra(SearchActivity.SEARCH_LAT, loc.getLatitude());
+//			newIntent.putExtra(SearchActivity.SEARCH_LON, loc.getLongitude());
+//			startActivity(newIntent);
+//			newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			return true;
+//		} else if (!app.getRoutingHelper().isFollowingMode()
+//				&& OsmandPlugin.getEnabledPlugin(AccessibilityPlugin.class) != null) {
+//			// Find more appropriate plugin for it?
+//			if (keyCode == KeyEvent.KEYCODE_VOLUME_UP
+//					&& event.getRepeatCount() == 0) {
+//				if (mapView.isZooming()) {
+//					changeZoom(mapView.getZoom() + 2);
+//				} else {
+//					changeZoom(mapView.getZoom() + 1);
+//				}
+//				return true;
+//			} else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+//					&& event.getRepeatCount() == 0) {
+//				changeZoom(mapView.getZoom() - 1);
+//				return true;
+//			}
+//		}
 		return super.onKeyDown(keyCode, event);
 	}
 
@@ -651,20 +651,20 @@ public class MapActivity extends AccessibleActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(accelerometerListener != null){
-			accelerometerListener.submitLastSensorData();
-			sensorManager.unregisterListener(accelerometerListener);
-		}
-		
-		if(gyroscopeListener != null){
-			gyroscopeListener.submitLastSensorData();
-			sensorManager.unregisterListener(gyroscopeListener);
-		}
-
-		app.getLocationProvider().removeLocationListener(this);
-		app.getLocationProvider().pauseAllUpdates();
-		app.getDaynightHelper().stopSensorIfNeeded();
-		settings.APPLICATION_MODE.removeListener(applicationModeListener);
+//		if(accelerometerListener != null){
+//			accelerometerListener.submitLastSensorData();
+//			sensorManager.unregisterListener(accelerometerListener);
+//		}
+//		
+//		if(gyroscopeListener != null){
+//			gyroscopeListener.submitLastSensorData();
+//			sensorManager.unregisterListener(gyroscopeListener);
+//		}
+//
+//		app.getLocationProvider().removeLocationListener(this);
+//		app.getLocationProvider().pauseAllUpdates();
+//		app.getDaynightHelper().stopSensorIfNeeded();
+//		settings.APPLICATION_MODE.removeListener(applicationModeListener);
 
 		settings.setLastKnownMapLocation((float) mapView.getLatitude(),
 				(float) mapView.getLongitude());
@@ -857,12 +857,15 @@ public class MapActivity extends AccessibleActivity implements
 
 	@Override
 	public void routeIsFinished(long finishTimestamp) {
-		RoutingHelper routingHelper = app.getRoutingHelper();
-		routingHelper.removeListener(this);
+
+//		mapActions.stopNavigationAction(mapView);
+//		RoutingHelper routingHelper = app.getRoutingHelper();
+//		routingHelper.setFinalAndCurrentLocation(null, new ArrayList<LatLon>(), mapActions.getLastKnownLocation(),
+//				routingHelper.getCurrentGPXRoute());
+//		settings.APPLICATION_MODE.set(settings.DEFAULT_APPLICATION_MODE.get());
 		
 		app.getLocationProvider().removeLocationListener(this);
 		
-		mapActions.stopNavigationAction(mapView);
 		
 		RouteRunData rrd = app.currentRouteRun;
 		accelerometerListener.submitLastSensorData();
