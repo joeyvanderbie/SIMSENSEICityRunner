@@ -183,7 +183,7 @@ public class RunFinishedActivity extends SherlockActivity {
 	            @Override
 	            public void run() {
 	            	insertData();//test sense data upload
-	            	//senseInsertAccelerometerData();
+	            	senseInsertAccelerometerData();
 
 	            }
 	        }, 500);
@@ -208,7 +208,11 @@ public class RunFinishedActivity extends SherlockActivity {
 	private void senseInsertAccelerometerData(){
 		AccelDataSource ads = new AccelDataSource(this);
 		ads.open();
-		ArrayList<AccelData> accels = ads.getAllAccel(run_id);
+		int limit = 300;
+		int offset = 0;
+		ArrayList<AccelData> accels = ads.getAllAccel(run_id, limit, offset);
+		
+		while(accels.size() > 0){
 		
 		Log.v("SENSE", "Insert data point for accelerometer");
 
@@ -219,29 +223,13 @@ public class RunFinishedActivity extends SherlockActivity {
 
 		JSONArray accelRun = new JSONArray();
 
-		showToast(R.string.msg_sent_data, "Acceldatapoints: "+accels.size());
-		int a = 0;
-		for(AccelData acc : accels){
-			//submit each 1000 items
-			if(a % 999 == 0){
-				final String accelRunString = accelRun.toString();
-				 accelRun = new JSONArray();
-				
-				new Thread() {
+		Log.d("SENSE ACCELEROMETER","Acceldatapoints: "+accels.size());
 
-						@Override
-						public void run() {
-							getMyApplication().getSensePlatform().addDataPoint(sensorName, sensorName,
-									sensorName, dataType, 
-									//"{\"x-axis\":\""+acc.getX()+"\",\"y-axis\":\""+acc.getY()+"\",\"z-axis\":\""+acc.getZ()+"\",\"run_id\":\""+current_run_id+"\",\"timestamp\":\""+acc.getTimestamp()+"\"}"
-									accelRunString
-									, System.currentTimeMillis());
-						}
-					}.start();
-			}
+		for(AccelData acc : accels){
 			accelRun.put("{\"x-axis\":\""+acc.getX()+"\",\"y-axis\":\""+acc.getY()+"\",\"z-axis\":\""+acc.getZ()+"\",\"run_id\":\""+current_run_id+"\",\"timestamp\":\""+acc.getTimestamp()+"\"}");
-			a++;
 		}		
+		
+		
 		final String accelRunString = accelRun.toString();
 		new Thread() {
 
@@ -254,8 +242,10 @@ public class RunFinishedActivity extends SherlockActivity {
 							, System.currentTimeMillis());
 				}
 			}.start();
-			// show message
-			showToast(R.string.msg_sent_data, sensorName);
+			
+			offset = offset+limit;
+			accels = ads.getAllAccel(run_id, limit, offset);
+		}
 	}
 	
 	/**
@@ -289,8 +279,6 @@ public class RunFinishedActivity extends SherlockActivity {
 			}
 		}.start();
 
-		// show message
-		showToast(R.string.msg_sent_data, sensorName);
 	}
 	
 	private void showToast(final int resId, final Object... formatArgs) {
@@ -345,6 +333,12 @@ public class RunFinishedActivity extends SherlockActivity {
 	    {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public void onBackPressed(){
+	     // do something here and don't write super.onBackPressed()
+		startActivity(new Intent(this, OsmandIntents.getMainMenuActivity()));
+		finish();
 	}
 
 }

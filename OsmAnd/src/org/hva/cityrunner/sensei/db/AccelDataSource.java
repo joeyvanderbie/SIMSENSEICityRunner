@@ -132,12 +132,12 @@ public class AccelDataSource {
 		return accels;
 	}
 	
-	public ArrayList<AccelData> getAllAccel(int run_id) {
+	public ArrayList<AccelData> getAllAccel(int run_id, int limit, int offset) {
 		ArrayList<AccelData> accels = new ArrayList<AccelData>();
 		String[] arguments = {""+run_id};
 		
 		Cursor cursor = database.query(Database.MOVEMENT.TABLE_NAME,
-				allColumns, Database.MOVEMENT.COLUMN_NAME_RUN_ID+" = "+ run_id,null, null, null, null, null);
+				allColumns, Database.MOVEMENT.COLUMN_NAME_RUN_ID+" = "+ run_id,null, null, null, null, offset+", "+limit);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
