@@ -198,7 +198,6 @@ public class RoutingHelper {
 		}
 	}
 	
-	
 	public Location setCurrentLocation(Location currentLocation, boolean returnUpdatedLocation ) {
 		Location locationProjection = currentLocation;
 		if (finalLocation == null || currentLocation == null) {
@@ -283,6 +282,12 @@ public class RoutingHelper {
 			recalculateRouteInBackground(currentLocation, finalLocation, intermediatePoints, currentGPXRoute, route.isCalculated() ? route
 					: null);
 		}
+		
+		if(System.currentTimeMillis() - voiceRouter.lastAnnouncedDirection > 30000){
+			//inform user of directions
+			voiceRouter.updateStatus(currentLocation, true);
+		}
+		
 		double projectDist = mode == ApplicationMode.CAR ? posTolerance : posTolerance / 2;
 		if(returnUpdatedLocation && locationProjection != null && currentLocation.distanceTo(locationProjection) < projectDist) {
 			return locationProjection;

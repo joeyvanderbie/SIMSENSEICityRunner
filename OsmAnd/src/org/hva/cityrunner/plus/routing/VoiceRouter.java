@@ -35,7 +35,8 @@ public class VoiceRouter {
 	private long waitAnnouncedOffRoute = 0;
 	private long lastAnnouncedSpeedCamera = 0;
 	private long lastAnnouncedWarning = 0;
-
+	public long lastAnnouncedDirection = 0;
+	
 	// private long lastTimeRouteRecalcAnnounced = 0;
 	
 	// default speed to have comfortable announcements (if actual speed is higher than it would be problem)
@@ -101,7 +102,7 @@ public class VoiceRouter {
 		PREPARE_LONG_DISTANCE_END = 3000;         // [ 90 sec] - 120 km/h
 		if(router.getAppMode() == ApplicationMode.PEDESTRIAN){
 			// prepare_long_distance warning not needed for pedestrian
-			PREPARE_LONG_DISTANCE_END = PREPARE_LONG_DISTANCE + 100; // do not play
+			PREPARE_LONG_DISTANCE_END = 200; // do not play
 			// prepare distance is not needed for pedestrian
 			//PREPARE_DISTANCE = 200;           // [100 sec]
 			//PREPARE_DISTANCE_END = 150 + 100; // [ 75 sec] + not play
@@ -176,6 +177,8 @@ public class VoiceRouter {
 	}
 	
 	protected void makeUTStatus() {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		// Mechanism via STATUS_UTWP_TOLD: Until turn in the right direction, or route is re-calculated in forward direction
 		if (currentStatus != STATUS_UTWP_TOLD) {
 			if (playMakeUTwp()) {
@@ -187,6 +190,8 @@ public class VoiceRouter {
 	}
 	
 	public void announceOffRoute(double dist) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		long ms = System.currentTimeMillis();
 		if(waitAnnouncedOffRoute == 0 || ms - lastAnnouncedOffRoute > waitAnnouncedOffRoute) {
 			CommandBuilder p = getNewCommandPlayerToPlay();
@@ -203,6 +208,8 @@ public class VoiceRouter {
 	}
 	
 	public void announceWaypoint(String w) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder p = getNewCommandPlayerToPlay();
 		if(p != null) {
 			p.arrivedAtWayPoint(w).play();
@@ -210,6 +217,8 @@ public class VoiceRouter {
 	}
 
 	public void announceAlarm(AlarmInfo alarm) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		if(alarm == null) {
 			return;
 		}
@@ -259,6 +268,9 @@ public class VoiceRouter {
 	 * @param currentLocation 
 	 */
 	protected void updateStatus(Location currentLocation, boolean repeat) {
+		if(repeat){
+			lastAnnouncedDirection = System.currentTimeMillis();
+		}
 		// Directly after turn: goAhead (dist), unless:
 		// < PREPARE_LONG_DISTANCE (3000m): playPrepareTurn
 		// < PREPARE_DISTANCE (1500m): playPrepareTurn
@@ -370,6 +382,8 @@ public class VoiceRouter {
 	}
 
 	public void announceCurrentDirection(Location currentLocation) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		synchronized (router) {
 			if (currentStatus != STATUS_UTWP_TOLD) {
 				updateStatus(currentLocation, true);
@@ -381,6 +395,8 @@ public class VoiceRouter {
 
 
 	private boolean playGoAheadToDestination(String strName, String destName) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.goAhead(router.getLeftDistance(), strName).andArriveAtDestination(destName).play();
@@ -390,6 +406,8 @@ public class VoiceRouter {
 	}
 	
 	private boolean playGoAheadToIntermediate(String strName, String iName) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.goAhead(router.getLeftDistanceNextIntermediate(), strName).andArriveAtIntermediatePoint(iName).play();
@@ -399,6 +417,8 @@ public class VoiceRouter {
 	}
 	
 	private boolean playMakeUTwp() {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.makeUTwp().play();
@@ -408,6 +428,8 @@ public class VoiceRouter {
 	}
 
 	private void playGoAhead(int dist, String streetName) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.goAhead(dist, streetName).play();
@@ -428,6 +450,8 @@ public class VoiceRouter {
 	}
 
 	private void playPrepareTurn(RouteDirectionInfo next, int dist) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			String tParam = getTurnType(next.getTurnType());
@@ -442,6 +466,8 @@ public class VoiceRouter {
 	}
 
 	private void playMakeTurnIn(RouteDirectionInfo next, int dist, RouteDirectionInfo pronounceNextNext) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if (play != null) {
 			String tParam = getTurnType(next.getTurnType());
@@ -478,6 +504,8 @@ public class VoiceRouter {
 	}
 
 	private void playMakeTurn(RouteDirectionInfo next, RouteDirectionInfo nextNext) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			String tParam = getTurnType(next.getTurnType());
@@ -537,6 +565,8 @@ public class VoiceRouter {
 	}
 	
 	public void gpsLocationLost(){
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if (play != null) {
 			play.gpsLocationLost().play();
@@ -544,6 +574,8 @@ public class VoiceRouter {
 	}
 
 	public void newRouteIsCalculated(boolean newRoute) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if (play != null) {
 			if (!newRoute) {
@@ -568,6 +600,8 @@ public class VoiceRouter {
 	}
 
 	public void arrivedDestinationPoint(String name) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.arrivedAtDestination(name).play();
@@ -575,6 +609,8 @@ public class VoiceRouter {
 	}
 	
 	public void arrivedIntermediatePoint(String name) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.arrivedAtIntermediatePoint(name).play();
@@ -582,6 +618,8 @@ public class VoiceRouter {
 	}
 	
 	public void arrivedWayPoint(String name) {
+		lastAnnouncedDirection = System.currentTimeMillis();
+
 		CommandBuilder play = getNewCommandPlayerToPlay();
 		if(play != null){
 			play.arrivedAtWayPoint(name).play();
