@@ -3,7 +3,7 @@
     <string name="app_name">SIM SENSEI City Runner</string>
     <string name="app_name_sim">SIM SENSEI</string>
     <string name="app_name_city">City Runner</string>
-    <string name="app_version">BETA</string>
+    <string name="app_version">BETA 3</string>
     <!-- Not translatable -->
     <string name="ga_api_key">UA-28342846-2</string>
     <string name="ga_dispatchPeriod">10</string>
@@ -101,17 +101,19 @@
 	<string name="title_explain_activity">Steps to take</string>
 	<string name="explain_text">To start running take the following steps:
 	   \n
+	   	\n0. Plug in your headset
 	    \n1. Select your neighbourhood
-	    \n2. Choose a route te run
+	    \n2. Choose a route to run
 	    \n3. Give your current emotional state
-	    \n4. Run the route
+	    \n4. Put the phone in your pocket and Run the route.
+	    \n No watching while running! Please keep your eyes on the road and not on your screen for safety purposes the app will tell you where to run.
 	    \n5. When finished, give your new emtional state
-	    \n6. You all done! Go run some more, or admire your run on the CitySDK</string>
+	    \n6. Finished! Go run some more, or admire your run on the CitySDK</string>
 	
 	
 	<!-- NavigateToPoint Acitivyt -->
 	<string name="cancel_button">Cancel</string>
-	<string name="start_button">Start</string>
+	<string name="start_button">Continue</string>
 	<string name="navigate_to_point">Please navigate to the starting point before starting your run.
 	    \n And press the start button to start running! </string>
 	<string name="starting_point">Move within 300m distance of your starting point to begin.
