@@ -879,7 +879,7 @@ public class MapActivity extends AccessibleActivity implements
 	@Override
 	public void routeIsFinished(long finishTimestamp) {
 
-//		mapActions.stopNavigationAction(mapView);
+		mapActions.stopNavigationAction(mapView);
 //		RoutingHelper routingHelper = app.getRoutingHelper();
 //		routingHelper.setFinalAndCurrentLocation(null, new ArrayList<LatLon>(), mapActions.getLastKnownLocation(),
 //				routingHelper.getCurrentGPXRoute());
