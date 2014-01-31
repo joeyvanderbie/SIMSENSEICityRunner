@@ -156,15 +156,6 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		View head = (View) window.findViewById(R.id.Headliner);
 		head.startAnimation(getAnimation(0, -1));
 		
-		View leftview = (View) window.findViewById(R.id.MapButton);
-		leftview.startAnimation(getAnimation(-1, 0));
-		leftview = (View) window.findViewById(R.id.FavoritesButton);
-		leftview.startAnimation(getAnimation(-1, 0));
-		
-		View rightview = (View) window.findViewById(R.id.SettingsButton);
-		rightview.startAnimation(getAnimation(1, 0));
-		rightview = (View) window.findViewById(R.id.SearchButton);
-		rightview.startAnimation(getAnimation(1, 0));
 		
 		String textVersion = Version.getAppVersion(((OsmandApplication) activity.getApplication()));
 		final TextView textVersionView = (TextView) window.findViewById(R.id.TextVersion);
@@ -408,17 +399,17 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //				dlg.show();
 
 				//activity.startActivity(new Intent(activity,WelcomeActivity.class));
-			} else {
-				if (startProgressDialog.isShowing()) {
-					startProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-						@Override
-						public void onDismiss(DialogInterface dialog) {
-							checkVectorIndexesDownloaded();
-						}
-					});
-				} else {
-					checkVectorIndexesDownloaded();
-				}
+//			} else {
+//				if (startProgressDialog.isShowing()) {
+//					startProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//						@Override
+//						public void onDismiss(DialogInterface dialog) {
+//							checkVectorIndexesDownloaded();
+//						}
+//					});
+//				} else {
+//					checkVectorIndexesDownloaded();
+//				}
 			}
 		}
 		checkPreviousRunsForExceptions(firstTime);
