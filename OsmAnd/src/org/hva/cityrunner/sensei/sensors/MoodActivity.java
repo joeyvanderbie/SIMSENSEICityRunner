@@ -5,7 +5,11 @@ import nl.sense_os.service.constants.SenseDataTypes;
 import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.activities.OsmandIntents;
 import org.hva.cityrunner.plus.activities.UsageDataActivity;
+import org.hva.cityrunner.sensei.data.QueueData;
+import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
+import org.hva.cityrunner.sensei.db.QueueDataSource;
+import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.createit.digitallife.sam.AffectDomain;
 import org.hva.cityrunner.plus.R;
 
@@ -53,6 +57,7 @@ public class MoodActivity extends Activity implements OnTouchListener{
         
 
         cb = (Button) this.findViewById(R.id.buttonConfirm);
+ 
 	}
 	
 	  /**
@@ -92,6 +97,14 @@ public class MoodActivity extends Activity implements OnTouchListener{
 		
 //		 startActivity(new Intent(this, AffectSAMActivity.class));
 		if(nextActivity.equals("map")){
+	        OsmandApplication app = (OsmandApplication) getApplication();
+	       QueueDataSource rrds = app.getQueueDataSource();
+	        rrds.open();
+	        QueueData qd = new QueueData();
+	        qd.setRun_id(run_id);
+	        rrds.add(qd);
+	        rrds.close();
+			
 			Intent mapIntent = new Intent(this, OsmandIntents.getMapActivity());
 			mapIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			mapIntent.putExtra("track",tracknr);

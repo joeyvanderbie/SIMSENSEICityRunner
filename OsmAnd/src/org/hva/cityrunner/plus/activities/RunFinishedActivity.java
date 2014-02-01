@@ -11,9 +11,11 @@ import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.R;
 import org.hva.cityrunner.sensei.data.AccelData;
 import org.hva.cityrunner.sensei.data.AffectData;
+import org.hva.cityrunner.sensei.data.QueueData;
 import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.AccelDataSource;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
+import org.hva.cityrunner.sensei.db.QueueDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
 import org.hva.cityrunner.sensei.sensors.SenseiBackupService;
@@ -179,29 +181,26 @@ public class RunFinishedActivity extends SherlockActivity {
 	}
 	
 	private void uploadDataToSense(){
-		/*
-		 * Creates a new Intent to start the RSSPullService
-		 * IntentService. Passes a URI in the
-		 * Intent's "data" field.
-		 */
-		mServiceIntent = new Intent(this, SenseiBackupService.class);
-		mServiceIntent.uploadRun(run_id);
 		
-		  final Handler handler = new Handler();
-	        handler.postDelayed(new Runnable() {
-	            @Override
-	            public void run() {
-	            	insertData();//test sense data upload
-	            	senseInsertAccelerometerData();
+		Intent mServiceIntent = new Intent(this, SenseiBackupService.class);
+		startService(mServiceIntent);
 
-	            }
-	        }, 500);
-	        handler.postDelayed(new Runnable() {
-	            @Override
-	            public void run() {
-	            	flushData();
-	            }
-	        }, 60000);//after 1 minute submit data
+//		
+//		  final Handler handler = new Handler();
+//	        handler.postDelayed(new Runnable() {
+//	            @Override
+//	            public void run() {
+//	            	insertData();//test sense data upload
+//	            	senseInsertAccelerometerData();
+//
+//	            }
+//	        }, 500);
+//	        handler.postDelayed(new Runnable() {
+//	            @Override
+//	            public void run() {
+//	            	flushData();
+//	            }
+//	        }, 60000);//after 1 minute submit data
 	}
 	
 	private void flushData() {

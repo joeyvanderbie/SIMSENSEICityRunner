@@ -116,6 +116,16 @@ public class QueueDataSource {
 		cursor.close();
 		return rrr;
 	}
+	
+	public QueueData getQueueByRun_id(int run_id){
+		Cursor cursor = database.query(Database.Queue.TABLE_NAME,
+				allColumns, Database.Queue.COLUMN_NAME_RUN_ID + " = " + run_id, null,
+				null, null, null);
+		cursor.moveToFirst();
+		QueueData rrr = cursorToQueue(cursor);
+		cursor.close();
+		return rrr;
+	}
 
 	private QueueData cursorToQueue(Cursor cursor) {
 		QueueData rrr = new QueueData();

@@ -255,7 +255,7 @@
         </activity>
 		  
 		  <service
-            android:name=".SenseiBackupService"
+            android:name="org.hva.cityrunner.sensei.sensors.SenseiBackupService"
             android:exported="false"/>
 		  
 		  

@@ -57,7 +57,7 @@ Button next;
 				startActivity(intentSettings);
 			}
 		});
-	next.setActivated(false);
+	next.setClickable(false);
 		
 		phone_position = (Spinner) findViewById(R.id.spinner_phone_position);
 		phone_position.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -65,8 +65,7 @@ Button next;
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
-				next.setActivated(true);
+				next.setClickable(true);
 			}
 
 			@Override
