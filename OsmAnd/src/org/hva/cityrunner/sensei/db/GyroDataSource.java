@@ -3,6 +3,7 @@ package org.hva.cityrunner.sensei.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hva.cityrunner.sensei.data.AccelData;
 import org.hva.cityrunner.sensei.data.GyroData;
 
 import android.content.ContentValues;
@@ -117,6 +118,24 @@ public class GyroDataSource {
 		
 		Cursor cursor = database.query(Database.GYRO.TABLE_NAME,
 				allColumns, Database.GYRO.COLUMN_NAME_RUN_ID+" = "+ run_id,null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			GyroData af = cursorToGyro(cursor);
+			accels.add(af);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return accels;
+	}
+	
+	public ArrayList<GyroData> getAllGyro(int run_id, int limit, int offset) {
+		ArrayList<GyroData> accels = new ArrayList<GyroData>();
+		String[] arguments = {""+run_id};
+		
+		Cursor cursor = database.query(Database.GYRO.TABLE_NAME,
+				allColumns, Database.GYRO.COLUMN_NAME_RUN_ID+" = "+ run_id,null, null, null, null, offset+", "+limit);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {

@@ -3,7 +3,7 @@
     <string name="app_name">SIM SENSEI City Runner</string>
     <string name="app_name_sim">SIM SENSEI</string>
     <string name="app_name_city">City Runner</string>
-    <string name="app_version">BETA 3</string>
+    <string name="app_version">BETA 4</string>
     <!-- Not translatable -->
     <string name="ga_api_key">UA-28342846-2</string>
     <string name="ga_dispatchPeriod">10</string>
@@ -133,7 +133,7 @@
 	    <string name="starting_point_meters"> meters from your starting point: </string>
 	<string name="show_on_google_maps">Show starting point on map</string>
 	<string name="plugin_headphones">Now is a good time to plugin your headphones</string>
-	<string name="position_unknown">?</string>
+	<string name="position_unknown">unknown</string>
 	
 	<!-- Phone usage Activity -->
 	<string name="title_usage_data_activity">Phone usage</string>

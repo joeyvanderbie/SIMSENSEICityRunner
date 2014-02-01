@@ -7,17 +7,17 @@ import nl.sense_os.service.constants.SenseDataTypes;
 import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.R;
 import org.hva.cityrunner.sensei.data.AccelData;
+import org.hva.cityrunner.sensei.data.GyroData;
 import org.hva.cityrunner.sensei.data.QueueData;
 import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.AccelDataSource;
+import org.hva.cityrunner.sensei.db.GyroDataSource;
 import org.hva.cityrunner.sensei.db.QueueDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.json.JSONArray;
 
-import alice.util.Sleep;
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 
 public class SenseiBackupService extends IntentService{
@@ -27,9 +27,10 @@ public class SenseiBackupService extends IntentService{
 	private String TAG = "SENSEI BACKGROUND";
 	private int run_id;
 	private QueueDataSource qds ;
+	private int sleepTime = 80000; //80 seconden ipv 60 voor de zekerheid
 	
 
-	int limit = 300; //limit for accel and gyro
+	int limit = 600; //limit for accel and gyro
 	
 	public SenseiBackupService() {
 		super("SenseiBackupService");
@@ -116,6 +117,13 @@ public class SenseiBackupService extends IntentService{
 			flushData();
 
 			//go to gyro with delay
+			 try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    submitGyro(run_id);
 			
 		}else if(qd.getAccelleft() < limit){
 			senseInsertAccelerometerData(run_id, 0);
@@ -125,7 +133,18 @@ public class SenseiBackupService extends IntentService{
 			qds.close();
 			accelItterate = 0;
 			flushData();
+			
 			//go to gyro with delay
+			 try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    submitGyro(run_id);
+
+			
+			
 		}else{
 			qd.setAccelleft(qd.getAccelleft()-limit);
 			senseInsertAccelerometerData(run_id, qd.getAccelleft());
@@ -133,10 +152,10 @@ public class SenseiBackupService extends IntentService{
 			qds.updateAccelleft(qd.getId(), qd.getAccelleft());
 			qds.close();
 			
-			if(accelItterate % 5 == 0){
+			if(accelItterate % 50 == 0){ //50 * limit (500) = 25000
 				flushData();
 				 try {
-						Thread.sleep(90000);
+						Thread.sleep(sleepTime);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -150,7 +169,59 @@ public class SenseiBackupService extends IntentService{
 	}
 	
 	//submit gyro
-	
+	int gyroItterate = 0;
+	private void submitGyro(final int run_id){
+		Log.v(TAG, "Submit Gyrodata for run_id"+run_id);
+		gyroItterate++;
+		
+		qds.open();
+		QueueData qd = qds.getQueueByRun_id(run_id);
+		qds.close();
+		
+
+		Log.d(TAG,"Gyrodatapoints left: "+qd.getGyroleft());
+		
+		if(qd.getGyroleft() <= 0){
+			qd.setGyroleft(0);
+			qds.open();
+			qds.updateGyroleft(qd.getId(), qd.getGyroleft());
+			qds.close();
+			gyroItterate = 0;
+			flushData();
+
+			//go to gps with delay
+			
+		}else if(qd.getGyroleft() < limit){
+			senseInsertGyroData(run_id, 0);
+			qd.setGyroleft(0);
+			qds.open();
+			qds.updateGyroleft(qd.getId(), qd.getGyroleft());
+			qds.close();
+			gyroItterate = 0;
+			flushData();
+			//go to gps with delay
+		}else{
+			qd.setGyroleft(qd.getGyroleft()-limit);
+			senseInsertGyroData(run_id, qd.getGyroleft());
+			qds.open();
+			qds.updateGyroleft(qd.getId(), qd.getGyroleft());
+			qds.close();
+			
+			if(gyroItterate % 50 == 0){ //50 * limit (500) = 25000
+				flushData();
+				 try {
+						Thread.sleep(sleepTime);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    submitGyro(run_id);
+			}else{
+					submitGyro(run_id);
+			}
+		}
+		
+	}
 	//submit gps
 	
 	//submit emotie
@@ -199,7 +270,7 @@ public class SenseiBackupService extends IntentService{
 		}
 		
 		 try {
-			Thread.sleep(90000);
+			Thread.sleep(sleepTime);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -213,7 +284,6 @@ public class SenseiBackupService extends IntentService{
 		ads.open();
 		ArrayList<AccelData> accels = ads.getAllAccel(run_id, limit, offset);
 		ads.close();
-		//while(accels.size() > 0){
 		
 		Log.v("SENSE", "Insert data point for accelerometer");
 
@@ -221,14 +291,12 @@ public class SenseiBackupService extends IntentService{
 		final String dataType = SenseDataTypes.JSON;
 		final int current_run_id = run_id;
 		
-
 		JSONArray accelRun = new JSONArray();
 
 
 		for(AccelData acc : accels){
-			accelRun.put("{\"x\":\""+acc.getX()+"\",\"y\":\""+acc.getY()+"\",\"z\":\""+acc.getZ()+"\",\"run_id\":\""+current_run_id+"\",\"timestamp\":\""+acc.getTimestamp()+"\"}");
+			accelRun.put(  "{x:"+acc.getX()+",y:"+acc.getY()+",z:"+acc.getZ()+",r:"+current_run_id+",t:"+acc.getTimestamp()+"}");
 		}		
-		
 		
 		final String accelRunString = accelRun.toString();
 		new Thread() {
@@ -237,16 +305,45 @@ public class SenseiBackupService extends IntentService{
 				public void run() {
 					app.getSensePlatform().addDataPoint(sensorName, sensorName,
 							sensorName, dataType, 
-							//"{\"x-axis\":\""+acc.getX()+"\",\"y-axis\":\""+acc.getY()+"\",\"z-axis\":\""+acc.getZ()+"\",\"run_id\":\""+current_run_id+"\",\"timestamp\":\""+acc.getTimestamp()+"\"}"
 							accelRunString
 							, System.currentTimeMillis());
 				}
 			}.start();
-		//}
 	}
 	
 	
 	//add gyrodata to sense
+	private void senseInsertGyroData(int run_id, int offset){
+		GyroDataSource ads = new GyroDataSource(this);
+		ads.open();
+		ArrayList<GyroData> accels = ads.getAllGyro(run_id, limit, offset);
+		ads.close();
+		
+		Log.v("SENSE", "Insert data point for accelerometer");
+
+		final String sensorName = "sensei_gyrometer";
+		final String dataType = SenseDataTypes.JSON;
+		final int current_run_id = run_id;
+		
+		JSONArray accelRun = new JSONArray();
+
+
+		for(GyroData acc : accels){
+			accelRun.put(  "{x:"+acc.getX()+",y:"+acc.getY()+",z:"+acc.getZ()+",r:"+current_run_id+",t:"+acc.getTimestamp()+"}");
+		}		
+		
+		final String accelRunString = accelRun.toString();
+		new Thread() {
+
+				@Override
+				public void run() {
+					app.getSensePlatform().addDataPoint(sensorName, sensorName,
+							sensorName, dataType, 
+							accelRunString
+							, System.currentTimeMillis());
+				}
+			}.start();
+	}
 	
 	//add gpsdata tot sense
 	
