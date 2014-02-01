@@ -149,6 +149,16 @@ public class AccelDataSource {
 		cursor.close();
 		return accels;
 	}
+	
+	public int getAllAccelCount(int run_id){
+		String query = "SELECT count("+Database.MOVEMENT._ID+") from "+Database.MOVEMENT.TABLE_NAME+" WHERE "+Database.MOVEMENT.COLUMN_NAME_RUN_ID+"="+run_id;
+		Cursor c = database.rawQuery(query,null);
+		int lastId = 0;
+		if (c != null && c.moveToFirst()) {
+		    lastId = c.getInt(0); //The 0 is the column index, we only have 1 column, so the index is 0
+		}
+		return lastId;
+	}
 
 	private AccelData cursorToAccel(Cursor cursor) {
 		AccelData af = new AccelData();

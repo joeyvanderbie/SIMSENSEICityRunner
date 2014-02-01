@@ -45,7 +45,9 @@ import org.hva.cityrunner.plus.voice.CommandPlayer;
 import org.hva.cityrunner.plus.voice.CommandPlayerException;
 import org.hva.cityrunner.plus.voice.CommandPlayerFactory;
 import org.hva.cityrunner.sensei.data.RouteRunData;
+import org.hva.cityrunner.sensei.db.AccelDataSource;
 import org.hva.cityrunner.sensei.db.LocationDataSource;
+import org.hva.cityrunner.sensei.db.QueueDataSource;
 import org.hva.cityrunner.sensei.db.RouteDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
@@ -89,6 +91,8 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 	RouteRunDataSource routeRunDataSource = null;
 	RouteDataSource routeDataSource = null;
 	LocationDataSource locationDataSource = null;
+	QueueDataSource queueDataSource = null;
+	AccelDataSource accelDataSource = null;
 	UserDataSource userDataSource = null;
 	FavouritesDbHelper favorites = null;
 	CommandPlayer player = null;
@@ -429,6 +433,20 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 		return routeRunDataSource;
 	}
 	
+	public AccelDataSource getAccelDataSource(){
+		if(accelDataSource == null){
+			accelDataSource = new AccelDataSource(this);
+		}
+		return accelDataSource;
+	}
+	
+	public QueueDataSource getQueueDataSource(){
+		if(queueDataSource == null){
+			queueDataSource = new QueueDataSource(this);
+		}
+		return queueDataSource;
+	}
+	
 	public RouteDataSource getRouteDataSource(){
 		if(routeDataSource == null){
 			routeDataSource = new RouteDataSource(this);
@@ -519,7 +537,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 				activity.showDialog(PROGRESS_DIALOG);
 				startDialog.setDialog(progressDialog);
 			} else if (startingWarnings != null) {
-				showWarnings(startingWarnings, activity);
+				//showWarnings(startingWarnings, activity);
 			}
 		}
 	}
@@ -766,7 +784,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 							}
 						}
 					});
-					showWarnings(warnings, toDismiss.getContext());
+					//showWarnings(warnings, toDismiss.getContext());
 				} else {
 					startingWarnings = warnings;
 				}
