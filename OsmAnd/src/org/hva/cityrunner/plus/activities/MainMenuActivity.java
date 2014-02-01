@@ -181,13 +181,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			textVersionView.setText(content);
 			textVersionView.setMovementMethod(LinkMovementMethod.getInstance());
 		}
-		View helpButton = window.findViewById(R.id.HelpButton);
-		helpButton.setOnClickListener(new OnClickListener() {
+		View configButton = window.findViewById(R.id.button_config);
+		configButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				TipsAndTricksActivity tactivity = new TipsAndTricksActivity(activity);
-//				Dialog dlg = tactivity.getDialogToShowTips(true, false);
-//				dlg.show();
 				activity.startActivity(new Intent(activity,WelcomeActivity.class));
 			}
 		});
