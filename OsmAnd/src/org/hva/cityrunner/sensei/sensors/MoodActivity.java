@@ -4,6 +4,7 @@ import nl.sense_os.service.constants.SenseDataTypes;
 
 import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.activities.OsmandIntents;
+import org.hva.cityrunner.plus.activities.UsageDataActivity;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
 import org.hva.createit.digitallife.sam.AffectDomain;
 import org.hva.cityrunner.plus.R;
@@ -98,7 +99,11 @@ public class MoodActivity extends Activity implements OnTouchListener{
 			startActivity(mapIntent);
 		}else{
 			Intent intentSettings = new Intent(this,
-					OsmandIntents.getRunFinishedActivity());
+					UsageDataActivity.class);
+			intentSettings.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intentSettings.putExtra("track",tracknr);
+			intentSettings.putExtra("run_id", run_id);
+					//OsmandIntents.getRunFinishedActivity());
 			//intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		}

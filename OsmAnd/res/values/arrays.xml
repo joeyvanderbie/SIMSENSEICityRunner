@@ -8,4 +8,11 @@
 	<string-array name="array_neighbourhood">
 			<item>Select your neighbourhood</item>
 	</string-array>
+	<string-array name="array_phone_position">
+	    <item>select phone position</item>
+			<item>Jacket</item>
+			<item>Hand</item>
+			<item>Trousers</item>
+			<item>Purse</item>
+	</string-array>
 </resources>

@@ -16,6 +16,7 @@ import org.hva.cityrunner.sensei.db.AccelDataSource;
 import org.hva.cityrunner.sensei.db.AffectDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
+import org.hva.cityrunner.sensei.sensors.SenseiBackupService;
 import org.hva.cityrunner.sensei.sensors.StaticAffectButton;
 import org.json.JSONArray;
 
@@ -178,6 +179,14 @@ public class RunFinishedActivity extends SherlockActivity {
 	}
 	
 	private void uploadDataToSense(){
+		/*
+		 * Creates a new Intent to start the RSSPullService
+		 * IntentService. Passes a URI in the
+		 * Intent's "data" field.
+		 */
+		mServiceIntent = new Intent(this, SenseiBackupService.class);
+		mServiceIntent.uploadRun(run_id);
+		
 		  final Handler handler = new Handler();
 	        handler.postDelayed(new Runnable() {
 	            @Override
@@ -264,7 +273,12 @@ public class RunFinishedActivity extends SherlockActivity {
 		RouteRunData rrd = rrds.getLastRouteRun();
 		rrds.close();
 		
-		final String value = "{\"runid\":\""+rrd.getRoute_id()+"\",\"startdatetime\":\""+rrd.getStart_datetime()+"\",\"enddatetime\":\""+rrd.getEnd_datetime()+"\",\"id\":\""+rrd.getId()+"\"}";
+		final String value = "{\"runid\":\""+rrd.getRoute_id()+"\",\"startdatetime\":\""+rrd.getStart_datetime()+"\",\"enddatetime\":\""+rrd.getEnd_datetime()+"\",\"id\":\""+rrd.getId()
+				+"\",\"phone_position\":\""+rrd.getPhone_position()
+				+"\",\"headphones\":\""+(rrd.isHeadphones()?1:0)
+				+"\",\"number_people\":\""+rrd.getNumber_people()
+				+"\",\"remarks\":\""+rrd.getRemarks()
+				+"\"}";
 		
 		//timestamp is van toevoeging
 		final long timestamp = System.currentTimeMillis();// estTimestamp;

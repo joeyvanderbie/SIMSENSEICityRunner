@@ -228,6 +228,11 @@
             android:name="org.hva.cityrunner.plus.activities.UserDataActivity"
             android:label="@string/title_user_data_activity" >
         </activity>
+        <!-- UsageData ACTIVITY -->
+        <activity
+            android:name="org.hva.cityrunner.plus.activities.UsageDataActivity"
+            android:label="@string/title_usage_data_activity" >
+        </activity>
         <!-- Explain ACTIVITY -->
         <activity
             android:name="org.hva.cityrunner.plus.activities.ExplainActivity"
@@ -248,7 +253,12 @@
             android:name="org.hva.cityrunner.sensei.sensors.AffectSAMActivity"
             android:label="@string/title_activity_mood" >
         </activity>
-		
+		  
+		  <service
+            android:name=".SenseiBackupService"
+            android:exported="false"/>
+		  
+		  
  <!-- MAIN SERVICE THAT MANAGES SENSING -->
         <service
             android:name="nl.sense_os.service.SenseService"

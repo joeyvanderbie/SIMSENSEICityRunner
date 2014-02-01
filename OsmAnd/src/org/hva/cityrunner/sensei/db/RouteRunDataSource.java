@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract.Contacts.Data;
 
 public class RouteRunDataSource {
 
@@ -19,7 +20,11 @@ public class RouteRunDataSource {
 			Database.RouteRun.COLUMN_NAME_TEAM_ID,
 			Database.RouteRun.COLUMN_NAME_ROUTE_ID,
 			Database.RouteRun.COLUMN_NAME_START_DATETIME,
-			Database.RouteRun.COLUMN_NAME_END_DATETIME };
+			Database.RouteRun.COLUMN_NAME_END_DATETIME,
+			Database.RouteRun.COLUMN_NAME_PHONE_POSITION,
+			Database.RouteRun.COLUMN_NAME_HEADPHONES,
+			Database.RouteRun.COLUMN_NAME_NUMBER_PEOPLE,
+			Database.RouteRun.COLUMN_NAME_REMARKS};
 
 	public RouteRunDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -42,7 +47,14 @@ public class RouteRunDataSource {
 				routeRun.getStart_datetime());
 		values.put(Database.RouteRun.COLUMN_NAME_END_DATETIME,
 				routeRun.getEnd_datetime());
-
+		values.put(Database.RouteRun.COLUMN_NAME_PHONE_POSITION,
+				routeRun.getPhone_position());
+		values.put(Database.RouteRun.COLUMN_NAME_HEADPHONES,
+				(routeRun.isHeadphones()? 1:0 ));
+		values.put(Database.RouteRun.COLUMN_NAME_NUMBER_PEOPLE,
+				routeRun.getNumber_people());
+		values.put(Database.RouteRun.COLUMN_NAME_REMARKS,
+				routeRun.getRemarks());
 		long insertId = database.insert(Database.RouteRun.TABLE_NAME, null,
 				values);
 		Cursor cursor = database.query(Database.RouteRun.TABLE_NAME,
@@ -56,7 +68,6 @@ public class RouteRunDataSource {
 
 	public void deleteRouteRun(RouteRunData routeRun) {
 		long id = routeRun.getId();
-		System.out.println("Comment deleted with id: " + id);
 		database.delete(Database.RouteRun.TABLE_NAME, Database.RouteRun._ID
 				+ " = " + id, null);
 	}
@@ -94,6 +105,16 @@ public class RouteRunDataSource {
 		cursor.close();
 		return rrr;
 	}
+	
+	public RouteRunData getRouteRun(int id){
+		Cursor cursor = database.query(Database.RouteRun.TABLE_NAME,
+				allColumns, Database.RouteRun._ID + " = " + id, null,
+				null, null, null);
+		cursor.moveToFirst();
+		RouteRunData rrr = cursorToRouteRun(cursor);
+		cursor.close();
+		return rrr;
+	}
 
 	private RouteRunData cursorToRouteRun(Cursor cursor) {
 		RouteRunData rrr = new RouteRunData();
@@ -102,6 +123,10 @@ public class RouteRunDataSource {
 		rrr.setRoute_id(cursor.getInt(2));
 		rrr.setStart_datetime(cursor.getLong(3));
 		rrr.setEnd_datetime(cursor.getLong(4));
+		rrr.setPhone_position(cursor.getString(5));
+		rrr.setHeadphones(cursor.getInt(6) == 0? false:true);
+		rrr.setNumber_people(cursor.getInt(7));
+		rrr.setRemarks(cursor.getString(8));
 
 		return rrr;
 	}
@@ -117,6 +142,14 @@ public class RouteRunDataSource {
 				routeRun.getStart_datetime());
 		values.put(Database.RouteRun.COLUMN_NAME_END_DATETIME,
 				routeRun.getEnd_datetime());
+		values.put(Database.RouteRun.COLUMN_NAME_PHONE_POSITION,
+				routeRun.getPhone_position());
+		values.put(Database.RouteRun.COLUMN_NAME_HEADPHONES,
+				(routeRun.isHeadphones()? 1:0 ));
+		values.put(Database.RouteRun.COLUMN_NAME_NUMBER_PEOPLE,
+				routeRun.getNumber_people());
+		values.put(Database.RouteRun.COLUMN_NAME_REMARKS,
+				routeRun.getRemarks());
 		
 		String whereClause = Database.RouteRun._ID +" = ?";
 		String[] whereArgs = new String[] {String.valueOf(routeRun.getId())};

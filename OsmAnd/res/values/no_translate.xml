@@ -12,6 +12,8 @@
     <string name="next_tips_and_tricks_not_translate">
     </string>
     
+    <string name="generating_data">Generating Big Data!</string>
+    
     <string name="track_finished">Run finished</string>
     <string name="tip_welcome_title">Welcome</string>
      <string name="tip_welcome_text">Special voor SIM hebben we een app gemaakt: Sensei City Runner
@@ -49,6 +51,7 @@
      <string name="teamnr_label">Team number</string> 
      <string name="gender_label">Gender</string> 
      
+     <string name="button_settings">Info and Settings</string>
       
             
         
@@ -91,13 +94,22 @@
 \nMore information about the app can be found at http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en
 \n
 \nBy using this application you concent to allowing your data to be used by researchers in order to better recognize and coach sporting activities.
+\n
+\nFor storage of your data we use the CommonSense platform. On the CommonSense platform you can manage your own data and revoke the persmission to share your data with us.
+\nPlease read the Sense-Os user agreement for more information http://www.sense-os.nl/user-agreement
+\nBy using this application you agree with the Sense-Os terms of use.
+\n
+\nSpecial thanks to Joost Broekens from the TUDelf for providing the AffectButton http://www.joostbroekens.com/
+
+
 	</string>
 	<string name="welcome">The SIM SENSEI City Runner app allows you to run figures in the city of Amsterdam.
 \nThe app is made for the Student in Motions week and part of a scientific study designed to help researchers to analyse how you run and how you feel when running.
 \n
 \nMore information about Students in Motion can be found <a href="http://www.studentsinmotion.com">here</a>
-\nMore information about the research can be found <a href="http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en">here</a></string>
-
+\nMore information about the research can be found <a href="http://digitallifecentre.nl/projecten/sensei-sensor-based-engagement-for-improved-health?lang=en">here</a>
+\nWe use the CommonSense platform to store the scientific data, more information about Sense can be found <a href="http://www.sense-os.nl/user-agreement">here</a>
+\nWe use the AffectButton provided bij the TUDelft, more information about the AffectButton can be found <a href="http://www.joostbroekens.com">here</a> </string>
 	<string name="title_explain_activity">Steps to take</string>
 	<string name="explain_text">To start running take the following steps:
 	   \n
@@ -119,6 +131,15 @@
 	<string name="starting_point">Move within 300m distance of your starting point to begin.
 	    \nYou are currently x meters from your starting point: </string>
 	<string name="show_on_google_maps">Show on map</string>
+	
+	<!-- Phone usage Activity -->
+	<string name="title_usage_data_activity">Phone usage</string>
+	<string name="label_group">Number of people you ran with?</string>
+	<string name="label_phone_position">Where dit you put your phone?</string>
+	<string name="label_used_earphones">Dit you use a headphone?</string>
+	<string name="label_remarks">Any remarks about the run?</string>
+	<string name="text_researchquestions">For our research we would like to have a little bit more information about the run.
+	    \nPlease answer the following questions</string>
 	
 	<!-- SENSE -->
 	    <string name="title_activity_main">Sense Demo</string>

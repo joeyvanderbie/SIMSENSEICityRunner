@@ -78,6 +78,10 @@ public final class Database {
 		public static final String COLUMN_NAME_ROUTE_ID = "routeid";
 		public static final String COLUMN_NAME_START_DATETIME = "startdatetime";
 		public static final String COLUMN_NAME_END_DATETIME = "enddatetime";
+		public static final String COLUMN_NAME_PHONE_POSITION = "phone_position";
+		public static final String COLUMN_NAME_HEADPHONES = "headphones";
+		public static final String COLUMN_NAME_NUMBER_PEOPLE = "number_people";
+		public static final String COLUMN_NAME_REMARKS = "remarks";
 	}
 	
 	/* Inner class that defines the table contents */
@@ -87,6 +91,20 @@ public final class Database {
 		public static final String COLUMN_NAME_ROUTE_H_ID = "routehid";
 		public static final String COLUMN_NAME_ROUTE_V_ID = "routevid";
 		public static final String COLUMN_NAME_ROUTE_A_ID = "routeaid";
+	}
+	
+	/* Inner class that defines the table contents */
+	public static abstract class Queue implements BaseColumns {
+		public static final String TABLE_NAME = "queue";
+		public static final String COLUMN_NAME_RUN_ID = "run_id";
+		public static final String COLUMN_NAME_SUBMITTED = "submitted";
+		public static final String COLUMN_NAME_ACCELLEFT = "accelleft";
+		public static final String COLUMN_NAME_GYROLEFT = "gyroleft";
+		public static final String COLUMN_NAME_GPSLEFT = "gpsleft";
+		public static final String COLUMN_NAME_EMOTIE = "emotie";
+		public static final String COLUMN_NAME_FINISHED = "finished";
+		
+		
 	}
 	
 	private static final String TEXT_TYPE = " TEXT";
@@ -155,7 +173,11 @@ public final class Database {
 			+ RouteRun.COLUMN_NAME_TEAM_ID + TEXT_TYPE + COMMA_SEP 
 			+ RouteRun.COLUMN_NAME_ROUTE_ID + TEXT_TYPE + COMMA_SEP 
 			+ RouteRun.COLUMN_NAME_START_DATETIME + TEXT_TYPE + COMMA_SEP 
-			+ RouteRun.COLUMN_NAME_END_DATETIME + TEXT_TYPE + " )";
+			+ RouteRun.COLUMN_NAME_END_DATETIME + TEXT_TYPE + COMMA_SEP 
+			+ RouteRun.COLUMN_NAME_PHONE_POSITION + TEXT_TYPE+ COMMA_SEP 
+			+ RouteRun.COLUMN_NAME_HEADPHONES + TEXT_TYPE+ COMMA_SEP 
+			+ RouteRun.COLUMN_NAME_NUMBER_PEOPLE + TEXT_TYPE+ COMMA_SEP 
+			+ RouteRun.COLUMN_NAME_REMARKS + TEXT_TYPE+ " )";
 	
 	public static final String SQL_DELETE_ROUTE_RUN = "DROP TABLE IF EXISTS "
 			+ RouteRun.TABLE_NAME;
@@ -179,6 +201,19 @@ public final class Database {
 	
 	public static final String SQL_DELETE_LOCATION = "DROP TABLE IF EXISTS "
 			+ Location.TABLE_NAME;
+	
+	public static final String SQL_CREATE_QUEUE = "CREATE TABLE "
+			+ Queue.TABLE_NAME + " (" + Queue._ID+ " INTEGER PRIMARY KEY," 
+			+ Queue.COLUMN_NAME_RUN_ID + TEXT_TYPE + COMMA_SEP 
+			+ Queue.COLUMN_NAME_SUBMITTED+ TEXT_TYPE+ COMMA_SEP 
+			+ Queue.COLUMN_NAME_ACCELLEFT+ TEXT_TYPE+ COMMA_SEP 
+			+ Queue.COLUMN_NAME_GYROLEFT+ TEXT_TYPE+ COMMA_SEP 
+			+ Queue.COLUMN_NAME_GPSLEFT+ TEXT_TYPE+ COMMA_SEP 
+			+ Queue.COLUMN_NAME_EMOTIE+ TEXT_TYPE+ COMMA_SEP 
+			+ Queue.COLUMN_NAME_FINISHED+ TEXT_TYPE+  " )";
+	
+	public static final String SQL_DELETE_QUEUE = "DROP TABLE IF EXISTS "
+			+ Queue.TABLE_NAME;
 
 	
 }

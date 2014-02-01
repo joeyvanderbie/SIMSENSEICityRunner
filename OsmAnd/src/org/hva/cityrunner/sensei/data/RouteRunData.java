@@ -7,7 +7,35 @@ public class RouteRunData {
 	int team_id;
 	long start_datetime;
 	long end_datetime;
+	int number_people;
+	String remarks;
+	boolean headphones;
+	String phone_position;
 	
+	public int getNumber_people() {
+		return number_people;
+	}
+	public void setNumber_people(int number_people) {
+		this.number_people = number_people;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public boolean isHeadphones() {
+		return headphones;
+	}
+	public void setHeadphones(boolean headphones) {
+		this.headphones = headphones;
+	}
+	public String getPhone_position() {
+		return phone_position;
+	}
+	public void setPhone_position(String phone_position) {
+		this.phone_position = phone_position;
+	}
 	public int getRoute_id() {
 		return route_id;
 	}
