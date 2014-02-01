@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_activity_mood">Emotional state</string>
-    <string name="button_confirm">confirm</string>
+    <string name="button_confirm">Confirm</string>
     <string name="text_question">Change the avatar to your current emotional state</string>
 
 </resources>
