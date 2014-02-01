@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:keepScreenOn="true" android:clipChildren="false">
-<org.hva.cityrunner.plus.views.OsmandMapTileView android:id="@+id/MapView" android:layout_width="fill_parent" android:layout_height="fill_parent" android:contentDescription="@string/map_view"/>
+    android:layout_height="fill_parent"
+    android:clipChildren="false"
+    android:keepScreenOn="true"
+    android:orientation="vertical" >
 
-<Button 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/button_Finish_Route"
-    android:text="Finish Route"/>
+    <org.hva.cityrunner.plus.views.OsmandMapTileView
+        android:id="@+id/MapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:contentDescription="@string/map_view" />
+
+    <Button
+        android:id="@+id/button_Finish_Route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finish Route" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/generating_data"
+        android:layout_gravity="bottom" 
+		android:background="#AAF75D59"
+		android:textColor="@color/color_white"
+		android:padding="@dimen/margin_defaut"
+		/>
+
 </FrameLayout>
