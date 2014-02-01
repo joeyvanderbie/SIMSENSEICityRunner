@@ -32,11 +32,11 @@
         
          <!-- UserData Activity -->
             <string name="title_user_data_activity">User data</string>
-           <string name="user_data_text">To make the app work perfect and for our research we need some data.
+           <string name="user_data_text">For our research we would like some user information.
 				\nDon\'t worry we don\'t need to know much and the data is processed anonymously.
                \nStill if you are not comfortable with filling in the data, leave it blank.</string>
           <string name="SIM_teamnr_text">If you are a student from the HvA and are participating in the Student In Motions -week
-         \nWe also need your team number.</string>
+         \nFill in your team number.</string>
      
      <string name="age_hint">Insert your age</string>  
      <string name="height_hint">Insert your height</string>  
@@ -129,8 +129,11 @@
 	<string name="navigate_to_point">Please navigate to the starting point before starting your run.
 	    \n And press the start button to start running! </string>
 	<string name="starting_point">Move within 300m distance of your starting point to begin.
-	    \nYou are currently x meters from your starting point: </string>
-	<string name="show_on_google_maps">Show on map</string>
+	    \nYou are currently </string>
+	    <string name="starting_point_meters"> meters from your starting point: </string>
+	<string name="show_on_google_maps">Show starting point on map</string>
+	<string name="plugin_headphones">Now is a good time to plugin your headphones</string>
+	<string name="position_unknown">?</string>
 	
 	<!-- Phone usage Activity -->
 	<string name="title_usage_data_activity">Phone usage</string>
