@@ -262,9 +262,9 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		//make buttons from available tracks
 //		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
 //		final List<String> list = getSortedGPXFilenames(dir);
-//		
-		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
-		tracks.setVisibility(View.VISIBLE);
+////		
+//		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+//		tracks.setVisibility(View.VISIBLE);
 //		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
 //		int margin = 8;
 //		lpButton.setMargins(margin, margin, margin, margin);
@@ -466,6 +466,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     private void showNoNeighbourhoodSelected(){
     	Window window = getWindow();
     	LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+    	tracks.setVisibility(View.INVISIBLE);
 		//tracks.removeAllViews(); 
     }
     
@@ -473,7 +474,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     	
     	final OsmandApplication app = ((OsmandApplication) getApplication());
     	Window window = getWindow();
-
+    	LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+    	tracks.setVisibility(View.VISIBLE);
         // database handler
     	RouteDataSource routeDs = app.getRouteDataSource();
     	routeDs.open();
@@ -501,20 +503,20 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			switch(i){
 			case 0:
 				ftrack = rn.getRoute_h()+".gpx";
-				track =  (Button) findViewById(R.id.routeButton01);
-				trackVisual = (ImageButton) findViewById(R.id.routImageButton01);
+				track =  (Button) window.findViewById(R.id.routeButton01);
+				trackVisual = (ImageButton) window.findViewById(R.id.routImageButton01);
 				//trackVisual.setImageResource(R.drawable.h);
 				break;
 			case 1:
 				ftrack = rn.getRoute_v()+".gpx";
-				track =  (Button) findViewById(R.id.routeButton02);
-				trackVisual = (ImageButton) findViewById(R.id.routImageButton02);
+				track =  (Button) window.findViewById(R.id.routeButton02);
+				trackVisual = (ImageButton) window.findViewById(R.id.routImageButton02);
 				//trackVisual.setImageResource(R.drawable.v);
 				break;
 			case 2:
 				ftrack = rn.getRoute_a()+".gpx";
-				track  =  (Button) findViewById(R.id.routeButton03);
-				trackVisual = (ImageButton) findViewById(R.id.routImageButton03);
+				track  =  (Button) window.findViewById(R.id.routeButton03);
+				trackVisual = (ImageButton) window.findViewById(R.id.routImageButton03);
 				//trackVisual.setImageResource(R.drawable.a);
 				break;
 			}
@@ -1036,7 +1038,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 											"sensei_accelerometer",
 											"sensei_accelerometer", 
 											SenseDataTypes.JSON, 
-											"{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}"
+											"[{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}]	"
 											, System.currentTimeMillis())){
 							error = true;
 					}if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
@@ -1054,7 +1056,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 							"sensei_gyrometer",
 							"sensei_gyrometer", 
 							SenseDataTypes.JSON, 
-							"{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}"
+							"[{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}]"
 							, System.currentTimeMillis())){
 			error = true;
 	}
@@ -1130,10 +1132,9 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 	            return;
 	        }
 
-
 	        // Store values at the time of the registration attempt.
 	        mEmail = "senseiuser+sim"+System.currentTimeMillis()+"@gmail.com";
-	        mPassword = Math.random()+"vla";
+	        mPassword = (new Random().nextInt())+"vlasoep";
 	        
 	        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
 	 		uds.open();

@@ -28,9 +28,8 @@ public class WelcomeActivity  extends Activity{
  		UserData ud = uds.getUserData();
  		uds.close();
  		
- 		TextView welcomeText = (TextView) findViewById(R.id.welcome_text);
- 		welcomeText.setText(welcomeText.getText()+
-        "\nYour Sense account is:" +
+ 		TextView account = (TextView) findViewById(R.id.account);
+ 		account.setText("Your Sense account is:" +
         "\n Email "+ud.getEmail()+
         "\n Password "+ud.getPassword());
  		

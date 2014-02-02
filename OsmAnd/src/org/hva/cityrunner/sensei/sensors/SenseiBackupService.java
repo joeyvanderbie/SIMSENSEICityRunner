@@ -20,8 +20,10 @@ import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
 import org.json.JSONArray;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 public class SenseiBackupService extends IntentService {
@@ -31,6 +33,9 @@ public class SenseiBackupService extends IntentService {
 	private String TAG = "SENSEI BACKGROUND";
 	private QueueDataSource qds;
 	private int sleepTime = 80000; // 80 seconden ipv 60 voor de zekerheid
+
+	private static final String BACKUPSETTINGS = "backupsettings";
+private static final String FULL_SUBMIT = "fullsensesubmit";
 
 	int limit = 500; // limit for accel and gyro
 	int packages = 50;
@@ -44,7 +49,15 @@ public class SenseiBackupService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		submitRun();
+		try{
+			submitRun();
+		}catch(OutOfMemoryError e){
+			final SharedPreferences preferences = this.getSharedPreferences(BACKUPSETTINGS,
+	                Activity.MODE_PRIVATE);
+			preferences.edit().putBoolean(FULL_SUBMIT, false);
+			Log.e(TAG, "Using to much memory, will only submit SIM data");
+			Log.e(TAG, e.toString());
+		}
 
 	}
 
@@ -386,7 +399,15 @@ public class SenseiBackupService extends IntentService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			submitAccel(run_id);
+			
+
+			final SharedPreferences preferences = this.getSharedPreferences(BACKUPSETTINGS,
+	                Activity.MODE_PRIVATE);
+			if(preferences.getBoolean(FULL_SUBMIT, true)){
+				submitAccel(run_id);
+			}else{
+				setSubmitFinsihed(run_id);
+			}
 		} else {
 			Log.e(TAG, "Sending of data via Sense failed, stop sending");
 		}
