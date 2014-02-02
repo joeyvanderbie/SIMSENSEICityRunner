@@ -3,6 +3,7 @@ package org.hva.cityrunner.sensei.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hva.cityrunner.sensei.data.GyroData;
 import org.hva.cityrunner.sensei.data.LocationData;
 
 import android.content.ContentValues;
@@ -78,6 +79,26 @@ public class LocationDataSource {
 		cursor.close();
 		return accels;
 	}
+	
+	
+	public ArrayList<LocationData> getAllLocation(int run_id, int limit, int offset) {
+		ArrayList<LocationData> accels = new ArrayList<LocationData>();
+		String[] arguments = {""+run_id};
+		
+		Cursor cursor = database.query(Database.Location.TABLE_NAME,
+				allColumns, Database.Location.COLUMN_NAME_RUN_ID+" = "+ run_id,null, null, null, null, offset+", "+limit);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			LocationData af = cursorToLocation(cursor);
+			accels.add(af);
+			cursor.moveToNext();
+		}
+		// make sure to close the cursor
+		cursor.close();
+		return accels;
+	}
+	
 
 	private LocationData cursorToLocation(Cursor cursor) {
 		LocationData rrr = new LocationData();
@@ -88,5 +109,15 @@ public class LocationDataSource {
 		rrr.setLongitude(cursor.getLong(4));
 
 		return rrr;
+	}
+	
+	public int getAllGpsCount(int run_id){
+		String query = "SELECT count("+Database.Location._ID+") from "+Database.Location.TABLE_NAME+" WHERE "+Database.Location.COLUMN_NAME_RUN_ID+"="+run_id;
+		Cursor c = database.rawQuery(query,null);
+		int lastId = 0;
+		if (c != null && c.moveToFirst()) {
+		    lastId = c.getInt(0); //The 0 is the column index, we only have 1 column, so the index is 0
+		}
+		return lastId;
 	}
 }

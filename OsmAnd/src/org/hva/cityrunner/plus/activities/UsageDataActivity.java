@@ -53,11 +53,13 @@ Button next;
 				saveValues();
 				Intent intentSettings = new Intent(UsageDataActivity.this,
 						OsmandIntents.getRunFinishedActivity());
+				intentSettings.putExtra("run_id", run_id);
+				
 				//intentSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(intentSettings);
 			}
 		});
-	next.setClickable(false);
+	next.setEnabled(false);
 		
 		phone_position = (Spinner) findViewById(R.id.spinner_phone_position);
 		phone_position.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -65,7 +67,7 @@ Button next;
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				next.setClickable(true);
+				next.setEnabled(true);
 			}
 
 			@Override

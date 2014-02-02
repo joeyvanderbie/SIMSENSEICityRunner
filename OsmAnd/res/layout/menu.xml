@@ -38,8 +38,8 @@
                 android:gravity="right"
                 android:text="@string/app_version"
                 android:textColor="@color/color_black"
-                android:textSize="13sp" />
-
+                android:textSize="13sp" 
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/CloseButton"
@@ -50,7 +50,8 @@
                 android:clickable="true"
                 android:contentDescription="@string/close"
                 android:focusable="true"
-                android:src="@drawable/headliner_close" />
+                android:src="@drawable/headliner_close" 
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,21 +78,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/HeaderApp"
-            android:entries="@array/array_neighbourhood"
-            android:layout_marginTop="@dimen/margin_defaut" />
-<Button 
-                android:id="@+id/button_config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_settings"
-               
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginTop="@dimen/margin_defaut"
+            android:entries="@array/array_neighbourhood" />
+
+        <Button
+            android:id="@+id/button_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/button_settings" />
+
         <LinearLayout
             android:id="@+id/sponsors"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_defaut"
             android:layout_above="@id/button_config"
+            android:layout_margin="@dimen/margin_defaut"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -156,19 +158,90 @@
             </LinearLayout>
         </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/Tracks"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                	android:layout_above="@id/sponsors"
-            android:layout_below="@id/neighbourhoodList" >
-
-                <!-- Here come the available tracks provided by MainMenuActivity -->
-
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Tracks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/sponsors"
+            android:layout_below="@id/neighbourhoodList"
+            android:orientation="horizontal"
+            android:weightSum="3" 
+            android:paddingLeft="@dimen/margin_defaut"
             
-       
+            android:visibility="invisible">
+
+            <!-- Here come the available tracks provided by MainMenuActivity -->
+
+            <LinearLayout
+                android:id="@+id/routeLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_defaut"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/routImageButton01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/route"
+        android:adjustViewBounds="true"
+        android:padding="0dp" />
+
+                <Button
+                    android:id="@+id/routeButton01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Track not set" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/routeLayout02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_defaut"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/routImageButton02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/route"
+        android:adjustViewBounds="true"  android:padding="0dp" />
+
+                <Button
+                    android:id="@+id/routeButton02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Track not set" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/routeLayout03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_defaut"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/routImageButton03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/route" 
+        android:adjustViewBounds="true"  android:padding="0dp"/>
+
+                <Button
+                    android:id="@+id/routeButton03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Track not set" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </org.hva.cityrunner.access.AccessibleLayout>

@@ -15,15 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.hva.cityrunner.IndexConstants;
-import org.hva.cityrunner.Location;
-import org.hva.cityrunner.data.FavouritePoint;
-import org.hva.cityrunner.render.RenderingRulesStorage;
-import org.hva.cityrunner.util.Algorithms;
 import nl.sense_os.platform.SenseApplication;
 
+import org.hva.cityrunner.IndexConstants;
+import org.hva.cityrunner.Location;
 import org.hva.cityrunner.PlatformUtilCityRunner;
 import org.hva.cityrunner.access.AccessibleToast;
+import org.hva.cityrunner.data.FavouritePoint;
 import org.hva.cityrunner.plus.GPXUtilities.GPXFile;
 import org.hva.cityrunner.plus.GPXUtilities.WptPt;
 import org.hva.cityrunner.plus.activities.DayNightHelper;
@@ -44,15 +42,16 @@ import org.hva.cityrunner.plus.routing.RoutingHelper;
 import org.hva.cityrunner.plus.voice.CommandPlayer;
 import org.hva.cityrunner.plus.voice.CommandPlayerException;
 import org.hva.cityrunner.plus.voice.CommandPlayerFactory;
+import org.hva.cityrunner.render.RenderingRulesStorage;
 import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.db.AccelDataSource;
+import org.hva.cityrunner.sensei.db.GyroDataSource;
 import org.hva.cityrunner.sensei.db.LocationDataSource;
 import org.hva.cityrunner.sensei.db.QueueDataSource;
 import org.hva.cityrunner.sensei.db.RouteDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
-import org.hva.cityrunner.plus.R;
-
+import org.hva.cityrunner.util.Algorithms;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -93,6 +92,7 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 	LocationDataSource locationDataSource = null;
 	QueueDataSource queueDataSource = null;
 	AccelDataSource accelDataSource = null;
+	GyroDataSource gyroDataSource = null;
 	UserDataSource userDataSource = null;
 	FavouritesDbHelper favorites = null;
 	CommandPlayer player = null;
@@ -438,6 +438,13 @@ public class OsmandApplication extends SenseApplication implements ClientContext
 			accelDataSource = new AccelDataSource(this);
 		}
 		return accelDataSource;
+	}
+	
+	public GyroDataSource getGyroDataSource(){
+		if(gyroDataSource == null){
+			gyroDataSource = new GyroDataSource(this);
+		}
+		return gyroDataSource;
 	}
 	
 	public QueueDataSource getQueueDataSource(){

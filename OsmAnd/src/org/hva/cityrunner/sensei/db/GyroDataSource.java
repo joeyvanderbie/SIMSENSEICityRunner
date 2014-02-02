@@ -147,15 +147,25 @@ public class GyroDataSource {
 		cursor.close();
 		return accels;
 	}
+	
+	public int getAllGyroCount(int run_id){
+		String query = "SELECT count("+Database.GYRO._ID+") from "+Database.GYRO.TABLE_NAME+" WHERE "+Database.GYRO.COLUMN_NAME_RUN_ID+"="+run_id;
+		Cursor c = database.rawQuery(query,null);
+		int lastId = 0;
+		if (c != null && c.moveToFirst()) {
+		    lastId = c.getInt(0); //The 0 is the column index, we only have 1 column, so the index is 0
+		}
+		return lastId;
+	}
 
 	private GyroData cursorToGyro(Cursor cursor) {
 		GyroData af = new GyroData();
 		af.setId(cursor.getLong(0));
-		af.setRun_id(cursor.getLong(2));
-		af.setTimestamp(cursor.getLong(3));
-		af.setX(cursor.getDouble(4));
-		af.setY(cursor.getDouble(5));
-		af.setZ(cursor.getDouble(6));
+		af.setRun_id(cursor.getLong(1));
+		af.setTimestamp(cursor.getLong(2));
+		af.setX(cursor.getDouble(3));
+		af.setY(cursor.getDouble(4));
+		af.setZ(cursor.getDouble(5));
 		
 		return af;
 	}

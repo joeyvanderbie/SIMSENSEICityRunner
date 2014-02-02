@@ -61,6 +61,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -887,8 +888,11 @@ public class MapActivity extends AccessibleActivity implements
 		
 		app.getLocationProvider().removeLocationListener(this);
 		
+		RouteRunDataSource rrds = app.getRouteRunDataSource();
+		rrds.open();
+		RouteRunData rrd = rrds.getRouteRun(run_id);
+		rrds.close();
 		
-		RouteRunData rrd = app.currentRouteRun;
 		accelerometerListener.submitLastSensorData();
 		sensorManager.unregisterListener(accelerometerListener);
 		
@@ -901,7 +905,6 @@ public class MapActivity extends AccessibleActivity implements
 		if (rrd != null) {
 			rrd.setEnd_datetime(finishTimestamp);
 
-			RouteRunDataSource rrds = app.getRouteRunDataSource();
 			rrds.open();
 			rrds.update(rrd);
 			rrds.close();
@@ -916,6 +919,7 @@ public class MapActivity extends AccessibleActivity implements
 			intentSettings.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			this.startActivity(intentSettings);
 		} else {
+			Log.e("MapActivity", "No routerun found, something wend wrong with the passing of the run_id!");
 			NavUtils.navigateUpFromSameTask(this);
 		}
 

@@ -20,7 +20,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_question" 
-        android:layout_above="@id/buttonConfirm"/>
+        android:layout_above="@id/buttonConfirm"
+        android:layout_marginBottom="@dimen/margin_defaut"
+        android:layout_marginTop="@dimen/margin_defaut"/>
     
           <com.askcs.android.widget.AffectButton
         android:id="@+id/affectbutton"

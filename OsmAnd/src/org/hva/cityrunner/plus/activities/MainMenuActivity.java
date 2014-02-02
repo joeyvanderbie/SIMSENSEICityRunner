@@ -18,6 +18,7 @@ import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.Version;
 import org.hva.cityrunner.plus.activities.search.SearchActivity;
 import org.hva.cityrunner.plus.render.MapRenderRepositories;
+import org.hva.cityrunner.sensei.data.LocationData;
 import org.hva.cityrunner.sensei.data.RouteNeighbourhood;
 import org.hva.cityrunner.sensei.data.RouteRunData;
 import org.hva.cityrunner.sensei.data.UserData;
@@ -25,6 +26,7 @@ import org.hva.cityrunner.sensei.db.RouteDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
 import org.hva.cityrunner.plus.R;
+import org.json.JSONArray;
 
 
 import android.annotation.TargetApi;
@@ -261,7 +263,8 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 //		final File dir = ((OsmandApplication) getApplication()).getAppPath(IndexConstants.GPX_INDEX_DIR);
 //		final List<String> list = getSortedGPXFilenames(dir);
 //		
-//		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+		tracks.setVisibility(View.VISIBLE);
 //		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1);
 //		int margin = 8;
 //		lpButton.setMargins(margin, margin, margin, margin);
@@ -463,10 +466,11 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     private void showNoNeighbourhoodSelected(){
     	Window window = getWindow();
     	LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
-		tracks.removeAllViews(); 
+		//tracks.removeAllViews(); 
     }
     
     private void showRoutesForNeighbourhood(String neighbourhood){
+    	
     	final OsmandApplication app = ((OsmandApplication) getApplication());
     	Window window = getWindow();
 
@@ -477,49 +481,57 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
     	routeDs.close();
     	
 
-		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
-		tracks.removeAllViews();
-		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
-		int margin = 8;
-		lpButton.setMargins(margin, margin, margin, margin);
-		
-		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		lpLayout.setMargins(margin, margin, margin, margin);
-		LinearLayout row = null;
-		int itemsPerLayout = 3;
+//		LinearLayout tracks = (LinearLayout) window.findViewById(R.id.Tracks);
+//		tracks.removeAllViews();
+//		LinearLayout.LayoutParams lpButton = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1);
+//		int margin = 8;
+//		lpButton.setMargins(margin, margin, margin, margin);
+//		
+//		LinearLayout.LayoutParams lpLayout = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//		lpLayout.setMargins(margin, margin, margin, margin);
+//		LinearLayout row = null;
+//		int itemsPerLayout = 3;
 
 		
 		for(int i = 0; i < 3; i++){
 			ImageButton trackVisual = new ImageButton(this);
-			trackVisual.setScaleType(ScaleType.FIT_CENTER);
+//			trackVisual.setScaleType(ScaleType.FIT_CENTER);
 			String ftrack = "";
+			Button track = new Button(this);
 			switch(i){
 			case 0:
 				ftrack = rn.getRoute_h()+".gpx";
-				trackVisual.setImageResource(R.drawable.h);
+				track =  (Button) findViewById(R.id.routeButton01);
+				trackVisual = (ImageButton) findViewById(R.id.routImageButton01);
+				//trackVisual.setImageResource(R.drawable.h);
 				break;
 			case 1:
 				ftrack = rn.getRoute_v()+".gpx";
-				trackVisual.setImageResource(R.drawable.v);
+				track =  (Button) findViewById(R.id.routeButton02);
+				trackVisual = (ImageButton) findViewById(R.id.routImageButton02);
+				//trackVisual.setImageResource(R.drawable.v);
 				break;
 			case 2:
 				ftrack = rn.getRoute_a()+".gpx";
-				trackVisual.setImageResource(R.drawable.a);
+				track  =  (Button) findViewById(R.id.routeButton03);
+				trackVisual = (ImageButton) findViewById(R.id.routImageButton03);
+				//trackVisual.setImageResource(R.drawable.a);
 				break;
 			}
 			
+//			trackVisual.setImageResource(R.drawable.route);
 			final String tracknr = ftrack;
-			if(i % itemsPerLayout == 0){
-				row = new LinearLayout(this);
-				row.setLayoutParams(lpLayout);
-				row.setWeightSum(3);
-				row.setOrientation(LinearLayout.HORIZONTAL);
-//				row.setOrientation(LinearLayout.VERTICAL);
-				tracks.addView(row);
-			}
+//			if(i % itemsPerLayout == 0){
+//				row = new LinearLayout(this);
+//				row.setLayoutParams(lpLayout);
+//				row.setWeightSum(3);
+//				row.setOrientation(LinearLayout.HORIZONTAL);
+////				row.setOrientation(LinearLayout.VERTICAL);
+//				tracks.addView(row);
+//			}
 			//create new track here and add to main view
 			
-			Button track = new Button(this);
+			//Button track = new Button(this);
 			track.setText("Track "+tracknr.substring(0, tracknr.length()-4));
 			final Activity activity = this;
 			
@@ -591,11 +603,19 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 //			String fname = c.getFilesDir().getAbsolutePath()+"/myfile.png"; Bitmap bm = BitmapFactory.decodeFile(fname); iv.setImageBitmap(bm);
 			
-			track.setLayoutParams(lpButton);
-			trackVisual.setLayoutParams(lpButton);
-			trackVisual.setMaxHeight(100);
-			row.addView(trackVisual);
-			//row.addView(track);
+//			track.setLayoutParams(lpButton);
+//			trackVisual.setLayoutParams(lpButton);
+//			trackVisual.setMaxHeight(100);
+//			
+//			LinearLayout route = new LinearLayout(this);
+//			route.setLayoutParams(lpButton);
+//			route.setOrientation(LinearLayout.VERTICAL);
+//			route.addView(trackVisual);
+//			route.addView(track);
+//			
+////			row.addView(trackVisual);
+////			row.addView(track);
+//			row.addView(route);
 		}
     	
     }
@@ -823,7 +843,6 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
  		UserData user = uds.getUserData();
  		uds.close();
  		
-      
 
              // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -990,7 +1009,17 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 							"runrecord", 
 							"runrecord",
 							SenseDataTypes.JSON,
-							"{\"runid\":\"0\",\"startdatetime\":\""+(System.currentTimeMillis()-10000)+"\",\"enddatetime\":\""+System.currentTimeMillis()+"\",\"id\":\""+0+"\"}",
+							"{\"runid\":\"" + 0
+							+ "\",\"startdatetime\":\"" + (System.currentTimeMillis()-10000)
+							+ "\",\"enddatetime\":\"" + System.currentTimeMillis()
+							+ "\",\"id\":\"" + 0+ "\",\"phone_position\":\""
+							+ 0 + "\",\"headphones\":\""
+							+ 0 + "\",\"number_people\":\""
+							+ 0 + "\",\"remarks\":\""
+							+ 0 + "\",\"team\":\"" + 0
+							+ "\",\"age\":\"" +0 + "\",\"weight\":\""
+							+ 0 + "\",\"height\":\"" + 0 + "\"}",
+						//"{\"runid\":\"0\",\"startdatetime\":\""++"\",\"enddatetime\":\""+System.currentTimeMillis()+"\",\"id\":\""+0+"\"}",
 							System.currentTimeMillis())){
 						error = true;
 					}	
@@ -1007,17 +1036,35 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 											"sensei_accelerometer",
 											"sensei_accelerometer", 
 											SenseDataTypes.JSON, 
-											"{\"x-axis\":\""+0+"\",\"y-axis\":\""+0+"\",\"z-axis\":\""+0+"\",\"run_id\":\""+0+"\",\"timestamp\":\""+0+"\"}"
+											"{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}"
 											, System.currentTimeMillis())){
 							error = true;
-					}
-						
+					}if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
+							"sensei_location", 
+							"sensei_location",
+							"sensei_location", 
+							SenseDataTypes.JSON, 
+							"{lat:"+ 0 + ",lon:"
+									+ 0 + ",r:" + 0 + ",t:"
+									+ System.currentTimeMillis() + "}"
+							, System.currentTimeMillis())){
+							error = true;
+					}if(!((OsmandApplication) getApplication()).getSensePlatform().addDataPoint(
+							"sensei_gyrometer", 
+							"sensei_gyrometer",
+							"sensei_gyrometer", 
+							SenseDataTypes.JSON, 
+							"{\"x\":\""+0+"\",\"y\":\""+0+"\",\"z\":\""+0+"\",\"r\":\""+0+"\",\"t\":\""+0+"\"}"
+							, System.currentTimeMillis())){
+			error = true;
+	}
+					
 					
 					if(!error){
 						
 					//als alle nodige sensoren gemaakt zijn
 					//en alleen dan! Voeg gebruiker toe aan groep
-//					mApplication.getSensePlatform().addUserToGroup("9568",
+//						((OsmandApplication) getApplication()).getSensePlatform().addUserToGroup("9568",
 //							"9e6a6f89a42e911c4c31f06d17510c39");
 //					}
 					//test group
@@ -1086,7 +1133,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 
 	        // Store values at the time of the registration attempt.
 	        mEmail = "senseiuser+sim"+System.currentTimeMillis()+"@gmail.com";
-	        mPassword = "22hond";
+	        mPassword = Math.random()+"vla";
 	        
 	        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
 	 		uds.open();

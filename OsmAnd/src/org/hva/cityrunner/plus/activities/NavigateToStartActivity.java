@@ -103,10 +103,10 @@ public class NavigateToStartActivity  extends Activity implements OsmAndLocation
 					.getFirstTimeRunDefaultLocation();
 			getMyApplication().getLocationProvider().addLocationListener(this);
 			getMyApplication().getLocationProvider().resumeAllUpdates();
-			if (location != null) {
-				String text = "Lat:"+location.getLatitude()+"\nLong:"+location.getLongitude();
-				startingPoint.setText(text);
-			}
+//			if (location != null) {
+//				String text = "Lat:"+location.getLatitude()+"\nLong:"+location.getLongitude();
+//				startingPoint.setText(text);
+//			}
 	}
 	
 	
@@ -119,10 +119,10 @@ public class NavigateToStartActivity  extends Activity implements OsmAndLocation
 					final WptPt start = result.tracks.get(0).segments.get(0).points.get(0);
 					startLocationTrack = start;
 					
-					startingPoint = (TextView) activity.findViewById(R.id.point_text);
-					String text = "Lat:"+start.lat+"\nLong:"+start.lon;
-					startingPoint.setText(text);
-					
+//					startingPoint = (TextView) activity.findViewById(R.id.point_text);
+//					String text = "Lat:"+start.lat+"\nLong:"+start.lon;
+//					startingPoint.setText(text);
+//					
 					
 					Button showPoint = (Button) activity.findViewById(R.id.locationButton);
 					showPoint.setOnClickListener(new OnClickListener() {
@@ -249,7 +249,7 @@ public class NavigateToStartActivity  extends Activity implements OsmAndLocation
 		public void updateLocation(Location location) {
 			if(location != null && startLocationTrack != null){
 				double distance = measure(startLocationTrack.lat,startLocationTrack.lon, location.getLatitude() , location.getLongitude());
-						startingPoint.setText(""+distance);
+						startingPoint.setText(""+Math.round(distance));
 				if(distance < 300){
 					next.setEnabled(true);
 				}

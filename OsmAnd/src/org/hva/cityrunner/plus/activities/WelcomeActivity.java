@@ -1,7 +1,9 @@
 package org.hva.cityrunner.plus.activities;
 
+import org.hva.cityrunner.plus.OsmandApplication;
 import org.hva.cityrunner.plus.R;
-
+import org.hva.cityrunner.sensei.data.UserData;
+import org.hva.cityrunner.sensei.db.UserDataSource;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +23,17 @@ public class WelcomeActivity  extends Activity{
 		setContentView(R.layout.activity_welcome);
         Linkify.addLinks((TextView) findViewById(R.id.welcome_text), Linkify.ALL);
         
+        UserDataSource uds = ((OsmandApplication) getApplication()).getUserDataSource();
+ 		uds.open();
+ 		UserData ud = uds.getUserData();
+ 		uds.close();
+ 		
+ 		TextView welcomeText = (TextView) findViewById(R.id.welcome_text);
+ 		welcomeText.setText(welcomeText.getText()+
+        "\nYour Sense account is:" +
+        "\n Email "+ud.getEmail()+
+        "\n Password "+ud.getPassword());
+ 		
         Button next = (Button) findViewById(R.id.NextButton);
 		next.setOnClickListener(new OnClickListener() {
 			

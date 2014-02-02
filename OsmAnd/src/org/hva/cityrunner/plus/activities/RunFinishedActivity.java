@@ -61,21 +61,39 @@ public class RunFinishedActivity extends SherlockActivity {
 		
 		setContentView(R.layout.run_finished);
 		
+		Bundle extras = getIntent().getExtras();
+
+		if (extras != null) {
+			run_id = extras.getInt("run_id", 0);
+		}
+		
 		invalidateOptionsMenu();
 		Button share = (Button ) this.findViewById(R.id.shareButton);
 		share.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/osmand/CityRunner"+System.currentTimeMillis()+".jpg";
-				RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
-				
-				Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-				Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
-				sharingIntent.setType("*/*");// shareIntent.setType("*/*");
-				sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner!");
-				sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-				startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+		    	try{
+			    	String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/osmand/CityRunner"+System.currentTimeMillis()+".jpg";
+					RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
+					
+					
+					Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+					Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
+					sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+					sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner! #HVASIM #COMMITSENSEI");
+					sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+					startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+			    	}catch(OutOfMemoryError e){
+			    		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+						sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+						RouteRunDataSource rrds = app.getRouteRunDataSource();
+						rrds.open();
+						RouteRunData rrd = rrds.getRouteRun(run_id);
+						rrds.close();
+						sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner route:"+rrd.getRoute_id()+" in:"+((rrd.getEnd_datetime()-rrd.getStart_datetime())/ 1000 / 60)+" minutes! #HVASIM #COMMITSENSEI");
+						startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+			    	}
 			}
 		});
 
@@ -109,6 +127,7 @@ public class RunFinishedActivity extends SherlockActivity {
 	    }
 	    
 	    if(item.getTitle().equals("Share")){
+	    	try{
 	    	String screenshotLocation = Environment.getExternalStorageDirectory().getAbsolutePath()+"/osmand/CityRunner"+System.currentTimeMillis()+".jpg";
 			RunFinishedActivity.savePic(RunFinishedActivity.takeScreenShot(RunFinishedActivity.this), screenshotLocation);
 			
@@ -116,9 +135,19 @@ public class RunFinishedActivity extends SherlockActivity {
 			Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 			Uri screenshotUri = Uri.parse("file://"+screenshotLocation);
 			sharingIntent.setType("*/*");// shareIntent.setType("*/*");
-			sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner!");
+			sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner! #HVASIM #COMMITSENSEI");
 			sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
 			startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+	    	}catch(OutOfMemoryError e){
+	    		Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+				sharingIntent.setType("*/*");// shareIntent.setType("*/*");
+				RouteRunDataSource rrds = app.getRouteRunDataSource();
+				rrds.open();
+				RouteRunData rrd = rrds.getRouteRun(run_id);
+				rrds.close();
+				sharingIntent.putExtra(Intent.EXTRA_TEXT, "I ran and survived the SIM SENSEI City Runner route:"+rrd.getRoute_id()+" in:"+((rrd.getEnd_datetime()-rrd.getStart_datetime())/ 1000 / 60)+" minutes! #HVASIM #COMMITSENSEI");
+				startActivity(Intent.createChooser(sharingIntent, "Share run using"));
+	    	}
 	    }
 	    
 	    return super.onOptionsItemSelected(item);
@@ -139,7 +168,7 @@ public class RunFinishedActivity extends SherlockActivity {
 		app = getMyApplication();
 		RouteRunDataSource rrds = app.getRouteRunDataSource();
 		rrds.open();
-		RouteRunData rrd = rrds.getLastRouteRun();
+		RouteRunData rrd = rrds.getRouteRun(run_id);
 		rrds.close();
 		
 		TextView duration = (TextView) findViewById(R.id.time_info);
@@ -155,7 +184,7 @@ public class RunFinishedActivity extends SherlockActivity {
 				uds.getUserData().getTeamid());
 		uds.close();
 		
-		run_id = rrd.getId();
+		//run_id = rrd.getId();
 		
 		StaticAffectButton abStart = (StaticAffectButton) this.findViewById(R.id.affect_start);
 		StaticAffectButton abEnd = (StaticAffectButton) this.findViewById(R.id.affect_end);
