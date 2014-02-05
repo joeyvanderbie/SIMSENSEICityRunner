@@ -45,7 +45,7 @@ public class OsmAndLocationProvider implements SensorEventListener {
 
 	private static final int INTERVAL_TO_CLEAR_SET_LOCATION = 30 * 1000;
 	private static final int LOST_LOCATION_MSG_ID = 10;
-	private static final long LOST_LOCATION_CHECK_DELAY = 18000;
+	private static final long LOST_LOCATION_CHECK_DELAY = 10000;
 
 	private static final float ACCURACY_FOR_GPX_AND_ROUTING = 50;
 

@@ -43,6 +43,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(Database.SQL_DELETE_QUEUE);
 		onCreate(db);
 	}
+	
+	public void doSaveDelete(SQLiteDatabase db) {
+		// This database is only a cache for online data, so its upgrade policy
+		// is
+		// to simply to discard the data and start over
+		db.execSQL(Database.SQL_DELETE_MOVEMENT);
+		db.execSQL(Database.SQL_DELETE_GYRO);
+		db.execSQL(Database.SQL_DELETE_LOCATION);
+		
+		db.execSQL(Database.SQL_CREATE_MOVEMENT);
+		db.execSQL(Database.SQL_CREATE_GYRO);
+		db.execSQL(Database.SQL_CREATE_LOCATION);
+	}
 
 	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		onUpgrade(db, oldVersion, newVersion);

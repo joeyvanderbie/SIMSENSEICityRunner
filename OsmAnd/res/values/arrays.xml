@@ -7,6 +7,73 @@
 	</string-array>
 	<string-array name="array_neighbourhood">
 			<item>Select your neighbourhood</item>
+			<item>Apollobuurt</item>
+<item>Betondorp</item>
+<item>Bijlmer-Centrum</item>
+<item>Buikslotermeer</item>
+<item>Buitenveldert</item>
+<item>Bullewijk</item>
+<item>Burgwallen-Nieuwe Zijde</item>
+<item>Burgwallen-Oude Zijde</item>
+<item>Da Costabuurt</item>
+<item>Dapperbuurt</item>
+<item>De Aker</item>
+<item>De Kolenkit</item>
+<item>De Omval</item>
+<item>De Weteringschans</item>
+<item>Diamantbuurt</item>
+<item>Erasmuspark</item>
+<item>Frankendael</item>
+<item>Frederik Hendrikbuurt</item>
+<item>Gein</item>
+<item>Geuzenveld</item>
+<item>Grachtengordel</item>
+<item>Haarlemmerbuurt</item>
+<item>Helmersbuurt</item>
+<item>Holendrecht</item>
+<item>Hoofddorppleinbuurt</item>
+<item>Houthavens</item>
+<item>Ijburg</item>
+<item>IJplein en Vogelbuurt</item>
+<item>IJselbuurt</item>
+<item>Indische Buurt</item>
+<item>Jordaan</item>
+<item>Kadijken</item>
+<item>Kadoelen</item>
+<item>Kinkerbuurt</item>
+<item>Middenmeer</item>
+<item>Museumkwartier</item>
+<item>Nieuwe Pijp</item>
+<item>Nieuwendam</item>
+<item>Nieuwmarkt</item>
+<item>Oostelijk Havengebied</item>
+<item>Oostelijke Eilanden</item>
+<item>Oosterparkbuurt</item>
+<item>Osdorp</item>
+<item>Oude Pijp</item>
+<item>Overtoomse Veld</item>
+<item>Reigersbos</item>
+<item>Rijnbuurt</item>
+<item>Scheldebuurt</item>
+<item>Schinkelbuurt</item>
+<item>Sloterdijk</item>
+<item>Slotermeer</item>
+<item>Slotervaart</item>
+<item>Staatsliedenbuurt</item>
+<item>Stadionbuurt</item>
+<item>Transvaalbuurt</item>
+<item>Tuindorp Oostzaan</item>
+<item>Van Galenbuurt</item>
+<item>Van Lennepbuurt</item>
+<item>Vondelbuurt</item>
+<item>Weesperbuurt</item>
+<item>Weesperzijde</item>
+<item>Westelijk havengebied</item>
+<item>Westindische buurt</item>
+<item>Westlandgracht</item>
+<item>Willemspark</item>
+<item>Zeeburgereiland</item>
+<item>Zeeheldenbuurt</item>
 	</string-array>
 	<string-array name="array_phone_position">
 	    <item>select phone position</item>
@@ -15,4 +82,5 @@
 			<item>Trousers</item>
 			<item>Bag</item>
 	</string-array>
+	
 </resources>

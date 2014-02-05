@@ -61,6 +61,12 @@ public class LocationDataSource {
 		database.delete(Database.Location.TABLE_NAME, Database.Location._ID
 				+ " = " + id, null);
 	}
+	
+	public void deleteLocation(int run_id) {
+		System.out.println("Comment deleting locations with run_id: " + run_id);
+		database.delete(Database.Location.TABLE_NAME, Database.Location.COLUMN_NAME_RUN_ID
+				+ " = " + run_id, null);
+	}
 
 	//for each run
 	public List<LocationData> getAllLocation(int run_id) {

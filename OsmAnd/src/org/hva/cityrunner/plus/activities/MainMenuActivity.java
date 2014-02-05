@@ -25,6 +25,7 @@ import org.hva.cityrunner.sensei.data.UserData;
 import org.hva.cityrunner.sensei.db.RouteDataSource;
 import org.hva.cityrunner.sensei.db.RouteRunDataSource;
 import org.hva.cityrunner.sensei.db.UserDataSource;
+import org.hva.cityrunner.sensei.sensors.SenseiBackupService;
 import org.hva.cityrunner.plus.R;
 import org.json.JSONArray;
 
@@ -183,13 +184,17 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			textVersionView.setText(content);
 			textVersionView.setMovementMethod(LinkMovementMethod.getInstance());
 		}
-		View configButton = window.findViewById(R.id.button_config);
-		configButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				activity.startActivity(new Intent(activity,WelcomeActivity.class));
-			}
-		});
+		Button configButton = (Button) window.findViewById(R.id.button_config);
+		if(configButton != null){
+			configButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+	//				Intent mServiceIntent = new Intent(activity, SenseiBackupService.class);
+	//				activity.startService(mServiceIntent);
+					activity.startActivity(new Intent(activity,WelcomeActivity.class));
+				}
+			});
+		}
 	}
 	
 	private void readGpxDirectory(File dir, final List<String> list, String parent) {
@@ -309,7 +314,7 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 		attemptLogin();
 		
 		neighbourhoods = (Spinner) window.findViewById(R.id.neighbourhoodList);
-		loadSpinnerData();
+		//loadSpinnerData();
 		neighbourhoods.setOnItemSelectedListener(this);
 		
 		//To-Do remove old buttons\
@@ -348,6 +353,20 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 				getMyApplication().closeApplication(activity);
 			}
 		});
+		
+		
+		Button configButton = (Button) window.findViewById(R.id.button_config);
+		if(configButton != null){
+			configButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+	//				Intent mServiceIntent = new Intent(activity, SenseiBackupService.class);
+	//				activity.startService(mServiceIntent);
+					activity.startActivity(new Intent(activity,WelcomeActivity.class));
+				}
+			});
+		}
+		
 //		View searchButton = window.findViewById(R.id.SearchButton);
 //		searchButton.setOnClickListener(new OnClickListener() {
 //			@Override
@@ -413,6 +432,10 @@ public class MainMenuActivity extends Activity implements  OnItemSelectedListene
 			}
 		}
 		checkPreviousRunsForExceptions(firstTime);
+		
+		//upload databases that are remaining
+		Intent mServiceIntent = new Intent(this, SenseiBackupService.class);
+		startService(mServiceIntent);
 	}
 	
 	   /**

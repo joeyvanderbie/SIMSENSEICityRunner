@@ -137,6 +137,9 @@ public class MapActivity extends AccessibleActivity implements
 			sensorManager.unregisterListener(gyroscopeListener);
 		}
 		
+		mapActions.stopNavigationAction(mapView);
+		app.getLocationProvider().removeLocationListener(this);
+		
 		
 		super.onBackPressed();
 	}

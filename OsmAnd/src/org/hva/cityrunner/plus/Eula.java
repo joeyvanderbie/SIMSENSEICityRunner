@@ -53,7 +53,7 @@ class Eula {
                 Activity.MODE_PRIVATE);
 
         //testcode for eala
-        preferences.edit().putBoolean(PREFERENCE_EULA_ACCEPTED, false).commit();
+//        preferences.edit().putBoolean(PREFERENCE_EULA_ACCEPTED, false).commit();
         //end testcode
         
         if (!preferences.getBoolean(PREFERENCE_EULA_ACCEPTED, false)) {

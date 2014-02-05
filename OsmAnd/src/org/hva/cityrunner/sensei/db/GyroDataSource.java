@@ -112,6 +112,12 @@ public class GyroDataSource {
 				+ " = " + id, null);
 	}
 	
+	public void deleteGyro(int run_id) {
+		System.out.println("Comment deleting gyro with run_id: " + run_id);
+		database.delete(Database.GYRO.TABLE_NAME, Database.GYRO.COLUMN_NAME_RUN_ID
+				+ " = " + run_id, null);
+	}
+	
 	public ArrayList<GyroData> getAllGyro(int run_id) {
 		ArrayList<GyroData> accels = new ArrayList<GyroData>();
 		String[] arguments = {""+run_id};

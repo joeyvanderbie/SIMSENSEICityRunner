@@ -114,6 +114,12 @@ public class AccelDataSource {
 		database.delete(Database.MOVEMENT.TABLE_NAME, Database.MOVEMENT._ID
 				+ " = " + id, null);
 	}
+	
+	public void deleteAccel(int run_id) {
+		System.out.println("Comment deleting accels with run_id: " + run_id);
+		database.delete(Database.MOVEMENT.TABLE_NAME, Database.MOVEMENT.COLUMN_NAME_RUN_ID
+				+ " = " + run_id, null);
+	}
 
 	public List<AccelData> getAllAccel() {
 		List<AccelData> accels = new ArrayList<AccelData>();
