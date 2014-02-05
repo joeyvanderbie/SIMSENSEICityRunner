@@ -29,8 +29,8 @@
 	<!-- Map colors -->
 	<!-- LAYER and SPECIAL PURPOSE consistency colors -->
 	<color name="distance_color">#dd6CB336</color>
-	<color name="gpx_track">#B4FF0000</color>
-	<color name="gpx_track_fluorescent">#B4FFFF00</color>
+	<color name="gpx_track">#FFFF0000</color>
+	<color name="gpx_track_fluorescent">#FFFFFF00</color>
 	<!-- magenta is alternate track color for cyan but less contrast in many situations: color name="gpx_track_fluorescent">#B4FF00FF</color -->
 	<color name="pos_heading">#320000FF</color>
 	<color name="pos_heading_night">#880000FF</color>
